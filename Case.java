@@ -1,18 +1,15 @@
 public abstract class Case {
-  private boolean occupee;
   private Piece piece;
 
   public Case(){
-    this.occupee = false;
     this.piece = null;
   }
 
   public boolean estOccupee() {
-    return occupee;
+    return this.piece == null;
   }
 
   public void PoserPiece(Piece p){
-    occupee = true;
     this.piece = p;
   }
 

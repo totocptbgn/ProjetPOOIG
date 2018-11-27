@@ -59,7 +59,6 @@ public class Domino extends Jeu {
             System.out.println();
         }
     }
-
     public boolean placerDomino(int i, int j, int dir, PieceDomino p){
 
         // i, j : position dans le tableau
@@ -67,7 +66,19 @@ public class Domino extends Jeu {
         //       1 = vers le bas
         //       2 = vers le gauche
         //       3 = vers le haut
-
+        boolean pose = false; //on retournera pose
+        
+        //on verifie si les valeurs des cases correspondent bien à celles du tableau
+        if(i<0 || j<0 || i>=this.plateau.hauteur || j>=this.plateau.longueur){
+            System.err.println("La position donnée n'existe pas sur le plateau");
+            return false;
+        }
+        
+        if((j == 0 && dir == 2) || (j == this.plateau.longueur-1 && dir == 0) || (i == 0 && dir == 3) || (i == this.plateau.hauteur-1 && dir == 1)){
+            System.err.println("La direction fait sortir la pièce du tableau");
+            return false;
+        }
+        
         CaseDomino caseDomino1 = (CaseDomino) plateau.getCase(i, j);
         CaseDomino caseDomino2;
         switch (dir){
@@ -80,15 +91,372 @@ public class Domino extends Jeu {
                 break;
             case 3: caseDomino2 = (CaseDomino)plateau.getCase(i - 1, j + 1);
         }
-        if (!(caseDomino1.estOccupee() && caseDomino2.estOccupee())){
+        
+        if (!(caseDomino1.estOccupee() && caseDomino2.estOccupee()) && estVide){
             int id = p.getProprio().getId();
             caseDomino1.PoserPiece(p, 0);
             caseDomino2.PoserPiece(p, 1);
             paquet[id + 1].remove(p);
-            return true;
+            // la condition pour placer la pièce est remplie, on met estVide à false
+            this.estVide = false;
+            pose = true;
         }
-        System.err.println("Vous ne pouvez pas placer de domino à cette position");
-        return false;
+        else if(caseDomino1.estOccupee() || caseDomino2.estOccupee()) {
+            System.err.println("Vous ne pouvez pas placer de domino à cette position");
+            return false;
+        }
+
+         //HIND : placement des pièces
+      if(! (caseDomino1.estOccupee() && caseDomino2.estOccupee()) && !this.estVide){
+          
+          if(dir == 0){ //si le domino est posé à l'horizontale vers la droite on vérifie si les cases adjacents possède une pièce de valeur similaire
+              
+              if(this.plateau.getCase(i,j-1).getValeur() == p.getValeur(0)){ //si la pièce correspondante est vers la gauche
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+
+              if(this.plateau.getCase(i,j-1).getValeur() != p.getValeur(0)){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i-1,j).getValeur() == p.getValeur(0)){ //si la pièce correspondante est vers le bas
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;   
+              }
+              
+              if(this.plateau.getCase(i-1,j).getValeur() != p.getValeur(0) && this.plateau.getCase(i-1,j) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i+1,j).getValeur() == p.getValeur(0)){ //si la pièce correspondante est vers le haut
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i+1,j).getValeur() != p.getValeur(0) && this.plateau.getCase(i+1,j) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i+1,j+1).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i+1,j+1).getValeur() != p.getValeur(1) && this.plateau.getCase(i+1,j+1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              else if(this.plateau.getCase(i-1,j+1).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i-1,j+1).getValeur() != p.getValeur(1) && this.plateau.getCase(i-1,j+1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if (this.plateau.getCase(i,j+2).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i,j+2).getValeur() != p.getValeur(1) && this.plateau.getCase(i,j+2) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+          }
+          
+          if(dir == 1){
+              
+              if(this.plateau.getCase(i,j+1).getValeur() == p.getValeur(0)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i,j+1).getValeur() != p.getValeur(0) && this.plateau.getCase(i,j+1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i,j-1).getValeur() == p.getValeur(0)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i,j-1).getValeur() != p.getValeur(0) && this.plateau.getCase(i,j-1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i+1,j).getValeur() == p.getValeur(0)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i+1,j).getValeur() != p.getValeur(0) && this.plateau.getCase(i+1,j) != null ){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i-1,j+1).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i-1,j+1).getValeur() != p.getValeur(1) && this.plateau.getCase(i-1,j+1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i-1,j-1).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i-1,j-1).getValeur() != p.getValeur(1) && this.plateau.getCase(i-1,j-1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i-2,j).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i-2,j).getValeur() != p.getValeur(1) && this.plateau.getCase(i-2,j) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+          }
+          
+          if(dir == 2){
+              
+              if (this.plateau.getCase(i+1,j).getValeur() == p.getValeur(0)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i+1,j).getValeur() != p.getValeur(0) && this.plateau.getCase(i+1,j) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i-1,j).getValeur() == p.getValeur(0)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i-1,j).getValeur() != p.getValeur(0) && this.plateau.getCase(i-1,j) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i,j-1).getValeur() == p.getValeur(0)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i,j-1).getValeur() != p.getValeur(0) && this.plateau.getCase(i,j-1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i+1,j-1).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i+1,j-1).getValeur() != p.getValeur(1) && this.plateau.getCase(i+1,j-1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i-1,j-1).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i-1,j-1).getValeur() != p.getValeur(1) && this.plateau.getCase(i-1,j-1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i,j-2).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i,j-2).getValeur() != p.getValeur(1) && this.plateau.getCase(i,j-2) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+          }
+          
+          if(dir == 3){
+              
+              if(this.plateau.getCase(i-1,j).getValeur() == p.getValeur(0)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i-1,j).getValeur() != p.getValeur(0) && this.plateau.getCase(i-1,j) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i,j-1).getValeur() == p.getValeur(0)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i,j-1).getValeur() != p.getValeur(0) && this.plateau.getCase(i,j-1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i,j+1).getValeur() == p.getValeur(0)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i,j+1).getValeur() != p.getValeur(0) && this.plateau.getCase(i,j+1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i+2,j).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i+2,j).getValeur() != p.getValeur(1) && this.plateau.getCase(i+2,j) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if(this.plateau.getCase(i+1,j-1).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i+1,j-1).getValeur() != p.getValeur(1) && this.plateau.getCase(i+1,j-1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+              
+              else if (this.plateau.getCase(i+1,j+1).getValeur() == p.getValeur(1)){
+                  int id = p.getProprio().getId();
+                  caseDomino1.PoserPiece(p, 0);
+                  caseDomino2.PoserPiece(p, 1);
+                  paquet[id + 1].remove(p);
+                  this.estVide = false;
+                  pose = true;
+              }
+              
+              if(this.plateau.getCase(i+1,j+1).getValeur() != p.getValeur(1) && this.plateau.getCase(i+1,j+1) != null){
+                  System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
+                  return false;
+              }
+          }
+      }
+        return pose;
     }
 
     @Override

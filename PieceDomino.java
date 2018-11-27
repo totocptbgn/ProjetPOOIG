@@ -1,5 +1,4 @@
 public class PieceDomino extends Piece{
-    private Case [] cases;
     private int [] valeur; // entre 0 et 5 inclus
 
     public PieceDomino(int i, int j) {

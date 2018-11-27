@@ -19,6 +19,7 @@ public class Domino extends Jeu {
         this.plateau = new PlateauDomino(20);
 
         // Création des Dominos
+        this.pieces = new ArrayList<>();
         for (int i = 0; i < 7 ; i++ ) {
             for (int j = i; j < 7 ; j++ ) {
                 this.pieces.add(new PieceDomino(i, j));

@@ -6,7 +6,7 @@ public abstract class Case {
   }
 
   public boolean estOccupee() {
-    return this.piece == null;
+    return this.piece != null;
   }
 
   public void PoserPiece(Piece p){

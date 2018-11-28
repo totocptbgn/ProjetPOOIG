@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Domino extends Jeu {
+    private boolean estVide;
     private ArrayList <PieceDomino> pieces;      // Toutes les pièces qui existent
     private ArrayList <PieceDomino> paquet [];   // Tableau comportant la pioche et les Dominos non-posés de chaque joeurs
                                                  //  -> Taille de paquet = Nombre de joueurs + 1 ([0] correspond à la pioche
@@ -17,6 +18,7 @@ public class Domino extends Jeu {
 
         // Création du plateau
         this.plateau = new PlateauDomino(20);
+        this.estVide = true;
 
         // Création des Dominos
         this.pieces = new ArrayList<>();
@@ -101,17 +103,15 @@ public class Domino extends Jeu {
             this.estVide = false;
             pose = true;
         }
-        else if(caseDomino1.estOccupee() || caseDomino2.estOccupee()) {
+        else if (caseDomino1.estOccupee() || caseDomino2.estOccupee()) {
             System.err.println("Vous ne pouvez pas placer de domino à cette position");
             return false;
         }
 
-         //HIND : placement des pièces
-      if(! (caseDomino1.estOccupee() && caseDomino2.estOccupee()) && !this.estVide){
-          
-          if(dir == 0){ //si le domino est posé à l'horizontale vers la droite on vérifie si les cases adjacents possède une pièce de valeur similaire
-              
-              if(this.plateau.getCase(i,j-1).getValeur() == p.getValeur(0)){ //si la pièce correspondante est vers la gauche
+         // Placement des pièces
+      if (!(caseDomino1.estOccupee() && caseDomino2.estOccupee()) && !this.estVide){
+          if (dir == 0){ // Si le domino est posé à l'horizontal vers la droite on vérifie si les cases adjacents possède une pièce de valeur similaire
+              if (this.plateau.getCase(i,j-1).getValeur() == p.getValeur(0)){ //si la pièce correspondante est vers la gauche
                   int id = p.getProprio().getId();
                   caseDomino1.PoserPiece(p, 0);
                   caseDomino2.PoserPiece(p, 1);

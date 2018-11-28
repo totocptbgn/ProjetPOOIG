@@ -22,6 +22,7 @@ public class Lanceur extends JFrame {
             this.setVisible(false);
             Domino d = new Domino();
             d.lancerPartie();
+            System.exit(0);
         });
     }
 

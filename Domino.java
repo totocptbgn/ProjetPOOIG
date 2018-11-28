@@ -74,10 +74,12 @@ public class Domino extends Jeu {
         //       1 = vers le bas
         //       2 = vers le gauche
         //       3 = vers le haut
-        boolean pose = false; //on retournera pose
 
-        //on verifie si les valeurs des cases correspondent bien à celles du tableau
-        /*if(i<0 || j<0 || i>=this.plateau.hauteur || j>=this.plateau.longueur){
+        boolean pose = false;
+
+        // On verifie si les valeurs des cases correspondent bien à celles du tableau
+        /*
+        if(i<0 || j<0 || i>=this.plateau.hauteur || j>=this.plateau.longueur){
             System.err.println("La position donnée n'existe pas sur le plateau");
             return false;
         }
@@ -85,7 +87,8 @@ public class Domino extends Jeu {
         if((j == 0 && dir == 2) || (j == this.plateau.longueur-1 && dir == 0) || (i == 0 && dir == 3) || (i == this.plateau.hauteur-1 && dir == 1)){
             System.err.println("La direction fait sortir la pièce du tableau");
             return false;
-        }*/
+        }
+        */
 
         CaseDomino caseDomino1 = (CaseDomino) plateau.getCase(i, j);
         CaseDomino caseDomino2;
@@ -352,7 +355,7 @@ public class Domino extends Jeu {
 
     @Override
     public void joueUnTour(Joueur j) {
-        //
+        
     }
 
     @Override

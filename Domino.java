@@ -94,64 +94,64 @@ public class Domino extends Jeu {
         CaseDomino caseDomino2;
 
         switch (dir){
-            default: return false;
             case 0: caseDomino2 = (CaseDomino)plateau.getCase(i,j + 1);
-                break;
+                    break;
             case 1: caseDomino2 = (CaseDomino)plateau.getCase(i + 1, j);
-                break;
+                    break;
             case 2: caseDomino2 = (CaseDomino)plateau.getCase(i, j - 1);
-                break;
+                    break;
             case 3: caseDomino2 = (CaseDomino)plateau.getCase(i - 1, j + 1);
+                    break;
+            default: return false;
         }
 
+        // Vérification des cases
         if (!(caseDomino1.estOccupee() && caseDomino2.estOccupee()) && estVide){
             pose = true;
         }
         else if (caseDomino1.estOccupee() || caseDomino2.estOccupee()) {
-            System.err.println("Vous ne pouvez pas placer de domino à cette position");
+            System.err.println("Vous ne pouvez pas placer de domino à cette position, un domino est déjà placé à cette position.");
             return false;
         }
 
-        // Placement des pièces
         if (!(caseDomino1.estOccupee() && caseDomino2.estOccupee()) && !this.estVide){
-            if (dir == 0){ // Si le domino est posé à l'horizontal vers la droite on vérifie si les cases adjacents possède une pièce de valeur similaire
-                if (this.plateau.getCase(i,j-1).getValeur() == p.getValeur(0)){ //si la pièce correspondante est vers la gauche
-
+            if (dir == 0){                                                             // Si le domino est posé à l'horizontal vers la droite on vérifie si les cases adjacents possède une pièce de valeur similaire
+                if (this.plateau.getCase(i,j-1).getValeur() == p.getValeur(0)){   // Si la pièce correspondante est vers la gauche
                     pose = true;
                 }
 
-                if(this.plateau.getCase(i,j-1).getValeur() != p.getValeur(0)){
+                if (this.plateau.getCase(i,j-1).getValeur() != p.getValeur(0)){
                     System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
                     return false;
                 }
 
-                else if(this.plateau.getCase(i-1,j).getValeur() == p.getValeur(0)){ //si la pièce correspondante est vers le bas
+                else if (this.plateau.getCase(i-1,j).getValeur() == p.getValeur(0)){ // Si la pièce correspondante est vers le bas
                     pose = true;
                 }
 
-                if(this.plateau.getCase(i-1,j).getValeur() != p.getValeur(0) && this.plateau.getCase(i-1,j) != null){
+                if (this.plateau.getCase(i-1,j).getValeur() != p.getValeur(0) && this.plateau.getCase(i-1,j) != null){
                     System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent");
                     return false;
                 }
 
-                else if(this.plateau.getCase(i+1,j).getValeur() == p.getValeur(0)){ //si la pièce correspondante est vers le haut
+                else if(this.plateau.getCase(i+1,j).getValeur() == p.getValeur(0)){ // Si la pièce correspondante est vers le haut
                     pose = true;
                 }
 
-                if(this.plateau.getCase(i+1,j).getValeur() != p.getValeur(0) && this.plateau.getCase(i+1,j) != null){
+                if (this.plateau.getCase(i+1,j).getValeur() != p.getValeur(0) && this.plateau.getCase(i+1,j) != null){
                     System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
                     return false;
                 }
 
-                else if(this.plateau.getCase(i+1,j+1).getValeur() == p.getValeur(1)){
+                else if (this.plateau.getCase(i+1,j+1).getValeur() == p.getValeur(1)){
                     pose = true;
                 }
 
-                if(this.plateau.getCase(i+1,j+1).getValeur() != p.getValeur(1) && this.plateau.getCase(i+1,j+1) != null){
+                if (this.plateau.getCase(i+1,j+1).getValeur() != p.getValeur(1) && this.plateau.getCase(i+1,j+1) != null){
                     System.err.println("Vous ne pouvez pas placer ce domino à cette position car la valeur ne correspond pas à celle du domino adjacent.");
                     return false;
                 }
-                else if(this.plateau.getCase(i-1,j+1).getValeur() == p.getValeur(1)){
+                else if (this.plateau.getCase(i-1,j+1).getValeur() == p.getValeur(1)){
                     pose = true;
                 }
 
@@ -172,7 +172,7 @@ public class Domino extends Jeu {
 
             if(dir == 1){
 
-                if(this.plateau.getCase(i,j+1).getValeur() == p.getValeur(0)){
+                if (this.plateau.getCase(i,j+1).getValeur() == p.getValeur(0)){
                     pose = true;
                 }
 
@@ -342,8 +342,8 @@ public class Domino extends Jeu {
             }
         }
 
-        //on remplit les cases avec la pièce si elle répond aux conditions imposées
-        if(pose){
+        // Placement des Pièces
+        if (pose){
             int id = p.getProprio().getId();
             caseDomino1.PoserPiece(p, 0);
             caseDomino2.PoserPiece(p, 1);
@@ -355,7 +355,7 @@ public class Domino extends Jeu {
 
     @Override
     public void joueUnTour(Joueur j) {
-        
+
     }
 
     @Override

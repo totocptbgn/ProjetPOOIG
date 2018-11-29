@@ -14,6 +14,9 @@ public class CaseDomino extends Case {
     @Override
     public int getValeur() {
         PieceDomino p = (PieceDomino) getPiece();
+        if (p == null) {
+            return -1;
+        }
         return ((PieceDomino) getPiece()).getValeur(side);
     }
 }

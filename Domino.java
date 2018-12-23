@@ -48,7 +48,7 @@ public class Domino extends Jeu {
             }
         }
         while(!pieces.isEmpty()){
-           this.paquet[0].add(pieces.remove(0));
+            this.paquet[0].add(pieces.remove(0));
         }
 
         // Affichage du plateau
@@ -70,12 +70,12 @@ public class Domino extends Jeu {
     public boolean placerDomino(int i, int j, int dir, PieceDomino p){
 
         /*
-        * i, j : position dans le tableau
-        * dir : 0 = vers la droite
-        *        1 = vers le bas
-        *        2 = vers le gauche
-        *       3 = vers le haut
-        */
+         * i, j : position dans le tableau
+         * dir : 0 = vers la droite
+         *       1 = vers le bas
+         *       2 = vers le gauche
+         *       3 = vers le haut
+         */
         boolean pose = false;
 
         CaseDomino caseDomino1 = (CaseDomino) plateau.getCase(i, j);
@@ -83,18 +83,19 @@ public class Domino extends Jeu {
 
         switch (dir){
             case 0: caseDomino2 = (CaseDomino) plateau.getCase(i,j + 1);
-                    break;
+                break;
             case 1: caseDomino2 = (CaseDomino) plateau.getCase(i + 1, j);
-                    break;
+                break;
             case 2: caseDomino2 = (CaseDomino) plateau.getCase(i, j - 1);
-                    break;
+                break;
             case 3: caseDomino2 = (CaseDomino) plateau.getCase(i - 1, j + 1);
-                    break;
-            default: return false;
+                break;
+            default:
+                return false;
         }
 
         // Vérification des pièces cibles et adjacentes
-            // À faire !
+        // À faire !
 
         // Placement des Pièces
         if (pose){

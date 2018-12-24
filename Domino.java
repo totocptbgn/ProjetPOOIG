@@ -164,7 +164,7 @@ public class Domino extends Jeu {
 
 		b = true;
 		while (b) {
-			System.out.print("Donnez la domino à poser : ");
+			System.out.print("Donnez le domino à poser : ");
 			Scanner sc = new Scanner(System.in);
 			try {
 				input = sc.nextInt();

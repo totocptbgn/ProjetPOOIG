@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Saboteur extends Jeu {
@@ -40,6 +41,12 @@ public class Saboteur extends Jeu {
 
         this.paquet = new ArrayList[participants.length+1];
 
+        for(int i = 0;i<paquet.length;i++){
+            paquet[i] = new ArrayList<>();
+        }
+
+        //on crée des tableaux de direction
+
         boolean[] carrefour = {true,true,true,true};
         boolean[] tridirectiongauche = {true,true,false,true};
         boolean[] tridirectiondroite = {false,true,true,true};
@@ -49,8 +56,12 @@ public class Saboteur extends Jeu {
         boolean[] tridirectionhaut = {true,true,true,false};
         boolean[] tridirectionbas = {true,false,true,true};
 
+        //on insère la carte départ
         CarteChemin depart = new CarteChemin(carrefour);
+        Case depart1 = new CaseSaboteur(depart);
+        this.plateau.setCase(4,6,depart1);
 
+        //on insère les cartes chemin dans la pioche
         for(int i = 0;i<6;i++){
             paquet[0].add(new CarteChemin(tridirectionbas));
             paquet[0].add(new CarteChemin(tridirectiondroite));
@@ -62,6 +73,28 @@ public class Saboteur extends Jeu {
             //mélanger les cartes de la pioche
         }
 
+        //on insère les cartes action dans la pioche
+        for(int i=0;i<4;i++){
+            paquet[0].add(new CarteAction(true,'o'));
+            paquet[0].add(new CarteAction(false,'o'));
+            paquet[0].add(new CarteAction(true,'l'));
+            paquet[0].add(new CarteAction(false,'l'));
+            paquet[0].add(new CarteAction(true,'c'));
+            paquet[0].add(new CarteAction(false,'c'));
+        }
+
+        //Distribution des cartes
+        for(int i = 1;i<paquet.length;i++){
+            for(int j = 0;j<5;j++){
+                int rand = (int) (Math.random()*71);
+                paquet[i].add(paquet[0].get(rand));
+                //on supprime la carte distribuée de la pioche
+                paquet[0].remove(rand);
+            }
+        }
+
+        //afficher le plateau
+        //afficher les cartes (?)
 
     }
 

@@ -56,6 +56,9 @@ public class Domino extends Jeu {
 
         // Affichage des dominos
         this.afficherDominos();
+
+        // TEST
+        this.poserDomino(participants[0]);
     }
 
     public void afficherDominos(){ // Affiche les dominos de chaque participant.
@@ -141,7 +144,10 @@ public class Domino extends Jeu {
         }
     }
 
-    public void poserDomino(){ // Demande au joueur la position pour poser le domino puis appel placerDomino().
-
+    public void poserDomino(Joueur j){ // Demande au joueur la position pour poser le domino puis appel placerDomino().
+        String nom = j.getNom();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Au tour de " + nom + " de poser un Domino :");
+        System.out.println("");
     }
 }

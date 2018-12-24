@@ -11,13 +11,13 @@ public class Domino extends Jeu {
 
 	@Override
 	public void lancerPartie(){ // Initialise et lance la partie.
-		System.out.println("-- Partie de Domino --" + "\n");
+		afficheIntro();
 
 		// Création des Joueurs
-		this.setJoueur();
+		setJoueur();
 
 		// Création du plateau
-		this.plateau = new PlateauDomino(20);
+		this.plateau = new PlateauDomino(15);
 		this.estVide = true;
 
 		// Création des Dominos
@@ -55,7 +55,7 @@ public class Domino extends Jeu {
 		plateau.afficher();
 
 		// Affichage des dominos
-		this.afficherDominos();
+		afficherDominos();
 	}
 
 	public void afficherDominos(){ // Affiche les dominos de chaque participant.
@@ -83,8 +83,6 @@ public class Domino extends Jeu {
 		 * i, j : position dans le tableau
 		 * dir : 0 = vers la droite,
 		 *       1 = vers le bas,
-		 *       2 = vers le gauche,
-		 *       3 = vers le haut.
 		 */
 
 		boolean pose = false;
@@ -97,16 +95,13 @@ public class Domino extends Jeu {
 				break;
 			case 1: caseDomino2 = (CaseDomino) plateau.getCase(i + 1, j);
 				break;
-			case 2: caseDomino2 = (CaseDomino) plateau.getCase(i, j - 1);
-				break;
-			case 3: caseDomino2 = (CaseDomino) plateau.getCase(i - 1, j + 1);
-				break;
 			default:
 				return false;
 		}
 
 		// Vérification des pièces cibles et adjacentes
 		// À faire !
+		pose = true;
 
 		// Placement des Pièces
 		if (pose){
@@ -128,7 +123,7 @@ public class Domino extends Jeu {
 	public void setJoueur() { // Met en place la création des joueurs.
 		boolean b = true;
 		while (b){
-			System.out.println("Combien de joueurs participent ?");
+			System.out.print("Combien de joueurs participent ? ");
 			Scanner sc = new Scanner(System.in);
 			int nbrJ = 1;
 			try {
@@ -144,7 +139,7 @@ public class Domino extends Jeu {
 			}
 		}
 		for (int i = 0; i < participants.length; i++) {
-			System.out.println("Quel est le nom du joueur n°" + (i+1) + " ?");
+			System.out.print("Quel est le nom du joueur n°" + (i+1) + " ? ");
 			participants[i] = new Joueur(i);
 		}
 	}
@@ -164,7 +159,7 @@ public class Domino extends Jeu {
 
 		b = true;
 		while (b) {
-			System.out.print("Donnez la domino à poser : ");
+			System.out.print("Donnez le domino à poser : ");
 			Scanner sc = new Scanner(System.in);
 			try {
 				input = sc.nextInt();
@@ -221,19 +216,19 @@ public class Domino extends Jeu {
 
 		b = true;
 		while (b) {
-			System.out.print("Donnez la direction (\"haut\", \"bas\", \"droite\", \"gauche\") : ");
+			System.out.print("Donnez la direction (\"Bas\" ou \"Droite\") : ");
 			Scanner sc = new Scanner(System.in);
 			dir = sc.nextLine();
 			b = false;
 			switch (dir) {
 				case "droite":
 					d = 0; break;
+				case "Droite":
+					d = 0; break;
 				case "bas":
 					d = 1; break;
-				case "gauche":
-					d = 2; break;
-				case "haut":
-					d = 3; break;
+				case "Bas":
+					d = 1; break;
 				default:
 					System.err.println("Donnez une direction valable.");
 					b = true;
@@ -248,7 +243,7 @@ public class Domino extends Jeu {
 
 		b = true;
 		while (b) {
-			System.out.println("\n Valider ? (y/n) ");
+			System.out.print("\n Valider ? (y/n) ");
 			Scanner sc = new Scanner(System.in);
 			String rep = sc.nextLine();
 			if (rep.equals("y")){
@@ -261,5 +256,30 @@ public class Domino extends Jeu {
 				System.err.println("y / n");
 			}
 		}
+	}
+
+	public void afficheIntro(){
+		System.out.println("+-------------------------------------------------------------------------------------------------+");
+		System.out.println("|                                                                                                 |");
+		System.out.println("|                        ██████╗  ██████╗ ███╗   ███╗██╗███╗   ██╗ ██████╗                        |");
+		System.out.println("|                        ██╔══██╗██╔═══██╗████╗ ████║██║████╗  ██║██╔═══██╗                       |");
+		System.out.println("|                        ██║  ██║██║   ██║██╔████╔██║██║██╔██╗ ██║██║   ██║                       |");
+		System.out.println("|                        ██║  ██║██║   ██║██║╚██╔╝██║██║██║╚██╗██║██║   ██║                       |");
+		System.out.println("|                        ██████╔╝╚██████╔╝██║ ╚═╝ ██║██║██║ ╚████║╚██████╔╝                       |");
+		System.out.println("|                        ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝                        |");
+		System.out.println("|                                                                                                 |");
+		System.out.println("|        Règles :                                                                                 |");
+		System.out.println("|                                                                                                 |");
+		System.out.println("|          Les joueurs jouent dans l'ordre de leurs numéros chacun leur tour. Le premier          |");
+		System.out.println("|          joueur pose le domino de son choix au centre du plateau. Le joueur suivant             |");
+		System.out.println("|          doit à son tour poser un domino ayant le même nombre de points sur au moins un         |");
+		System.out.println("|          côté du domino précédemment posé. Si le joueur ne peut plus poser de domino,           |");
+		System.out.println("|          il pioche. Les dominos forment ainsi un chaine. Le premier joueur n'ayant plus         |");
+		System.out.println("|          de domino gagne. Il se peut que le jeu soit bloqué. Alors le joueur ayant le           |");
+		System.out.println("|          moins de points est déclaré vainqueur.                                                 |");
+		System.out.println("|                                                                                                 |");
+		System.out.println("|          Amusez vous bien !                                                                     |");
+		System.out.println("|                                                                                                 |");
+		System.out.println("+-------------------------------------------------------------------------------------------------+");
 	}
 }

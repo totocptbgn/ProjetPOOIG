@@ -2,8 +2,10 @@ public class PlateauDomino extends Plateau {
 
     public PlateauDomino(int hauteur, int longueur){
         super(hauteur, longueur);
+
         // Création du plateau
         this.setPlateau(new CaseDomino[hauteur][longueur]);
+
         // Remplissage du plateau avec des cases vides
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < longueur; j++) {
@@ -17,7 +19,8 @@ public class PlateauDomino extends Plateau {
     }
 
     @Override
-    public void afficher(){
+    public void afficher(){ // Affiche le plateau.
+
         // Affichage de la grille
         System.out.print("      ");
         for (int j = 1; j < longueur + 1; j++) {

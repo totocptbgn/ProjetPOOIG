@@ -5,12 +5,12 @@ import java.util.Scanner;
 
 public class Domino extends Jeu {
     private boolean estVide;
-    private ArrayList <PieceDomino> pieces;      // Toutes les pièces qui existent
-    ArrayList <PieceDomino> paquet [];           // Tableau comportant la pioche et les Dominos non-posés de chaque joeurs
-                                                 //  -> Taille de paquet = Nombre de joueurs + 1 ([0] correspond à la pioche
+    private ArrayList <PieceDomino> pieces; // Toutes les pièces qui existent
+    ArrayList <PieceDomino> paquet []; // Tableau comportant la pioche et les Dominos non-posés de chaque joueurs.
+    // Taille de paquet = Nombre de joueurs + 1, [0] correspond à la pioche.
 
     @Override
-    public void lancerPartie(){
+    public void lancerPartie(){ // Initialise et lance la partie.
         System.out.println("-- Partie de Domino --" + "\n");
 
         // Création des Joueurs
@@ -58,7 +58,7 @@ public class Domino extends Jeu {
         this.afficherDominos();
     }
 
-    public void afficherDominos(){
+    public void afficherDominos(){ // Affiche les dominos de chaque participant.
         for (int i = 1; i < paquet.length; i++) {
             System.out.print( participants[i-1].getNom() + " : ");
             for (int j = 0; j < paquet[i].size(); j++) {
@@ -67,15 +67,16 @@ public class Domino extends Jeu {
             System.out.println();
         }
     }
-    public boolean placerDomino(int i, int j, int dir, PieceDomino p){
+    public boolean placerDomino(int i, int j, int dir, PieceDomino p){ // Reçoit ecoit une coordonnée et pose le domino si la position est juste.
 
         /*
          * i, j : position dans le tableau
-         * dir : 0 = vers la droite
-         *       1 = vers le bas
-         *       2 = vers le gauche
-         *       3 = vers le haut
+         * dir : 0 = vers la droite,
+         *       1 = vers le bas,
+         *       2 = vers le gauche,
+         *       3 = vers le haut.
          */
+
         boolean pose = false;
 
         CaseDomino caseDomino1 = (CaseDomino) plateau.getCase(i, j);
@@ -114,7 +115,7 @@ public class Domino extends Jeu {
     }
 
     @Override
-    public void setJoueur() {
+    public void setJoueur() { // Mets en place la création des joueurs, elle est appelée en début de partie.
         boolean b = true;
         while (b){
             System.out.println("Combien de joueurs participent ?");
@@ -138,5 +139,9 @@ public class Domino extends Jeu {
             System.out.println("Quel est le nom du joueur n°" + (i+1) + " ?");
             participants[i] = new Joueur(i);
         }
+    }
+
+    public void poserDomino(){ // Demande au joueur la position pour poser le domino puis appel placerDomino().
+
     }
 }

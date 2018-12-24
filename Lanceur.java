@@ -1,6 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
+/*
+ * Projet POOIG :
+ * @author Thomas Copt-Bignon
+ * @author Hind Hamila
+ */
+
 public class Lanceur extends JFrame {
 
     public Lanceur() {

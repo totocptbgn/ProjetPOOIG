@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Saboteur extends Jeu {
     ArrayList<CarteSaboteur> paquet []; // Même fonctionnement que Domino.paquet, la pioche est à l'index 0 du paquet, ensuite ce sont les paquets des joueurs.
-    
+    boolean[] peutJouer; //sert à détérminer si les outils,lampe et chariot sont en bon état, si ce n'est pas le cas le joueur ne peut pas poser de carte chemin
     public void setJoueur() { // Met en place la création des joueurs.
         boolean b = true;
         while (b){
@@ -90,6 +90,12 @@ public class Saboteur extends Jeu {
                 //on supprime la carte distribuée de la pioche
                 paquet[0].remove(rand);
             }
+
+        }
+
+        //on initialise à true peutJouer
+        for(int i = 0;i<peutJouer.length;i++){
+            peutJouer[i]=true;
         }
 
         //afficher le plateau
@@ -97,12 +103,32 @@ public class Saboteur extends Jeu {
 
     }
 
-    public boolean poserCarte(int i,int j,CarteSaboteur c){
+    public boolean poserCarte(int i,int j,CarteSaboteur c,int participant){
         //conditions de sortie de plateau
         //la carte doit être posée après une autre carte
         //cette autre carte doit permettre elle même l'accès à celle ci
         //la carte ne peut pas être posée sur une autre
         //si les outils sont en mauvais état le joueur ne peut pas poser de carte chemin
+        //la carte doit être une carte Chemin
+        if(c instanceof CarteAction){
+            return false;
+        }
+
+        if(plateau[i][j] != null){
+            return false;
+        }
+
+        if(!peutJouer[participant]){
+            return false;
+        }
+
+        if(plateau.getCase(i+1,j) == null || plateau.getCase(i-1,j) == null || plateau.getCase(i,j-1) == null || plateau.getCase(i,j+1) == null){
+            return false;
+        }
+
+        if(plateau.getCase(i-1,j) != null && plateau.getCase(i-1,j).){
+
+        }
 
     }
 

@@ -11,5 +11,9 @@ public class CaseSaboteur extends Case {
         return 0;
     }
 
+    public boolean[] getDirection(){
+        return carte.getDirection();
+    }
+
 
 }

@@ -5,4 +5,7 @@ public class CarteChemin extends CarteSaboteur {
         this.direction = d;
     }
 
+    public boolean[] getDirection(){
+        return direction;
+    }
 }

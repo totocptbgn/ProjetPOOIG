@@ -3,10 +3,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Saboteur extends Jeu {
-    ArrayList<CarteSaboteur> paquet []; //meme chose que pour domino, la pioche est à l'indice 0 du paquet
-    Plateau plateau;
-
-    public void setJoueur() { // Mets en place la création des joueurs, elle est appelée en début de partie.
+    ArrayList<CarteSaboteur> paquet []; // Même fonctionnement que Domino.paquet, la pioche est à l'index 0 du paquet, ensuite ce sont les paquets des joueurs.
+    
+    public void setJoueur() { // Met en place la création des joueurs.
         boolean b = true;
         while (b){
             System.out.println("Combien de joueurs participent ?");

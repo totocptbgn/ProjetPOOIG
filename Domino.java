@@ -118,7 +118,7 @@ public class Domino extends Jeu {
     }
 
     @Override
-    public void setJoueur() { // Mets en place la création des joueurs, elle est appelée en début de partie.
+    public void setJoueur() { // Met en place la création des joueurs.
         boolean b = true;
         while (b){
             System.out.println("Combien de joueurs participent ?");

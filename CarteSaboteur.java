@@ -3,11 +3,11 @@ public class CarteSaboteur extends Piece {
 
     public CarteSaboteur(){
         super();
-        //mettre l'id en autoincrement?
+        // Mettre l'ID en AutoIncrement ?
     }
 
     public class CarteChemin {
-        private boolean[] direction; //tableau qui montre si l'accès vers la droite,gauche,haut,bas est autorisé
+        private boolean[] direction; // Tableau qui montre si l'accès vers la droite,gauche,haut,bas est autorisé
 
         public CarteChemin(boolean[] d){
             this.direction = d;
@@ -16,10 +16,10 @@ public class CarteSaboteur extends Piece {
     }
 
     public class CarteAction {
-        boolean sabotage; //si la carte est dédiée au sabotage ou à l'aide
-        char type; // chariot,lampe,outil (c,l,o)
+        boolean sabotage; // Si la carte est dédiée au sabotage ou à l'aide.
+        char type; // c, l, o (correspond à Chariot, lampe, outil).
 
-        public CarteAction(boolean s,char t){
+        public CarteAction(boolean s, char t) {
             this.sabotage = s;
             this.type = t;
         }

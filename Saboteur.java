@@ -4,29 +4,27 @@ import java.util.Scanner;
 
 public class Saboteur extends Jeu {
     ArrayList<CarteSaboteur> paquet []; // Même fonctionnement que Domino.paquet, la pioche est à l'index 0 du paquet, ensuite ce sont les paquets des joueurs.
-    
+
     public void setJoueur() { // Met en place la création des joueurs.
         boolean b = true;
         while (b){
-            System.out.println("Combien de joueurs participent ?");
+            System.out.print("Combien de joueurs participent ? ");
             Scanner sc = new Scanner(System.in);
             int nbrJ = 1;
             try {
                 nbrJ = sc.nextInt();
                 if (nbrJ < 2 || nbrJ > 4) {
                     System.err.println("Rentrez un chiffre entre 2 et 4 inclus.");
-                    b = true;
                 } else {
                     this.participants = new Joueur[nbrJ];
                     b = false;
                 }
             } catch (InputMismatchException e){
                 System.err.println("Rentrez un nombre valide.");
-                b = true;
             }
         }
         for (int i = 0; i < participants.length; i++) {
-            System.out.println("Quel est le nom du joueur n°" + (i+1) + " ?");
+            System.out.print("Quel est le nom du joueur n°" + (i+1) + " ? ");
             participants[i] = new Joueur(i);
         }
     }
@@ -34,33 +32,37 @@ public class Saboteur extends Jeu {
     @Override
     public void lancerPartie() {
 
+        afficheIntro();
+
+        // On créer les joueurs :
         this.setJoueur();
 
+        // On créer le plateau :
         this.plateau = new PlateauSaboteur(30);
 
+        // On créer (???)
         this.paquet = new ArrayList[participants.length+1];
 
-        for(int i = 0;i<paquet.length;i++){
+        for (int i = 0; i < paquet.length; i++){
             paquet[i] = new ArrayList<>();
         }
 
-        //on crée des tableaux de direction
+        // On crée des tableaux de direction
+        boolean[] carrefour = {true, true, true, true};
+        boolean[] tridirectiongauche = {true, true, false, true};
+        boolean[] tridirectiondroite = {false, true, true, true};
+        boolean[] sansissue = {false, false, false, false};
+        boolean[] horizontal = {true, false, true, false};
+        boolean[] vertical = {false, true, false, true};
+        boolean[] tridirectionhaut = {true, true, true, false};
+        boolean[] tridirectionbas = {true, false, true, true};
 
-        boolean[] carrefour = {true,true,true,true};
-        boolean[] tridirectiongauche = {true,true,false,true};
-        boolean[] tridirectiondroite = {false,true,true,true};
-        boolean[] sansissue = {false,false,false,false};
-        boolean[] horizontal = {true,false,true,false};
-        boolean[] vertical = {false,true,false,true};
-        boolean[] tridirectionhaut = {true,true,true,false};
-        boolean[] tridirectionbas = {true,false,true,true};
-
-        //on insère la carte départ
+        // On insère la carte départ
         CarteChemin depart = new CarteChemin(carrefour);
         Case depart1 = new CaseSaboteur(depart);
         this.plateau.setCase(4,6,depart1);
 
-        //on insère les cartes chemin dans la pioche
+        // On insère les cartes chemin dans la pioche
         for(int i = 0;i<6;i++){
             paquet[0].add(new CarteChemin(tridirectionbas));
             paquet[0].add(new CarteChemin(tridirectiondroite));
@@ -69,11 +71,11 @@ public class Saboteur extends Jeu {
             paquet[0].add(new CarteChemin(tridirectionhaut));
             paquet[0].add(new CarteChemin(vertical));
             paquet[0].add(new CarteChemin(sansissue));
-            //mélanger les cartes de la pioche
+            // Mélanger les cartes de la pioche
         }
 
-        //on insère les cartes action dans la pioche
-        for(int i=0;i<4;i++){
+        // On insère les cartes action dans la pioche :
+        for (int i = 0; i < 4; i++){
             paquet[0].add(new CarteAction(true,'o'));
             paquet[0].add(new CarteAction(false,'o'));
             paquet[0].add(new CarteAction(true,'l'));
@@ -82,34 +84,61 @@ public class Saboteur extends Jeu {
             paquet[0].add(new CarteAction(false,'c'));
         }
 
-        //Distribution des cartes
-        for(int i = 1;i<paquet.length;i++){
-            for(int j = 0;j<5;j++){
+        // Distribution des cartes :
+        for (int i = 1; i<paquet.length; i++){
+            for (int j = 0; j < 5; j++){
                 int rand = (int) (Math.random()*71);
                 paquet[i].add(paquet[0].get(rand));
-                //on supprime la carte distribuée de la pioche
+                // On supprime la carte distribuée de la pioche
                 paquet[0].remove(rand);
             }
         }
 
-        //afficher le plateau
-        //afficher les cartes (?)
+        // Afficher le plateau
+
+        // Afficher les cartes (?)
 
     }
 
-    public boolean poserCarte(int i,int j,CarteSaboteur c){
-        //conditions de sortie de plateau
-        //la carte doit être posée après une autre carte
-        //cette autre carte doit permettre elle même l'accès à celle ci
-        //la carte ne peut pas être posée sur une autre
-        //si les outils sont en mauvais état le joueur ne peut pas poser de carte chemin
+    public boolean poserCarte(int i, int j, CarteSaboteur c){
+        /*
+         * Conditions de sortie de plateau :
+         *  - la carte doit être posée après une autre carte,
+         *  - cette autre carte doit permettre elle même l'accès à celle ci,
+         *  - la carte ne peut pas être posée sur une autre,
+         *  - si les outils sont en mauvais état le joueur ne peut pas poser de carte chemin.
+         */
 
+        return false;
     }
-
 
     @Override
     public void joueUnTour(Joueur j) {
 
     }
-
+    public void afficheIntro(){
+        System.out.println("+---------------------------------------------------------------------------------------------------------------+");
+        System.out.println("|                                                                                                               |");
+        System.out.println("|                                                                                                               |");
+        System.out.println("|                     ███████╗ █████╗ ██████╗  ██████╗ ████████╗███████╗██╗   ██╗██████╗                        |");
+        System.out.println("|                     ██╔════╝██╔══██╗██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██║   ██║██╔══██╗                       |");
+        System.out.println("|                     ███████╗███████║██████╔╝██║   ██║   ██║   █████╗  ██║   ██║██████╔╝                       |");
+        System.out.println("|                     ╚════██║██╔══██║██╔══██╗██║   ██║   ██║   ██╔══╝  ██║   ██║██╔══██╗                       |");
+        System.out.println("|                     ███████║██║  ██║██████╔╝╚██████╔╝   ██║   ███████╗╚██████╔╝██║  ██║                       |");
+        System.out.println("|                     ╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝    ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═╝                       |");
+        System.out.println("|                                                                                                               |");
+        System.out.println("|               Règles :                                                                                        |");
+        System.out.println("|                                                                                                               |");
+        System.out.println("|                 Dans ce jeu, les joueurs sont ou bien des chercheurs d’or, creusant des                       |");
+        System.out.println("|                 galeries profondes dans la montagne, ou bien des saboteurs qui essaient                       |");
+        System.out.println("|                 d’entraver le creusement. Les deux groupes peuvent s’aider mutuellement, même                 |");
+        System.out.println("|                 s’ils ont un soupçon du rôle joué par l’autre.  Si les chercheurs d’or                        |");
+        System.out.println("|                 réussissent à atteindre le trésor, ils sont alors récompensés par des pépites                 |");
+        System.out.println("|                 d’or et les saboteurs restent les mains vides. Dans le cas contraire, la                      |");
+        System.out.println("|                 récompense sera pour les saboteurs. C’est seulement lorsque le trésor sera                    |");
+        System.out.println("|                 partagé, que les rôles seront dévoilés. Après trois parties, le joueur avec le                |");
+        System.out.println("|                 plus grand nombre de pépites sera le vainqueur.                                               |");
+        System.out.println("|                                                                                                               |");
+        System.out.println("+---------------------------------------------------------------------------------------------------------------+");
+    }
 }

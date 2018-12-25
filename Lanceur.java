@@ -15,11 +15,10 @@ public class Lanceur extends JFrame {
 		this.setSize(new Dimension(300, 150));
 
 		Container cont = this.getContentPane();
-
 		JPanel panel = new JPanel();
-		cont.add(panel);
-
+		// panel.setLayout(new );
 		panel.add(new JLabel("Launcher"));
+		cont.add(panel);
 
 		JButton domino = new JButton();
 		panel.add(domino);
@@ -28,6 +27,16 @@ public class Lanceur extends JFrame {
 			this.setVisible(false);
 			Domino d = new Domino();
 			d.lancerPartie();
+			System.exit(0);
+		});
+
+		JButton saboteur = new JButton();
+		panel.add(saboteur);
+		saboteur.setText("Saboteur");
+		saboteur.addActionListener((e) -> {
+			this.setVisible(false);
+			Saboteur s = new Saboteur();
+			s.lancerPartie();
 			System.exit(0);
 		});
 	}

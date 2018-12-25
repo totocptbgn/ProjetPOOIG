@@ -259,27 +259,27 @@ public class Domino extends Jeu {
 	}
 
 	public void afficheIntro(){
-		System.out.println("+-------------------------------------------------------------------------------------------------+");
-		System.out.println("|                                                                                                 |");
-		System.out.println("|                        ██████╗  ██████╗ ███╗   ███╗██╗███╗   ██╗ ██████╗                        |");
-		System.out.println("|                        ██╔══██╗██╔═══██╗████╗ ████║██║████╗  ██║██╔═══██╗                       |");
-		System.out.println("|                        ██║  ██║██║   ██║██╔████╔██║██║██╔██╗ ██║██║   ██║                       |");
-		System.out.println("|                        ██║  ██║██║   ██║██║╚██╔╝██║██║██║╚██╗██║██║   ██║                       |");
-		System.out.println("|                        ██████╔╝╚██████╔╝██║ ╚═╝ ██║██║██║ ╚████║╚██████╔╝                       |");
-		System.out.println("|                        ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝                        |");
-		System.out.println("|                                                                                                 |");
-		System.out.println("|        Règles :                                                                                 |");
-		System.out.println("|                                                                                                 |");
-		System.out.println("|          Les joueurs jouent dans l'ordre de leurs numéros chacun leur tour. Le premier          |");
-		System.out.println("|          joueur pose le domino de son choix au centre du plateau. Le joueur suivant             |");
-		System.out.println("|          doit à son tour poser un domino ayant le même nombre de points sur au moins un         |");
-		System.out.println("|          côté du domino précédemment posé. Si le joueur ne peut plus poser de domino,           |");
-		System.out.println("|          il pioche. Les dominos forment ainsi un chaine. Le premier joueur n'ayant plus         |");
-		System.out.println("|          de domino gagne. Il se peut que le jeu soit bloqué. Alors le joueur ayant le           |");
-		System.out.println("|          moins de points est déclaré vainqueur.                                                 |");
-		System.out.println("|                                                                                                 |");
-		System.out.println("|          Amusez vous bien !                                                                     |");
-		System.out.println("|                                                                                                 |");
-		System.out.println("+-------------------------------------------------------------------------------------------------+");
+		System.out.println("+---------------------------------------------------------------------------------------------------------------+");
+		System.out.println("|                                                                                                               |");
+		System.out.println("|                             ██████╗   ██████╗  ███╗   ███╗ ██╗ ███╗   ██╗  ██████╗                            |");
+		System.out.println("|                             ██╔══██╗ ██╔═══██╗ ████╗ ████║ ██║ ████╗  ██║ ██╔═══██╗                           |");
+		System.out.println("|                             ██║  ██║ ██║   ██║ ██╔████╔██║ ██║ ██╔██╗ ██║ ██║   ██║                           |");
+		System.out.println("|                             ██║  ██║ ██║   ██║ ██║╚██╔╝██║ ██║ ██║╚██╗██║ ██║   ██║                           |");
+		System.out.println("|                             ██████╔╝ ╚██████╔╝ ██║ ╚═╝ ██║ ██║ ██║ ╚████║ ╚██████╔╝                           |");
+		System.out.println("|                             ╚═════╝   ╚═════╝  ╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝  ╚═════╝                            |");
+		System.out.println("|                                                                                                               |");
+		System.out.println("|               Règles :                                                                                        |");
+		System.out.println("|                                                                                                               |");
+		System.out.println("|                 Les joueurs jouent dans l'ordre de leurs numéros chacun leur tour. Le premier                 |");
+		System.out.println("|                 joueur pose le domino de son choix au centre du plateau. Le joueur suivant                    |");
+		System.out.println("|                 doit à son tour poser un domino ayant le même nombre de points sur au moins un                |");
+		System.out.println("|                 côté du domino précédemment posé. Si le joueur ne peut plus poser de domino,                  |");
+		System.out.println("|                 il pioche. Les dominos forment ainsi un chaine. Le premier joueur n'ayant plus                |");
+		System.out.println("|                 de domino gagne. Il se peut que le jeu soit bloqué. Alors le joueur ayant le                  |");
+		System.out.println("|                 moins de points est déclaré vainqueur.                                                        |");
+		System.out.println("|                                                                                                               |");
+		System.out.println("|                 Amusez vous bien !                                                                            |");
+		System.out.println("|                                                                                                               |");
+		System.out.println("+---------------------------------------------------------------------------------------------------------------+");
 	}
 }

@@ -39,6 +39,7 @@ public class Lanceur extends JFrame {
 			s.lancerPartie();
 			System.exit(0);
 		});
+
 	}
 
 	public static void main(String[] args) {
@@ -47,5 +48,6 @@ public class Lanceur extends JFrame {
 			// l.pack();
 			l.setVisible(true);
 		});
+
 	}
 }

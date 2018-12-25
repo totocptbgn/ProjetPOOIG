@@ -6,4 +6,35 @@ public class CarteAction extends CarteSaboteur {
 		this.sabotage = s;
 		this.type = t;
 	}
+
+	public boolean getSabotage(){
+	    return sabotage;
+    }
+
+    public char getType(){
+	    return type;
+    }
+
+    public void setSabotage(boolean b){
+	    sabotage = b;
+    }
+
+    @Override
+    public String toString() {
+        String s = "--Carte Action--";
+
+        if(type == 'c'){
+            s += "\nchariot";
+        }
+
+        if(type == 'o'){
+            s += "\noutils";
+        }
+
+        if(type == 'l'){
+            s += "\nlampe";
+        }
+
+        return s;
+    }
 }

@@ -4,8 +4,9 @@ import java.util.Scanner;
 
 public class Saboteur extends Jeu {
 	ArrayList<CarteSaboteur> paquet []; // Même fonctionnement que Domino.paquet, la pioche est à l'index 0 du paquet, ensuite ce sont les paquets des joueurs.
-	boolean[] peutJouer; // Sert à détérminer si les outils, lampe et chariot sont en bon état, si ce n'est pas le cas le joueur ne peut pas poser de carte chemin
-
+	boolean[][] peutJouer; // Sert à détérminer si les outils, lampe et chariot sont en bon état, si ce n'est pas le cas le joueur ne peut pas poser de carte chemin
+                           //peutJouer[p][0] correspond à la lampe, [p][1] correspond au chariot et [p][2] correspond aux outils
+    
 	public void setJoueur() { // Met en place la création des joueurs.
 		boolean b = true;
 		while (b){
@@ -99,7 +100,10 @@ public class Saboteur extends Jeu {
 
 		//on initialise à true peutJouer
 		for(int i = 0;i<peutJouer.length;i++){
-			peutJouer[i]=true;
+		    for(int j = 0;j<peutJouer[i].length;j++){
+		        peutJouer[i][j] = true;
+            }
+
 		}
 
 
@@ -117,34 +121,131 @@ public class Saboteur extends Jeu {
 		 *  - la carte ne peut pas être posée sur une autre,
 		 *  - si les outils sont en mauvais état le joueur ne peut pas poser de carte chemin.
 		 */
-		/*
+
 		if (c instanceof CarteAction){
 			return false;
 		}
 
-		if (plateau[i][j] != null){
+		if (plateau.getCase(i,j) != null){
 			return false;
 		}
 
-		if (!peutJouer[participant]){
+		for(int x = 0;x<3;x++){
+		    if(!peutJouer[participant][x]){
+		        return false;
+            }
+        }
+
+		if (plateau.getCase(i+1,j) == null && plateau.getCase(i-1,j) == null && plateau.getCase(i,j-1) == null && plateau.getCase(i,j+1) == null){
 			return false;
 		}
 
-		if (plateau.getCase(i+1,j) == null || plateau.getCase(i-1,j) == null || plateau.getCase(i,j-1) == null || plateau.getCase(i,j+1) == null){
-			return false;
+		if (plateau.getCase(i-1,j) != null ){
+            boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
+		    if(!b[3]){
+		        return false;
+            }
 		}
 
-		if (plateau.getCase(i-1,j) != null && plateau.getCase(i-1,j).){
+		if(plateau.getCase(i+1,j) != null){
+		    boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
+		    if(!b[1]){
+		        return false;
+            }
+        }
 
-		}
-		*/
+        if(plateau.getCase(i,j-1) != null){
+            boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
+            if(!b[0]){
+                return false;
+            }
+        }
+
+        if(plateau.getCase(i,j+1) != null){
+            boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
+            if(!b[2]){
+                return false;
+            }
+        }
+        //ajouter des conditions s'il y a plusieurs cartes chemin autour
+		else return true;
 		return false;
 	}
 
+    public boolean action(int j,int j2, CarteAction c){
+
+        if(c.getType() == 'c' && c.getSabotage() && peutJouer[j2][1]){
+            peutJouer[j2][1] = false;
+            return true;
+        }
+
+        if(c.getType() == 'c' && !c.getSabotage() && !peutJouer[j2][1]){
+            peutJouer[j2][1] = true;
+            return true;
+        }
+
+        if(c.getType() == 'c' && c.getSabotage() && !peutJouer[j2][1]){
+            System.err.println("Le chariot de ce joueur est déjà saboté");
+            return false;
+        }
+
+        if(c.getType() == 'c' && !c.getSabotage() && peutJouer[j2][1]){
+            System.err.println("Le chariot de ce joueur est déja en bonne état");
+            return false;
+        }
+
+        //sabotage outils
+
+        if(c.getType() == 'o' && c.getSabotage() && peutJouer[j2][2]){
+            peutJouer[j2][2] = false;
+            return true;
+        }
+
+        if(c.getType() == 'o' && !c.getSabotage() && !peutJouer[j2][2]){
+            peutJouer[j2][2] = true;
+            return true;
+        }
+
+        if(c.getType() == 'o' && c.getSabotage() && !peutJouer[j2][2]){
+            System.err.println("Les outils de ce joueur sont déjà saboté");
+            return false;
+        }
+
+        if(c.getType() == 'o' && !c.getSabotage() && peutJouer[j2][2]){
+            System.err.println("Les outils de ce joueur sont déja en bonne état");
+            return false;
+        }
+
+        //sabotage lampe
+
+        if(c.getType() == 'l' && c.getSabotage() && peutJouer[j2][0]){
+            peutJouer[j2][0] = false;
+            return true;
+        }
+
+        if(c.getType() == 'l' && !c.getSabotage() && !peutJouer[j2][0]){
+            peutJouer[j2][0] = true;
+            return true;
+        }
+
+        if(c.getType() == 'l' && c.getSabotage() && !peutJouer[j2][0]){
+            System.err.println("La lampe de ce joueur est déjà saboté");
+            return false;
+        }
+
+        if(c.getType() == 'l' && !c.getSabotage() && peutJouer[j2][0]){
+            System.err.println("La lampe de ce joueur est déja en bonne état");
+            return false;
+        }
+        return false;
+    }
 
 	@Override
 	public void joueUnTour(Joueur j) {
-
+        System.out.println("Quelle carte voulez vous utiliser?");
+        for(int i = 0;i<paquet[j.getId()].size();i++){
+            System.out.print("   "+paquet[j.getId()].get(i).toString());
+        }
 	}
 
 	public void afficheIntro(){

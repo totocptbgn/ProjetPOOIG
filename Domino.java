@@ -73,7 +73,7 @@ public class Domino extends Jeu {
 		}
 	}
 
-	public void afficherDominos(Joueur joueur){ // Affiche les dominos d'un joueur en particulier.
+	public void afficherDomino(Joueur joueur){ // Affiche les dominos d'un joueur en particulier.
 		int i = joueur.getId() + 1;
 		System.out.print( participants[i-1].getNom() + " : ");
 		for (int j = 0; j < paquet[i].size(); j++) {
@@ -88,19 +88,27 @@ public class Domino extends Jeu {
 		 * i, j : position dans le tableau,
 		 *
 		 * dir : 0 = vers la droite,
-		 *       1 = vers le bas.
+		 *       1 = vers le bas,
+		 *       2 = vers la gauche,
+		 *       3 = vers le haut.
 		 */
 
 		CaseDomino caseDomino0 = (CaseDomino) plateau.getCase(i, j);
 		CaseDomino caseDomino1;
 
-		if (dir == 0){
-			caseDomino1 = (CaseDomino) plateau.getCase(i,j + 1);
-		} else if (dir == 1){
-			caseDomino1 = (CaseDomino) plateau.getCase(i + 1, j);
-		} else {
-			return false;
+		switch (dir){
+			case 0: caseDomino1 = (CaseDomino) plateau.getCase(i,j + 1);
+				break;
+			case 1: caseDomino1 = (CaseDomino) plateau.getCase(i + 1, j);
+				break;
+			case 2: caseDomino1 = (CaseDomino) plateau.getCase(i, j - 1);
+				break;
+			case 3: caseDomino1 = (CaseDomino) plateau.getCase(i - 1, j + 1);
+				break;
+			default:
+				return false;
 		}
+
 
 		// Vérification des pièces cibles
 		if (caseDomino0.estOccupee() || caseDomino1.estOccupee()){
@@ -116,30 +124,80 @@ public class Domino extends Jeu {
 			int val0 = p.getValeur(0);
 			int val1 = p.getValeur(1);
 
-			if (verifCase(i-1, j, val0)){
-				ok = true;
-			}
-			if (verifCase(i, j-1, val0)){
-				ok = true;
-			}
-			if (verifCase(i+1, j, val0)){
-				ok = true;
-			}
-			if (verifCase(i+1, j+1, val1)){
-				ok = true;
-			}
-			if (dir == 0){
+			if (dir == 0){ // CaseDomino à droite
+				if (verifCase(i-1, j, val0)){
+					ok = true;
+				}
+				if (verifCase(i, j-1, val0)){
+					ok = true;
+				}
+				if (verifCase(i+1, j, val0)){
+					ok = true;
+				}
 				if (verifCase(i-1, j+1, val1)){
 					ok = true;
 				}
 				if (verifCase(i, j+2, val1)){
 					ok = true;
 				}
-			} else if (dir == 1){
+				if (verifCase(i+1, j+1, val1)){
+					ok = true;
+				}
+			} else if (dir == 1){ // CaseDomino en bas
+				if (verifCase(i-1, j, val0)){
+					ok = true;
+				}
+				if (verifCase(i, j-1, val0)){
+					ok = true;
+				}
+				if (verifCase(i, j+1, val0)){
+					ok = true;
+				}
 				if (verifCase(i+1, j-1, val1)){
 					ok = true;
 				}
 				if (verifCase(i+2, j, val1)){
+					ok = true;
+				}
+				if (verifCase(i+1, j+1, val1)){
+					ok = true;
+				}
+			} else if (dir == 2){ // CaseDomino à gauche
+				if (verifCase(i-1, j, val0)){
+					ok = true;
+				}
+				if (verifCase(i, j+1, val0)){
+					ok = true;
+				}
+				if (verifCase(i+1, j, val0)){
+					ok = true;
+				}
+				if (verifCase(i-1, j-1, val1)){
+					ok = true;
+				}
+				if (verifCase(i+1, j-1, val1)){
+					ok = true;
+				}
+				if (verifCase(i, j-2, val1)){
+					ok = true;
+				}
+			} else if (dir == 3){ // CaseDomino en haut
+				if (verifCase(i, j-1, val0)){
+					ok = true;
+				}
+				if (verifCase(i, j+1, val0)){
+					ok = true;
+				}
+				if (verifCase(i+1, j, val0)){
+					ok = true;
+				}
+				if (verifCase(i-1, j-1, val1)){
+					ok = true;
+				}
+				if (verifCase(i-2, j, val1)){
+					ok = true;
+				}
+				if (verifCase(i-1, j+1, val1)){
 					ok = true;
 				}
 			}
@@ -165,13 +223,18 @@ public class Domino extends Jeu {
 			if (((CaseDomino) this.plateau.getCase(i, j)).getValeur() == valeur) {
 				return true;
 			}
-		} catch (NullPointerException e){}
+		} catch (ArrayIndexOutOfBoundsException e){}
 		return false;
 	}
 
 	@Override
 	public void joueUnTour(Joueur j) {
+		// On affiche le plateau
+		System.out.println();
+		plateau.afficher();
 
+		// On fait jouer le joueur
+		poserDomino(j);
 	}
 
 	@Override
@@ -197,6 +260,7 @@ public class Domino extends Jeu {
 			System.out.print("Quel est le nom du joueur n°" + (i+1) + " ? ");
 			participants[i] = new Joueur(i);
 		}
+		System.out.println();
 	}
 
 	public void poserDomino(Joueur joueur){ // Demande au joueur la position pour poser le domino puis appel placerDomino().
@@ -210,7 +274,7 @@ public class Domino extends Jeu {
 		int input;
 
 		System.out.println("\nAu tour de " + nom + " de poser un Domino :\n");
-		this.afficherDominos(joueur);
+		this.afficherDomino(joueur);
 
 		b = true;
 		while (b) {
@@ -239,7 +303,7 @@ public class Domino extends Jeu {
 				input = sc.nextInt();
 				input--;
 				if (input >= 0 && input < plateau.hauteur){
-					j = input;
+					i = input;
 					b = false;
 				} else {
 					System.err.println("Rentrez un nombre correspondant à une ligne.");
@@ -258,7 +322,7 @@ public class Domino extends Jeu {
 				input = sc.nextInt();
 				input--;
 				if (input >= 0 && input < plateau.longueur){
-					i = input;
+					j = input;
 					b = false;
 				} else {
 					System.err.println("Rentrez un nombre correspondant à une colonne.");
@@ -271,7 +335,7 @@ public class Domino extends Jeu {
 
 		b = true;
 		while (b) {
-			System.out.print("Donnez la direction (\"Bas\" ou \"Droite\") : ");
+			System.out.print("Donnez la direction (Droite, Bas, Gauche ou Haut) : ");
 			Scanner sc = new Scanner(System.in);
 			dir = sc.nextLine();
 			b = false;
@@ -284,6 +348,14 @@ public class Domino extends Jeu {
 					d = 1; break;
 				case "Bas":
 					d = 1; break;
+				case "gauche":
+					d = 2; break;
+				case "Gauche":
+					d = 2; break;
+				case "Haut":
+					d = 3; break;
+				case "haut":
+					d = 3; break;
 				default:
 					System.err.println("Donnez une direction valable.");
 					b = true;
@@ -338,5 +410,6 @@ public class Domino extends Jeu {
 		System.out.println("|                 Amusez vous bien !                                                                            |");
 		System.out.println("|                                                                                                               |");
 		System.out.println("+---------------------------------------------------------------------------------------------------------------+");
+		System.out.println();
 	}
 }

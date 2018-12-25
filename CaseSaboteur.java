@@ -15,5 +15,7 @@ public class CaseSaboteur extends Case {
         return carte.getDirection();
     }
 
-
+    public CarteChemin getPiece(){
+        return carte;
+    }
 }

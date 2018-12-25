@@ -233,8 +233,14 @@ public class Domino extends Jeu {
 		System.out.println();
 		plateau.afficher();
 
+		// On affiche ses dominos (ne plus le faire dans poserDomino()
+		// À faire
+
 		// On fait jouer le joueur
 		poserDomino(j);
+
+		// On test si le joueur à gagné
+		// À faire
 	}
 
 	@Override
@@ -247,13 +253,13 @@ public class Domino extends Jeu {
 			try {
 				nbrJ = sc.nextInt();
 				if (nbrJ < 2 || nbrJ > 4) {
-					System.err.println("Rentrez un chiffre entre 2 et 4 inclus.");
+					System.err.println("Rentrez un chiffre entre 2 et 4 inclus.\n");
 				} else {
 					this.participants = new Joueur[nbrJ];
 					b = false;
 				}
 			} catch (InputMismatchException e){
-				System.err.println("Rentrez un nombre valide.");
+				System.err.println("Rentrez un nombre valide.\n");
 			}
 		}
 		for (int i = 0; i < participants.length; i++) {
@@ -287,10 +293,10 @@ public class Domino extends Jeu {
 					dom = input;
 					b = false;
 				} else {
-					System.err.println("Rentrez un nombre correspondant à un domino.");
+					System.err.println("Rentrez un nombre correspondant à un domino.\n");
 				}
 			} catch (InputMismatchException e){
-				System.err.println("Rentrez un nombre valide.");
+				System.err.println("Rentrez un nombre valide.\n");
 				input = -1;
 			}
 		}
@@ -376,6 +382,7 @@ public class Domino extends Jeu {
 			if (rep.equals("y")){
 				b = false;
 				if (!placerDomino(i, j, d, paquet[joueur.getId() + 1].get(dom))){
+					System.err.println("Les coordonnées données ne sont pas valides");
 					this.poserDomino(joueur);
 				}
 			} else if (rep.equals("n")){

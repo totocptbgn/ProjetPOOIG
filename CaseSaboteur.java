@@ -1,21 +1,24 @@
 public class CaseSaboteur extends Case {
-    CarteChemin carte;
+	CarteChemin carte;
 
-    public CaseSaboteur(CarteChemin c){
-        super();
-        this.carte =c;
-    }
+	public CaseSaboteur(CarteChemin c){
+		super();
+		this.carte =c;
+	}
 
-    @Override
-    public int getValeur() {
-        return 0;
-    }
+	@Override
+	public int getValeur() {
+		return 0;
+	}
 
-    public boolean[] getDirection(){
-        return carte.getDirection();
-    }
+	public boolean[] getDirection(){
+		if (carte != null) {
+			return carte.getDirection();
+		}
+		return null;
+	}
 
-    public CarteChemin getPiece(){
-        return carte;
-    }
+	public CarteChemin getPiece(){
+		return carte;
+	}
 }

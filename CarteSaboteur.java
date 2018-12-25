@@ -1,9 +1,9 @@
 public class CarteSaboteur extends Piece {
-    private int ID;
+	private int ID;
 
-    public CarteSaboteur(){
-        super();
-        //mettre l'id en autoincrement?
-    }
+	public CarteSaboteur(){
+		super();
+		// Mettre l'id en autoincrement?
+	}
 
 }

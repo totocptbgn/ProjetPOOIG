@@ -28,4 +28,9 @@ public class Puzzle extends Jeu {
         System.out.println("Quel est le nom du joueur ?");
         this.joueur = new Joueur(0);
     }
+
+    @Override
+    public void afficheIntro() {
+
+    }
 }

@@ -1,11 +1,11 @@
 public class CarteChemin extends CarteSaboteur {
-    private boolean[] direction; //tableau qui montre si l'accès vers la droite,gauche,haut,bas est autorisé
+	private boolean[] direction; // Tableau qui montre si l'accès vers la droite, gauche, haut, bas est autorisé.
 
-    public CarteChemin(boolean[] d){
-        this.direction = d;
-    }
+	public CarteChemin(boolean[] d){
+		this.direction = d;
+	}
 
-    public boolean[] getDirection(){
-        return direction;
-    }
+	public boolean[] getDirection(){
+		return direction;
+	}
 }

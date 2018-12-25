@@ -4,8 +4,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Domino extends Jeu {
-	private boolean estVide;
-	private ArrayList <PieceDomino> pieces; // Toutes les pièces qui existent
+	private boolean premierTour; // True au début de partie tant qu'aucun domino n'est posé.
+	private ArrayList <PieceDomino> pieces; // Toutes les pièces qui existent.
 	ArrayList <PieceDomino> paquet []; // Tableau comportant la pioche et les Dominos non-posés de chaque joueurs.
 	// Taille de paquet = Nombre de joueurs + 1, [0] correspond à la pioche.
 
@@ -18,7 +18,7 @@ public class Domino extends Jeu {
 
 		// Création du plateau
 		this.plateau = new PlateauDomino(15);
-		this.estVide = true;
+		this.premierTour = true;
 
 		// Création des Dominos
 		this.pieces = new ArrayList<>();
@@ -51,11 +51,16 @@ public class Domino extends Jeu {
 			this.paquet[0].add(pieces.remove(0));
 		}
 
-		// Affichage du plateau
-		plateau.afficher();
-
 		// Affichage des dominos
+		System.out.println("Voici les dominos de chaque joueur :");
 		afficherDominos();
+
+		// TEST : On fait jouer chaque joueurs en boucle.
+		while (true) {
+			for (int i = 0; i < participants.length; i++) {
+				joueUnTour(participants[i]);
+			}
+		}
 	}
 
 	public void afficherDominos(){ // Affiche les dominos de chaque participant.
@@ -77,41 +82,91 @@ public class Domino extends Jeu {
 		System.out.println();
 	}
 
-	public boolean placerDomino(int i, int j, int dir, PieceDomino p){ // Reçoit ecoit une coordonnée et pose le domino si la position est juste.
+	public boolean placerDomino(int i, int j, int dir, PieceDomino p){ // Reçoit une coordonnée et pose le domino si la position est juste.
 
 		/*
-		 * i, j : position dans le tableau
+		 * i, j : position dans le tableau,
+		 *
 		 * dir : 0 = vers la droite,
-		 *       1 = vers le bas,
+		 *       1 = vers le bas.
 		 */
 
-		boolean pose = false;
+		CaseDomino caseDomino0 = (CaseDomino) plateau.getCase(i, j);
+		CaseDomino caseDomino1;
 
-		CaseDomino caseDomino1 = (CaseDomino) plateau.getCase(i, j);
-		CaseDomino caseDomino2;
+		if (dir == 0){
+			caseDomino1 = (CaseDomino) plateau.getCase(i,j + 1);
+		} else if (dir == 1){
+			caseDomino1 = (CaseDomino) plateau.getCase(i + 1, j);
+		} else {
+			return false;
+		}
 
-		switch (dir){
-			case 0: caseDomino2 = (CaseDomino) plateau.getCase(i,j + 1);
-				break;
-			case 1: caseDomino2 = (CaseDomino) plateau.getCase(i + 1, j);
-				break;
-			default:
+		// Vérification des pièces cibles
+		if (caseDomino0.estOccupee() || caseDomino1.estOccupee()){
+			System.err.println("La case est déjà occupée.");
+			return false;
+		}
+
+		// Vérification des pièces adjacentes
+		boolean ok = false;
+		if (premierTour){ // Si c'est le premier tour, pas besoin de vérifier.
+			ok = true;
+		} else { // Sinon, on vérifie les cases adjacentes à caseDomino0 & caseDomino1.
+			int val0 = p.getValeur(0);
+			int val1 = p.getValeur(1);
+
+			if (verifCase(i-1, j, val0)){
+				ok = true;
+			}
+			if (verifCase(i, j-1, val0)){
+				ok = true;
+			}
+			if (verifCase(i+1, j, val0)){
+				ok = true;
+			}
+			if (verifCase(i+1, j+1, val1)){
+				ok = true;
+			}
+			if (dir == 0){
+				if (verifCase(i-1, j+1, val1)){
+					ok = true;
+				}
+				if (verifCase(i, j+2, val1)){
+					ok = true;
+				}
+			} else if (dir == 1){
+				if (verifCase(i+1, j-1, val1)){
+					ok = true;
+				}
+				if (verifCase(i+2, j, val1)){
+					ok = true;
+				}
+			}
+
+			if (!ok){
+				System.out.println();
 				return false;
+			}
 		}
 
-		// Vérification des pièces cibles et adjacentes
-		// À faire !
-		pose = true;
+		// Placement de la pièce
+		int id = p.getProprio().getId();
+		caseDomino0.PoserPiece(p, 0);
+		caseDomino1.PoserPiece(p, 1);
+		paquet[id + 1].remove(p);
+		premierTour = false;
 
-		// Placement des Pièces
-		if (pose){
-			int id = p.getProprio().getId();
-			caseDomino1.PoserPiece(p, 0);
-			caseDomino2.PoserPiece(p, 1);
-			paquet[id + 1].remove(p);
-			this.estVide = false;
-		}
-		return pose;
+		return true;
+	}
+
+	public boolean verifCase(int i, int j, int valeur){ // Vérifie si la case à la position i, j contient une pièce ayant la valeur 'valeur'
+		try {
+			if (((CaseDomino) this.plateau.getCase(i, j)).getValeur() == valeur) {
+				return true;
+			}
+		} catch (NullPointerException e){}
+		return false;
 	}
 
 	@Override
@@ -248,7 +303,9 @@ public class Domino extends Jeu {
 			String rep = sc.nextLine();
 			if (rep.equals("y")){
 				b = false;
-				placerDomino(i, j, d, paquet[joueur.getId() + 1].get(dom));
+				if (!placerDomino(i, j, d, paquet[joueur.getId() + 1].get(dom))){
+					this.poserDomino(joueur);
+				}
 			} else if (rep.equals("n")){
 				b = false;
 				this.poserDomino(joueur);

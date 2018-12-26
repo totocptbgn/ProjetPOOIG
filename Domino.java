@@ -103,7 +103,7 @@ public class Domino extends Jeu {
 				break;
 			case 2: caseDomino1 = (CaseDomino) plateau.getCase(i, j - 1);
 				break;
-			case 3: caseDomino1 = (CaseDomino) plateau.getCase(i - 1, j + 1);
+			case 3: caseDomino1 = (CaseDomino) plateau.getCase(i - 1, j);
 				break;
 			default:
 				return false;

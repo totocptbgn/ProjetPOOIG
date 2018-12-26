@@ -55,7 +55,6 @@ public class Domino extends Jeu {
 		System.out.println("Voici les dominos de chaque joueur :");
 		afficherDominos();
 
-		// TEST : On fait jouer chaque joueurs en boucle.
 		while (true) {
 			for (int i = 0; i < participants.length; i++) {
 				joueUnTour(participants[i]);
@@ -233,14 +232,15 @@ public class Domino extends Jeu {
 		System.out.println();
 		plateau.afficher();
 
-		// On affiche ses dominos (ne plus le faire dans poserDomino()
-		// À faire
+		// On affiche ses dominos
+		System.out.println("\nAu tour de " + j.getNom() + " de poser un Domino :\n");
+		this.afficherDomino(j);
 
 		// On fait jouer le joueur
 		poserDomino(j);
 
 		// On test si le joueur à gagné
-		// À faire
+		aGagne(j);
 	}
 
 	@Override
@@ -270,7 +270,6 @@ public class Domino extends Jeu {
 	}
 
 	public void poserDomino(Joueur joueur){ // Demande au joueur la position pour poser le domino puis appel placerDomino().
-		String nom = joueur.getNom();
 		int dom = -1;
 		int i = -1;
 		int j = -1;
@@ -279,8 +278,7 @@ public class Domino extends Jeu {
 		boolean b;
 		int input;
 
-		System.out.println("\nAu tour de " + nom + " de poser un Domino :\n");
-		this.afficherDomino(joueur);
+		// Proposer de piocher et de passer !
 
 		b = true;
 		while (b) {
@@ -391,6 +389,12 @@ public class Domino extends Jeu {
 			} else {
 				System.err.println("y / n");
 			}
+		}
+	}
+
+	public void aGagne(Joueur j){
+		if (paquet[j.getId() + 1].size() == 0){
+			// Retirer le joueur - tableau de boolean avec true si le joueur à gagné
 		}
 	}
 

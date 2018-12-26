@@ -21,18 +21,18 @@ public class CarteAction extends CarteSaboteur {
 
     @Override
     public String toString() {
-        String s = "--Carte Action--";
+        String s = "";
 
         if(type == 'c'){
-            s += "\nchariot";
+            s += "chariot";
         }
 
         if(type == 'o'){
-            s += "\noutils";
+            s += "outils";
         }
 
         if(type == 'l'){
-            s += "\nlampe";
+            s += "lampe";
         }
 
         return s;

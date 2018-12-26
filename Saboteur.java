@@ -99,6 +99,7 @@ public class Saboteur extends Jeu {
 		}
 
 		//on initialise à true peutJouer
+		peutJouer = new boolean[participants.length][3];
   		for(int i = 0;i<peutJouer.length;i++){
 		    for(int j = 0;j<peutJouer[i].length;j++){
 		        peutJouer[i][j] = true;
@@ -245,29 +246,38 @@ public class Saboteur extends Jeu {
 
         System.out.println("Quelle carte voulez vous utiliser ? (ID)");
         for(int i = 0;i<paquet[j.getId()].size();i++){
-            System.out.print("   "+i+"  "+paquet[j.getId()].get(i).toString());
+        	if(paquet[j.getId()].get(i) instanceof CarteAction){
+        		CarteAction c = (CarteAction)paquet[j.getId()].get(i);
+				System.out.print("   "+ i +"  "+ c.toString());
+			}
+			else {
+				CarteChemin c = (CarteChemin)paquet[j.getId()].get(i);
+				System.out.print("   " + i + "  " + c.toString());
+			}
         }
 
         Scanner sc = new Scanner(System.in);
         int rep = sc.nextInt();
 
         try {
+        	Scanner sc2 = new Scanner(System.in);
         	if(paquet[j.getId()].get(rep) instanceof CarteChemin){
 
         		System.out.println("Voulez-vous utiliser cette carte ou la jeter définitivement ? [jeter/garder]");
 
-        		String garder = sc.nextLine();
+        		String garder = sc2.nextLine();
 
         		if(garder.equals("garder")){
         			System.out.println("Voulez-vous inverser la direction de cette carte ? [oui/non]");
-        			String inv = sc.nextLine();
+        			String inv = sc2.nextLine();
         			if(inv.equals("oui")){
 						((CarteChemin) paquet[j.getId()].get(rep)).setInverser(true);
 						((CarteChemin) paquet[j.getId()].get(rep)).inversement();
 					}
         			System.out.println("Où voulez vous poser cette carte?");
-        			int x = sc.nextInt();
-        			int y = sc.nextInt();
+        			int x = sc2.nextInt();
+        			sc2 = new Scanner(System.in);
+        			int y = sc2.nextInt();
 
         			String s = "oui";
         			while(s.equals("oui") && !poserCarte(x,y,paquet[j.getId()].get(rep),j.getId())) {
@@ -276,13 +286,15 @@ public class Saboteur extends Jeu {
 						}
 						else{
 							System.out.println("La carte n'a pas pu être posée, voulez vous réessayer ? [oui/non]");
-							s = sc.nextLine();
+							sc2 = new Scanner(System.in);
+							s = sc2.nextLine();
 						}
 					}
 
 					if(!s.equals("oui")){
 						System.out.println("Utiliser une autre carte de votre deck ? [oui/non]");
-						s = sc.nextLine();
+						sc2 = new Scanner(System.in);
+						s = sc2.nextLine();
 						if(s.equals("oui")){
 							joueUnTour(j);
 						}
@@ -300,7 +312,7 @@ public class Saboteur extends Jeu {
 
 			if(paquet[j.getId()].get(rep) instanceof CarteAction){
 				System.out.println("Voulez-vous saboter les objets de vos adversaires ou les réparer ? [saboter/réparer]");
-				String saboter = sc.nextLine();
+				String saboter = sc2.nextLine();
 
 				if(saboter.equals("saboter")){
 					((CarteAction) paquet[j.getId()].get(rep)).setSabotage(true);
@@ -308,12 +320,12 @@ public class Saboteur extends Jeu {
 					for(int i = 1;i<paquet.length;i++){
 						System.out.print(" "+participants[i].getNom()+" ");
 					}
-					saboter = sc.nextLine();
+					saboter = sc2.nextLine();
 						for(int i = 1;i<paquet.length;i++){
 							if(participants[i].getNom().equals(saboter)){
 								if(!action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
 									System.out.println("Le sabotage n'a pas fonctionné, voulez vous réessayer ? [oui/non]");
-									saboter = sc.nextLine();
+									saboter = sc2.nextLine();
 									if(saboter.equals("oui")){
 										joueUnTour(j);
 									}
@@ -332,13 +344,13 @@ public class Saboteur extends Jeu {
 						System.out.print(" "+participants[i].getNom()+" ");
 					}
 
-					saboter = sc.nextLine();
+					saboter = sc2.nextLine();
 
 					for(int i = 1;i<paquet.length;i++){
 						if(participants[i].getNom().equals(saboter)){
 							if(!action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
 								System.out.println("Ça n'a pas fonctionné, voulez vous réessayer ? [oui/non]");
-								saboter = sc.nextLine();
+								saboter = sc2.nextLine();
 								if(saboter.equals("oui")){
 									joueUnTour(j);
 								}

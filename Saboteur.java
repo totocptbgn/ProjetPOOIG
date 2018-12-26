@@ -91,7 +91,7 @@ public class Saboteur extends Jeu {
 		// Distribution des cartes :
 		for (int i = 1; i<paquet.length; i++){
 			for (int j = 0; j < 5; j++){
-				int rand = (int) (Math.random()*71);
+				int rand = (int) (Math.random()*paquet[0].size()-1);
 				paquet[i].add(paquet[0].get(rand));
 				// On supprime la carte distribuée de la pioche
 				paquet[0].remove(rand);
@@ -99,7 +99,7 @@ public class Saboteur extends Jeu {
 		}
 
 		//on initialise à true peutJouer
-		for(int i = 0;i<peutJouer.length;i++){
+  		for(int i = 0;i<peutJouer.length;i++){
 		    for(int j = 0;j<peutJouer[i].length;j++){
 		        peutJouer[i][j] = true;
             }
@@ -131,7 +131,7 @@ public class Saboteur extends Jeu {
 		}
 
 		for(int x = 0;x<3;x++){
-		    if(!peutJouer[participant][x]){
+		    if(!peutJouer[participant-1][x]){
 		        return false;
             }
         }
@@ -175,12 +175,12 @@ public class Saboteur extends Jeu {
     public boolean action(int j,int j2, CarteAction c){
 
         if(c.getType() == 'c' && c.getSabotage() && peutJouer[j2][1]){
-            peutJouer[j2][1] = false;
+            peutJouer[j2-1][1] = false;
             return true;
         }
 
         if(c.getType() == 'c' && !c.getSabotage() && !peutJouer[j2][1]){
-            peutJouer[j2][1] = true;
+            peutJouer[j2-1][1] = true;
             return true;
         }
 
@@ -190,51 +190,51 @@ public class Saboteur extends Jeu {
         }
 
         if(c.getType() == 'c' && !c.getSabotage() && peutJouer[j2][1]){
-            System.err.println("Le chariot de ce joueur est déja en bonne état");
+            System.err.println("Le chariot de ce joueur est déja en bon état");
             return false;
         }
 
         //sabotage outils
 
         if(c.getType() == 'o' && c.getSabotage() && peutJouer[j2][2]){
-            peutJouer[j2][2] = false;
+            peutJouer[j2-1][2] = false;
             return true;
         }
 
         if(c.getType() == 'o' && !c.getSabotage() && !peutJouer[j2][2]){
-            peutJouer[j2][2] = true;
+            peutJouer[j2-1][2] = true;
             return true;
         }
 
         if(c.getType() == 'o' && c.getSabotage() && !peutJouer[j2][2]){
-            System.err.println("Les outils de ce joueur sont déjà saboté");
+            System.err.println("Les outils de ce joueur sont déjà sabotés");
             return false;
         }
 
         if(c.getType() == 'o' && !c.getSabotage() && peutJouer[j2][2]){
-            System.err.println("Les outils de ce joueur sont déja en bonne état");
+            System.err.println("Les outils de ce joueur sont déja en bon état");
             return false;
         }
 
         //sabotage lampe
 
         if(c.getType() == 'l' && c.getSabotage() && peutJouer[j2][0]){
-            peutJouer[j2][0] = false;
+            peutJouer[j2-1][0] = false;
             return true;
         }
 
         if(c.getType() == 'l' && !c.getSabotage() && !peutJouer[j2][0]){
-            peutJouer[j2][0] = true;
+            peutJouer[j2-1][0] = true;
             return true;
         }
 
         if(c.getType() == 'l' && c.getSabotage() && !peutJouer[j2][0]){
-            System.err.println("La lampe de ce joueur est déjà saboté");
+            System.err.println("La lampe de ce joueur est déjà sabotée");
             return false;
         }
 
         if(c.getType() == 'l' && !c.getSabotage() && peutJouer[j2][0]){
-            System.err.println("La lampe de ce joueur est déja en bonne état");
+            System.err.println("La lampe de ce joueur est déja en bon état");
             return false;
         }
         return false;
@@ -242,10 +242,122 @@ public class Saboteur extends Jeu {
 
 	@Override
 	public void joueUnTour(Joueur j) {
-        System.out.println("Quelle carte voulez vous utiliser?");
+
+        System.out.println("Quelle carte voulez vous utiliser ? (ID)");
         for(int i = 0;i<paquet[j.getId()].size();i++){
-            System.out.print("   "+paquet[j.getId()].get(i).toString());
+            System.out.print("   "+i+"  "+paquet[j.getId()].get(i).toString());
         }
+
+        Scanner sc = new Scanner(System.in);
+        int rep = sc.nextInt();
+
+        try {
+        	if(paquet[j.getId()].get(rep) instanceof CarteChemin){
+
+        		System.out.println("Voulez-vous utiliser cette carte ou la jeter définitivement ? [jeter/garder]");
+
+        		String garder = sc.nextLine();
+
+        		if(garder.equals("garder")){
+        			System.out.println("Voulez-vous inverser la direction de cette carte ? [oui/non]");
+        			String inv = sc.nextLine();
+        			if(inv.equals("oui")){
+						((CarteChemin) paquet[j.getId()].get(rep)).setInverser(true);
+						((CarteChemin) paquet[j.getId()].get(rep)).inversement();
+					}
+        			System.out.println("Où voulez vous poser cette carte?");
+        			int x = sc.nextInt();
+        			int y = sc.nextInt();
+
+        			String s = "oui";
+        			while(s.equals("oui") && !poserCarte(x,y,paquet[j.getId()].get(rep),j.getId())) {
+						if(poserCarte(x, y, paquet[j.getId()].get(rep), j.getId())){
+							System.out.println("Carte posée avec succès !");
+						}
+						else{
+							System.out.println("La carte n'a pas pu être posée, voulez vous réessayer ? [oui/non]");
+							s = sc.nextLine();
+						}
+					}
+
+					if(!s.equals("oui")){
+						System.out.println("Utiliser une autre carte de votre deck ? [oui/non]");
+						s = sc.nextLine();
+						if(s.equals("oui")){
+							joueUnTour(j);
+						}
+					}
+				}
+
+				if(garder.equals("jeter")){
+					System.out.println("Cette carte a été jetée définitivement !");
+					paquet[j.getId()].remove(rep);
+				}
+				else{
+					System.err.println("Commande introuvable.. essayez plutôt avec les deux options possibles [jeter/garder]");
+				}
+			}
+
+			if(paquet[j.getId()].get(rep) instanceof CarteAction){
+				System.out.println("Voulez-vous saboter les objets de vos adversaires ou les réparer ? [saboter/réparer]");
+				String saboter = sc.nextLine();
+
+				if(saboter.equals("saboter")){
+					((CarteAction) paquet[j.getId()].get(rep)).setSabotage(true);
+					System.out.println("Sur quel joueur voulez-vous que s'abatte votre couroux ?");
+					for(int i = 1;i<paquet.length;i++){
+						System.out.print(" "+participants[i].getNom()+" ");
+					}
+					saboter = sc.nextLine();
+						for(int i = 1;i<paquet.length;i++){
+							if(participants[i].getNom().equals(saboter)){
+								if(!action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
+									System.out.println("Le sabotage n'a pas fonctionné, voulez vous réessayer ? [oui/non]");
+									saboter = sc.nextLine();
+									if(saboter.equals("oui")){
+										joueUnTour(j);
+									}
+								}
+								if(action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
+									action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep));
+									System.out.println("Sabotage réussi !");
+								}
+							}
+						}
+				}
+				if(saboter.equals("réparer")){
+					System.out.println("Quel joueur voulez-vous aider ?");
+
+					for(int i = 1;i<paquet.length;i++){
+						System.out.print(" "+participants[i].getNom()+" ");
+					}
+
+					saboter = sc.nextLine();
+
+					for(int i = 1;i<paquet.length;i++){
+						if(participants[i].getNom().equals(saboter)){
+							if(!action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
+								System.out.println("Ça n'a pas fonctionné, voulez vous réessayer ? [oui/non]");
+								saboter = sc.nextLine();
+								if(saboter.equals("oui")){
+									joueUnTour(j);
+								}
+							}
+							if(action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
+								action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep));
+								System.out.println("Réparation réussie !");
+							}
+						}
+					}
+				}
+			}
+		}
+
+		catch (java.util.InputMismatchException e){
+        	sc.nextInt();
+		}
+
+
 	}
 
 	public void afficheIntro(){

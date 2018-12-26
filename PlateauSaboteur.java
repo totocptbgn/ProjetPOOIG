@@ -13,6 +13,24 @@ public class PlateauSaboteur extends Plateau {
 
 	@Override
 	public void afficher() {
+		//on affiche seulement les cases découvertes et les cases d'arrivé et de départ
+		boolean[] depart = {true,true,true,true};
+		CarteChemin d = new CarteChemin(depart);
+		/*for(int i = 0;i<30;i++){
+		    System.out.print('_');
+        }
+		for(int i = 0;i<30;i++){
+		    System.out.println('|');
+        }
+        for(int i = 0;i<30;i++){
 
+        }*/
+		for(int i = 0;i<15;i++){
+		    System.out.println();
+        }
+        for(int i = 0;i<4;i++){
+            System.out.print(" ");
+        }
+        System.out.println(d.toString());
 	}
 }

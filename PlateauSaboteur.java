@@ -14,23 +14,45 @@ public class PlateauSaboteur extends Plateau {
 	@Override
 	public void afficher() {
 		//on affiche seulement les cases découvertes et les cases d'arrivé et de départ
-		boolean[] depart = {true,true,true,true};
-		CarteChemin d = new CarteChemin(depart);
-		/*for(int i = 0;i<30;i++){
-		    System.out.print('_');
-        }
-		for(int i = 0;i<30;i++){
-		    System.out.println('|');
-        }
-        for(int i = 0;i<30;i++){
+		// Affichage de la grille
+		System.out.print("      ");
+		for (int j = 1; j < longueur + 1; j++) {
+			System.out.print("  ");
+			if (j < 10) {
+				System.out.print(" " + j + " ");
+			} else {
+				System.out.print(" " + j);
+			}
+			System.out.print(" ");
+		}
+		System.out.println();
+		for (int i = 0; i < hauteur; i++) {
+			System.out.print("      ");
+			for (int j = 0; j < longueur; j++) {
+				System.out.print("+-----");
+			}
+			System.out.println("+");
+			if ((i + 1) < 10) {
+				System.out.print("   " + (i + 1) + "  ");
+			} else {
+				System.out.print("  " + (i + 1) + "  ");
+			}
+			for (int j = 0; j < longueur; j++) {
 
-        }*/
-		for(int i = 0;i<hauteur/2;i++){
-		    System.out.println();
-        }
-        for(int i = 0;i<hauteur/6;i++){
-            System.out.print(" ");
-        }
-        System.out.println(d.toString());
+				if (getCase(i, j).estOccupee()) {
+					CarteChemin c = (CarteChemin) getCase(i, j).getPiece();
+					System.out.print(c.toString());
+				} else {
+					System.out.print(" ");
+				}
+				System.out.print("  ");
+			}
+			System.out.println();
+		}
+		System.out.print("      ");
+		for (int j = 0; j < longueur; j++) {
+			System.out.print("+-----");
+		}
+		System.out.println("+");
 	}
 }

@@ -1,6 +1,4 @@
 public class PlateauSaboteur extends Plateau {
-	private int hauteur;
-
 	public PlateauSaboteur(int hauteur){
 		super(hauteur);
 		this.setPlateau(new CaseSaboteur[hauteur][hauteur]);
@@ -13,7 +11,8 @@ public class PlateauSaboteur extends Plateau {
 
 	@Override
 	public void afficher() {
-		//on affiche seulement les cases découvertes et les cases d'arrivé et de départ
+		// On veut seulement afficher seulement les cases découvertes et les cases d'arrivée et de départ.
+
 		// Affichage de la grille
 		System.out.print("      ");
 		for (int j = 1; j < longueur + 1; j++) {

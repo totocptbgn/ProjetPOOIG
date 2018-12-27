@@ -147,7 +147,7 @@ public class Saboteur extends Jeu {
 			return false;
 		}
 
-		if(i>plateau.hauteur || j>plateau.longueur || i<plateau.hauteur || j<plateau.longueur){
+		if (i > plateau.hauteur || j > plateau.longueur || i < plateau.hauteur || j <plateau.longueur){
 			System.err.println("Ces coordonnées sortent des limites du plateau");
 			return false;
 		}
@@ -156,7 +156,7 @@ public class Saboteur extends Jeu {
 			return false;
 		}
 
-		for(int x = 0; x < 3; x++){
+		for (int x = 0; x < 3; x++){
 		    if(!peutJouer[participant-1][x]){
 		        return false;
             }

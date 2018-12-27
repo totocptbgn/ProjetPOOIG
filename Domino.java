@@ -4,10 +4,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Domino extends Jeu {
+
 	private boolean premierTour; // True au début de partie tant qu'aucun domino n'est posé.
+	private boolean gagnant
+	private static int place;
 	private ArrayList <PieceDomino> pieces; // Toutes les pièces qui existent.
-	ArrayList <PieceDomino> paquet []; // Tableau comportant la pioche et les Dominos non-posés de chaque joueurs.
+	private ArrayList <PieceDomino> paquet []; // Tableau comportant la pioche et les Dominos non-posés de chaque joueurs.
 	// Taille de paquet = Nombre de joueurs + 1, [0] correspond à la pioche.
+
 
 	@Override
 	public void lancerPartie(){ // Initialise et lance la partie.
@@ -227,24 +231,168 @@ public class Domino extends Jeu {
 	}
 
 	@Override
-	public void joueUnTour(Joueur j) {
+	public void joueUnTour(Joueur joueur) {
+
+		// Variables
+		int dom = -1;
+		int i = -1;
+		int j = -1;
+		int d = -1;
+		int input;
+		boolean b;
+		boolean pose = false;
+		String dir = "";
+
 		// On affiche le plateau
 		System.out.println();
 		plateau.afficher();
 
 		// On affiche ses dominos
-		System.out.println("\nAu tour de " + j.getNom() + " de poser un Domino :\n");
-		this.afficherDomino(j);
+		System.out.println("\nAu tour de " + joueur.getNom() + " de poser un Domino :\n");
+		this.afficherDomino(joueur);
 
-		// On fait jouer le joueur
-		poserDomino(j);
+
+
+		// On propose de piocher ou de poser
+		b = true;
+		while (b) {
+			System.out.print("Voulez vous poser un domino ? (Sinon piocher en un) ? [y/n]");
+			Scanner sc = new Scanner(System.in);
+			String answer = sc.next();
+			if (answer.equals("y") || answer.equals("Y")){
+				b = false;
+				pose = true;
+			} else if (answer.equals("n") || answer.equals("N")){
+				b = false;
+				pose = false;
+			} else {
+				System.err.println();
+			}
+		}
+
+		// Si le joueur n'as pas pioché, il pose son domino
+		if (pose) {
+			b = true;
+			while (b) {
+				System.out.print("Donnez le domino à poser : ");
+				Scanner sc = new Scanner(System.in);
+				try {
+					input = sc.nextInt();
+					input--;
+					if (input >= 0 && input < paquet[joueur.getId() + 1].size()){
+						dom = input;
+						b = false;
+					} else {
+						System.err.println("Rentrez un nombre correspondant à un domino.\n");
+					}
+				} catch (InputMismatchException e){
+					System.err.println("Rentrez un nombre valide.\n");
+					input = -1;
+				}
+			}
+
+			b = true;
+			while (b) {
+				System.out.print("Donnez la ligne : ");
+				Scanner sc = new Scanner(System.in);
+				try {
+					input = sc.nextInt();
+					input--;
+					if (input >= 0 && input < plateau.hauteur){
+						i = input;
+						b = false;
+					} else {
+						System.err.println("Rentrez un nombre correspondant à une ligne.");
+					}
+				} catch (InputMismatchException e){
+					System.err.println("Rentrez un nombre valide.");
+					input = -1;
+				}
+			}
+
+			b = true;
+			while (b) {
+				System.out.print("Donnez la colonne : ");
+				Scanner sc = new Scanner(System.in);
+				try {
+					input = sc.nextInt();
+					input--;
+					if (input >= 0 && input < plateau.longueur){
+						j = input;
+						b = false;
+					} else {
+						System.err.println("Rentrez un nombre correspondant à une colonne.");
+					}
+				} catch (InputMismatchException e){
+					System.err.println("Rentrez un nombre valide.");
+					input = -1;
+				}
+			}
+
+			b = true;
+			while (b) {
+				System.out.print("Donnez la direction (Droite, Bas, Gauche ou Haut) : ");
+				Scanner sc = new Scanner(System.in);
+				dir = sc.nextLine();
+				b = false;
+				switch (dir) {
+					case "droite":
+						d = 0; break;
+					case "Droite":
+						d = 0; break;
+					case "bas":
+						d = 1; break;
+					case "Bas":
+						d = 1; break;
+					case "gauche":
+						d = 2; break;
+					case "Gauche":
+						d = 2; break;
+					case "Haut":
+						d = 3; break;
+					case "haut":
+						d = 3; break;
+					default:
+						System.err.println("Donnez une direction valable.");
+						b = true;
+						break;
+				}
+			}
+
+			System.out.println("\n Recap : ");
+			System.out.println("	Domino : " + paquet[joueur.getId() + 1].get(dom));
+			System.out.println("	Position : en " + i + ", " + j + ".");
+			System.out.println("	Direction : " + dir  + ".");
+
+			b = true;
+			while (b) {
+				System.out.print("\n Valider ? (y/n) ");
+				Scanner sc = new Scanner(System.in);
+				String rep = sc.nextLine();
+				if (rep.equals("y")){
+					b = false;
+					if (!placerDomino(i, j, d, paquet[joueur.getId() + 1].get(dom))){
+						System.err.println("Les coordonnées données ne sont pas valides");
+						this.poserDomino(joueur);
+					}
+				} else if (rep.equals("n")){
+					b = false;
+					this.poserDomino(joueur);
+				} else {
+					System.err.println("y / n");
+				}
+			}
+		}
 
 		// On test si le joueur à gagné
-		aGagne(j);
+		if (paquet[joueur.getId() + 1].size() == 0){
+			// Retirer le joueur - tableau de boolean avec true si le joueur à gagné
+		}
 	}
 
 	@Override
 	public void setJoueur() { // Met en place la création des joueurs.
+		this.place = 1;
 		boolean b = true;
 		while (b){
 			System.out.print("Combien de joueurs participent ? ");
@@ -270,132 +418,7 @@ public class Domino extends Jeu {
 	}
 
 	public void poserDomino(Joueur joueur){ // Demande au joueur la position pour poser le domino puis appel placerDomino().
-		int dom = -1;
-		int i = -1;
-		int j = -1;
-		int d = -1;
-		String dir = "";
-		boolean b;
-		int input;
 
-		// Proposer de piocher et de passer !
-
-		b = true;
-		while (b) {
-			System.out.print("Donnez le domino à poser : ");
-			Scanner sc = new Scanner(System.in);
-			try {
-				input = sc.nextInt();
-				input--;
-				if (input >= 0 && input < paquet[joueur.getId() + 1].size()){
-					dom = input;
-					b = false;
-				} else {
-					System.err.println("Rentrez un nombre correspondant à un domino.\n");
-				}
-			} catch (InputMismatchException e){
-				System.err.println("Rentrez un nombre valide.\n");
-				input = -1;
-			}
-		}
-
-		b = true;
-		while (b) {
-			System.out.print("Donnez la ligne : ");
-			Scanner sc = new Scanner(System.in);
-			try {
-				input = sc.nextInt();
-				input--;
-				if (input >= 0 && input < plateau.hauteur){
-					i = input;
-					b = false;
-				} else {
-					System.err.println("Rentrez un nombre correspondant à une ligne.");
-				}
-			} catch (InputMismatchException e){
-				System.err.println("Rentrez un nombre valide.");
-				input = -1;
-			}
-		}
-
-		b = true;
-		while (b) {
-			System.out.print("Donnez la colonne : ");
-			Scanner sc = new Scanner(System.in);
-			try {
-				input = sc.nextInt();
-				input--;
-				if (input >= 0 && input < plateau.longueur){
-					j = input;
-					b = false;
-				} else {
-					System.err.println("Rentrez un nombre correspondant à une colonne.");
-				}
-			} catch (InputMismatchException e){
-				System.err.println("Rentrez un nombre valide.");
-				input = -1;
-			}
-		}
-
-		b = true;
-		while (b) {
-			System.out.print("Donnez la direction (Droite, Bas, Gauche ou Haut) : ");
-			Scanner sc = new Scanner(System.in);
-			dir = sc.nextLine();
-			b = false;
-			switch (dir) {
-				case "droite":
-					d = 0; break;
-				case "Droite":
-					d = 0; break;
-				case "bas":
-					d = 1; break;
-				case "Bas":
-					d = 1; break;
-				case "gauche":
-					d = 2; break;
-				case "Gauche":
-					d = 2; break;
-				case "Haut":
-					d = 3; break;
-				case "haut":
-					d = 3; break;
-				default:
-					System.err.println("Donnez une direction valable.");
-					b = true;
-					break;
-			}
-		}
-
-		System.out.println("\n Recap : ");
-		System.out.println("	Domino : " + paquet[joueur.getId() + 1].get(dom));
-		System.out.println("	Position : en " + i + ", " + j + ".");
-		System.out.println("	Direction : " + dir  + ".");
-
-		b = true;
-		while (b) {
-			System.out.print("\n Valider ? (y/n) ");
-			Scanner sc = new Scanner(System.in);
-			String rep = sc.nextLine();
-			if (rep.equals("y")){
-				b = false;
-				if (!placerDomino(i, j, d, paquet[joueur.getId() + 1].get(dom))){
-					System.err.println("Les coordonnées données ne sont pas valides");
-					this.poserDomino(joueur);
-				}
-			} else if (rep.equals("n")){
-				b = false;
-				this.poserDomino(joueur);
-			} else {
-				System.err.println("y / n");
-			}
-		}
-	}
-
-	public void aGagne(Joueur j){
-		if (paquet[j.getId() + 1].size() == 0){
-			// Retirer le joueur - tableau de boolean avec true si le joueur à gagné
-		}
 	}
 
 	public void afficheIntro(){

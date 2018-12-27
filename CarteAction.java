@@ -34,6 +34,12 @@ public class CarteAction extends CarteSaboteur {
         if(type == 'l'){
             s += "lampe";
         }
+        if(sabotage) {
+            s += " saboté(e)(s)";
+        }
+        if(!sabotage){
+            s += " réparé(e)(s)";
+        }
 
         return s;
     }

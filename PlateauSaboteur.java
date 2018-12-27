@@ -25,10 +25,10 @@ public class PlateauSaboteur extends Plateau {
         for(int i = 0;i<30;i++){
 
         }*/
-		for(int i = 0;i<15;i++){
+		for(int i = 0;i<hauteur/2;i++){
 		    System.out.println();
         }
-        for(int i = 0;i<4;i++){
+        for(int i = 0;i<hauteur/6;i++){
             System.out.print(" ");
         }
         System.out.println(d.toString());

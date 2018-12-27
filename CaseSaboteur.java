@@ -21,4 +21,8 @@ public class CaseSaboteur extends Case {
 	public CarteChemin getPiece(){
 		return carte;
 	}
+
+	public String tostring(){
+		return carte.toString();
+	}
 }

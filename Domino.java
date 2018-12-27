@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Domino extends Jeu {
 
 	private boolean premierTour; // True au début de partie tant qu'aucun domino n'est posé.
-	private boolean gagnant;
+	private boolean gagnant []; // Tableau de boolean correspondants au joueurs, si un joueur n'as gagné il est à false, sinon il est à true.
 	private static int place;
 	private ArrayList <PieceDomino> pieces; // Toutes les pièces qui existent.
 	private ArrayList <PieceDomino> paquet []; // Tableau comportant la pioche et les Dominos non-posés de chaque joueurs.
@@ -57,16 +57,6 @@ public class Domino extends Jeu {
 
 		// Affichage des dominos
 		System.out.println("Voici les dominos de chaque joueur :");
-		afficherDominos();
-
-		while (true) {
-			for (int i = 0; i < participants.length; i++) {
-				joueUnTour(participants[i]);
-			}
-		}
-	}
-
-	public void afficherDominos(){ // Affiche les dominos de chaque participant.
 		for (int i = 1; i < paquet.length; i++) {
 			System.out.print( participants[i-1].getNom() + " : ");
 			for (int j = 0; j < paquet[i].size(); j++) {
@@ -74,15 +64,14 @@ public class Domino extends Jeu {
 			}
 			System.out.println();
 		}
-	}
 
-	public void afficherDomino(Joueur joueur){ // Affiche les dominos d'un joueur en particulier.
-		int i = joueur.getId() + 1;
-		System.out.print( participants[i-1].getNom() + " : ");
-		for (int j = 0; j < paquet[i].size(); j++) {
-			System.out.print("(" + (j + 1) + ")-" + paquet[i].get(j) + " ");
+		while (true) {
+			for (int i = 0; i < participants.length; i++) {
+				if (!gagnant[participants[i].getId()]){
+					joueUnTour(participants[i]);
+				}
+			}
 		}
-		System.out.println();
 	}
 
 	public boolean placerDomino(int i, int j, int dir, PieceDomino p){ // Reçoit une coordonnée et pose le domino si la position est juste.
@@ -111,7 +100,6 @@ public class Domino extends Jeu {
 			default:
 				return false;
 		}
-
 
 		// Vérification des pièces cibles
 		if (caseDomino0.estOccupee() || caseDomino1.estOccupee()){
@@ -249,14 +237,17 @@ public class Domino extends Jeu {
 
 		// On affiche ses dominos
 		System.out.println("\nAu tour de " + joueur.getNom() + " de poser un Domino :\n");
-		this.afficherDomino(joueur);
-
-
+		int id = joueur.getId() + 1;
+		System.out.print( participants[id-1].getNom() + " : ");
+		for (int k = 0; k < paquet[id].size(); k++) {
+			System.out.print("(" + (k + 1) + ")-" + paquet[id].get(k) + " ");
+		}
+		System.out.println();
 
 		// On propose de piocher ou de poser
 		b = true;
 		while (b) {
-			System.out.print("Voulez vous poser un domino ? (Sinon piocher en un) ? [y/n]");
+			System.out.print("Voulez vous poser un domino ? (Sinon piocher en un) ? [y/n] ");
 			Scanner sc = new Scanner(System.in);
 			String answer = sc.next();
 			if (answer.equals("y") || answer.equals("Y")){
@@ -386,8 +377,12 @@ public class Domino extends Jeu {
 
 		// On test si le joueur à gagné
 		if (paquet[joueur.getId() + 1].size() == 0){
-			// Retirer le joueur - tableau de boolean avec true si le joueur à gagné
+			// Faire une fonction FRAME()
+			System.out.println("Félicitation, " + joueur.getNom() + " a gagné, il est à la place : " + this.place + " !");
+			gagnant[joueur.getId()] = true;
 		}
+
+		// Si il n'y a plus qu'un joueur
 	}
 
 	@Override
@@ -404,6 +399,10 @@ public class Domino extends Jeu {
 					System.err.println("Rentrez un chiffre entre 2 et 4 inclus.\n");
 				} else {
 					this.participants = new Joueur[nbrJ];
+					this.gagnant = new boolean[nbrJ];
+					for (int i = 0; i < gagnant.length; i++) {
+						this.gagnant[i] = false;
+					}
 					b = false;
 				}
 			} catch (InputMismatchException e){

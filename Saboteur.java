@@ -44,7 +44,7 @@ public class Saboteur extends Jeu {
 		this.setJoueur();
 
 		// On créer le plateau :
-		this.plateau = new PlateauSaboteur(60);
+		this.plateau = new PlateauSaboteur(40);
 
 		// On créer (???)
 		this.paquet = new ArrayList[participants.length+1];
@@ -128,7 +128,7 @@ public class Saboteur extends Jeu {
   			plateau.setCase(6,plateau.longueur-3,arrivees[1]);
   			plateau.setCase(14,27,arrivees[0]);
 		// Afficher le plateau
-
+			plateau.afficher();
 		// Afficher les cartes (?)
 
 	}
@@ -144,6 +144,11 @@ public class Saboteur extends Jeu {
 		 */
 
 		if (c instanceof CarteAction){
+			return false;
+		}
+
+		if(i>plateau.hauteur || j>plateau.longueur || i<plateau.hauteur || j<plateau.longueur){
+			System.err.println("Ces coordonnées sortent des limites du plateau");
 			return false;
 		}
 

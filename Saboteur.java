@@ -106,7 +106,7 @@ public class Saboteur extends Jeu {
 			}
 		}
 
-		//on initialise à true peutJouer
+		// On initialise à true peutJouer
 		peutJouer = new boolean[participants.length][3];
   		for(int i = 0;i<peutJouer.length;i++){
 		    for(int j = 0;j<peutJouer[i].length;j++){
@@ -115,7 +115,7 @@ public class Saboteur extends Jeu {
 
 		}
 
-		//initialisation des cartes de départ et d'arrivées
+		// Initialisation des cartes de départ et d'arrivées
 			depart = new CaseSaboteur(new CarteChemin(carrefour));
   			plateau.setCase(plateau.longueur/2,plateau.longueur/2,depart);
 
@@ -133,7 +133,8 @@ public class Saboteur extends Jeu {
 
 	}
 
-	public boolean poserCarte(int i,int j,CarteSaboteur c,int participant){
+	public boolean poserCarte(int i, int j, CarteSaboteur c, int participant){
+
 		/*
 		 * Conditions de sortie de plateau :
 		 *  - la carte doit être posée après une autre carte,
@@ -150,26 +151,26 @@ public class Saboteur extends Jeu {
 			return false;
 		}
 
-		for(int x = 0;x<3;x++){
+		for(int x = 0; x < 3; x++){
 		    if(!peutJouer[participant-1][x]){
 		        return false;
             }
         }
 
-        //S'il n'y a aucune carte autour de la carte à poser, on ne peut pas la poser
-		if (plateau.getCase(i+1,j) == null && plateau.getCase(i-1,j) == null && plateau.getCase(i,j-1) == null && plateau.getCase(i,j+1) == null){
+        // S'il n'y a aucune carte autour de la carte à poser, on ne peut pas la poser
+		if (plateau.getCase(i+1, j) == null && plateau.getCase(i-1,j) == null && plateau.getCase(i,j-1) == null && plateau.getCase(i,j+1) == null){
 			return false;
 		}
 
-		//Si la carte en dessous ne peut pas acceder à la position de la carte à poser, on ne peut pas la poser
-		if (plateau.getCase(i-1,j) != null ){
+		// Si la carte en dessous ne peut pas acceder à la position de la carte à poser, on ne peut pas la poser
+		if (plateau.getCase(i-1, j) != null ){
             boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
 		    if(!b[3]){
 		        return false;
             }
 		}
 
-		if(plateau.getCase(i+1,j) != null){
+		if(plateau.getCase(i+1, j) != null){
 		    boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
 		    if(!b[1]){
 		        return false;
@@ -189,7 +190,7 @@ public class Saboteur extends Jeu {
                 return false;
             }
         }
-        //ajouter des conditions s'il y a plusieurs cartes chemin autour
+        // Ajouter des conditions s'il y a plusieurs cartes chemin autour
 		else return true;
 		return false;
 	}
@@ -216,7 +217,7 @@ public class Saboteur extends Jeu {
             return false;
         }
 
-        //sabotage outils
+        // Sabotage outils
 
         if(c.getType() == 'o' && c.getSabotage() && peutJouer[j2-1][2]){
             peutJouer[j2-1][2] = false;
@@ -238,7 +239,7 @@ public class Saboteur extends Jeu {
             return false;
         }
 
-        //sabotage lampe
+        // Sabotage lampe
 
         if(c.getType() == 'l' && c.getSabotage() && peutJouer[j2-1][0]){
             peutJouer[j2-1][0] = false;
@@ -267,7 +268,7 @@ public class Saboteur extends Jeu {
 
 		System.out.println("C'est à vous de jouer, "+j.getNom()+" !");
 		if(j.getId() % 2 == 0){
-			System.out.println("Nous vous rappelons que vous êtes un Saboteur");
+			System.out.println("Nous vous rappelons que vous êtes un Saboteur.");
 		}
 		if(j.getId() % 2 != 0){
 			System.out.println("Nous vous rappelons que vous êtes un Chercheur ! ");
@@ -397,7 +398,7 @@ public class Saboteur extends Jeu {
 		catch (java.util.InputMismatchException e){
         	sc.nextInt();
 		}
-		//le joueur pioche
+		// Le joueur pioche
 
 		paquet[j.getId()].add(paquet[0].get(paquet[0].size()-1));
         paquet[0].remove(paquet[0].size()-1);
@@ -408,12 +409,12 @@ public class Saboteur extends Jeu {
 		System.out.println("+---------------------------------------------------------------------------------------------------------------+");
 		System.out.println("|                                                                                                               |");
 		System.out.println("|                                                                                                               |");
-		System.out.println("|                     ███████╗ █████╗ ██████╗  ██████╗ ████████╗███████╗██╗   ██╗██████╗                        |");
-		System.out.println("|                     ██╔════╝██╔══██╗██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██║   ██║██╔══██╗                       |");
-		System.out.println("|                     ███████╗███████║██████╔╝██║   ██║   ██║   █████╗  ██║   ██║██████╔╝                       |");
-		System.out.println("|                     ╚════██║██╔══██║██╔══██╗██║   ██║   ██║   ██╔══╝  ██║   ██║██╔══██╗                       |");
-		System.out.println("|                     ███████║██║  ██║██████╔╝╚██████╔╝   ██║   ███████╗╚██████╔╝██║  ██║                       |");
-		System.out.println("|                     ╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝    ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═╝                       |");
+		System.out.println("|                   ███████╗  █████╗  ██████╗   ██████╗  ████████╗ ███████╗ ██╗   ██╗ ██████╗                   |");
+		System.out.println("|                   ██╔════╝ ██╔══██╗ ██╔══██╗ ██╔═══██╗ ╚══██╔══╝ ██╔════╝ ██║   ██║ ██╔══██╗                  |");
+		System.out.println("|                   ███████╗ ███████║ ██████╔╝ ██║   ██║    ██║    █████╗   ██║   ██║ ██████╔╝                  |");
+		System.out.println("|                   ╚════██║ ██╔══██║ ██╔══██╗ ██║   ██║    ██║    ██╔══╝   ██║   ██║ ██╔══██╗                  |");
+		System.out.println("|                   ███████║ ██║  ██║ ██████╔╝ ╚██████╔╝    ██║    ███████╗ ╚██████╔╝ ██║  ██║                  |");
+		System.out.println("|                   ╚══════╝ ╚═╝  ╚═╝ ╚═════╝   ╚═════╝     ╚═╝    ╚══════╝  ╚═════╝  ╚═╝  ╚═╝                  |");
 		System.out.println("|                                                                                                               |");
 		System.out.println("|               Règles :                                                                                        |");
 		System.out.println("|                                                                                                               |");

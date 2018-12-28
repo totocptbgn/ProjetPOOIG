@@ -245,19 +245,27 @@ public class Domino extends Jeu {
 		System.out.println();
 
 		// On propose de piocher ou de poser
-		b = true;
-		while (b) {
-			System.out.print("Voulez vous poser un domino ? (Sinon piocher en un) ? [y/n] ");
-			Scanner sc = new Scanner(System.in);
-			String answer = sc.next();
-			if (answer.equals("y") || answer.equals("Y")){
-				b = false;
-				pose = true;
-			} else if (answer.equals("n") || answer.equals("N")){
-				b = false;
-				pose = false;
-			} else {
-				System.err.println();
+		if (paquet[0].size() == 0){
+			pose = true;
+		} else {
+			b = true;
+			while (b) {
+				System.out.print("Voulez vous poser un domino ? (Sinon piocher en un) ? [y/n] ");
+				Scanner sc = new Scanner(System.in);
+				String answer = sc.next();
+				if (answer.equals("y") || answer.equals("Y")){
+					b = false;
+					pose = true;
+				} else if (answer.equals("n") || answer.equals("N")){
+					b = false;
+					pose = false;
+					Random rand = new Random();
+					PieceDomino p = paquet[0].remove(rand.nextInt(paquet[0].size()));
+					p.setProprio(joueur);
+					this.paquet[joueur.getId() + 1].add(p);
+				} else {
+					System.err.println();
+				}
 			}
 		}
 
@@ -383,6 +391,16 @@ public class Domino extends Jeu {
 		}
 
 		// Si il n'y a plus qu'un joueur
+		int compt = 0;
+		for (int k = 0; k < gagnant.length; k++) {
+			if (gagnant[k] == false){
+				compt++;
+			}
+		}
+		if (compt <= 1){
+			System.out.println("Partie terminée !");
+			System.exit(0);
+		}
 	}
 
 	@Override

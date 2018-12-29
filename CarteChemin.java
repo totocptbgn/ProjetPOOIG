@@ -71,7 +71,7 @@ public class CarteChemin extends CarteSaboteur {
 			}
 
 			if(Arrays.equals(direction,sansissuedroite)){
-				s = "\n  _____\n  |_____";
+				s = "\n   ____\n  |____";
 			}
 
 			if(Arrays.equals(direction,sansissuegauche)){
@@ -127,7 +127,7 @@ public class CarteChemin extends CarteSaboteur {
 			}
 
 			if(Arrays.equals(direction,sansissuegauche)){
-				s = "\n  _____\n  |_____";
+                s = "\n   ____\n  |____";
 			}
 
 			if(Arrays.equals(direction,sansissuedroite)){

@@ -44,7 +44,7 @@ public class Saboteur extends Jeu {
 		this.setJoueur();
 
 		// On crée le plateau :
-		this.plateau = new PlateauSaboteur(40);
+		this.plateau = new PlateauSaboteur(18);
 
 		// On crée les paquets des joueurs et la pioche
 		this.paquet = new ArrayList[participants.length+1];
@@ -114,17 +114,17 @@ public class Saboteur extends Jeu {
 		}
 
 		// Initialisation des cartes de départ et d'arrivées
-			depart = new CaseSaboteur(new CarteChemin(carrefour));
-  			plateau.setCase(plateau.longueur/2,plateau.longueur/2,depart);
+
+  			plateau.getCase(plateau.longueur/2,plateau.longueur/2).PoserPiece(new CarteChemin(carrefour));
 
   			arrivees = new CaseSaboteur[3];
   			arrivees[0] = new CaseSaboteur(new CarteChemin(carrefour));
   			arrivees[1] = new CaseSaboteur(new CarteChemin(viragedroite));
   			arrivees[2] = new CaseSaboteur(new CarteChemin(viragegauche));
 
-  			plateau.setCase(plateau.longueur-2,3,arrivees[2]);
-  			plateau.setCase(6,plateau.longueur-3,arrivees[1]);
-  			plateau.setCase(14,27,arrivees[0]);
+  			plateau.getCase(plateau.longueur-2,plateau.hauteur-6).PoserPiece(new CarteChemin(carrefour));
+  			plateau.getCase(7  ,plateau.longueur-3).PoserPiece(new CarteChemin(viragedroite));
+  			plateau.getCase(14,plateau.hauteur-5).PoserPiece(new CarteChemin(viragegauche));
 		// Afficher le plateau
 			plateau.afficher();
 		// Afficher les cartes (?)
@@ -195,6 +195,7 @@ public class Saboteur extends Jeu {
         }
         // Ajouter des conditions s'il y a plusieurs cartes chemin autour
 		// On pose vraiment la carte quand on return true
+        plateau.setCase(i,j,new CaseSaboteur((CarteChemin)c));
 		return true;
 	}
 

@@ -6,7 +6,7 @@ public class Saboteur extends Jeu {
 	ArrayList<CarteSaboteur> paquet []; // Même fonctionnement que Domino.paquet, la pioche est à l'index 0 du paquet, ensuite ce sont les paquets des joueurs.
 	boolean[][] peutJouer; // Sert à détérminer si les outils, lampe et chariot sont en bon état, si ce n'est pas le cas le joueur ne peut pas poser de carte chemin
                            // peutJouer[p][0] correspond à la lampe, [p][1] correspond au chariot et [p][2] correspond aux outils
-    CaseSaboteur[] arrivees; //un tableau contenant les coordonnées des cases d'arrivée
+    CaseSaboteur[] arrivees; // Un tableau contenant les coordonnées des cases d'arrivée
 	CaseSaboteur depart;
 
 	public void setJoueur() { // Met en place la création des joueurs.
@@ -108,11 +108,10 @@ public class Saboteur extends Jeu {
 
 		// On initialise à true peutJouer
 		peutJouer = new boolean[participants.length][3];
-  		for(int i = 0;i<peutJouer.length;i++){
-		    for(int j = 0;j<peutJouer[i].length;j++){
+  		for (int i = 0; i < peutJouer.length; i++){
+		    for (int j = 0; j < peutJouer[i].length; j++){
 		        peutJouer[i][j] = true;
             }
-
 		}
 
 		// Initialisation des cartes de départ et d'arrivées
@@ -182,22 +181,22 @@ public class Saboteur extends Jeu {
             }
         }
 
-        if(plateau.getCase(i,j-1) != null){
+        if (plateau.getCase(i,j-1) != null){
             boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
             if(!b[0]){
                 return false;
             }
         }
 
-        if(plateau.getCase(i,j+1) != null){
+        if (plateau.getCase(i,j+1) != null){
             boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
             if(!b[2]){
                 return false;
             }
         }
         // Ajouter des conditions s'il y a plusieurs cartes chemin autour
-		else return true;
-		return false;
+		// On pose vraiment la carte quand on return true
+		return true;
 	}
 
     public boolean action(int j,int j2, CarteAction c){

@@ -40,15 +40,14 @@ public class Saboteur extends Jeu {
 
 		afficheIntro();
 
-		// On créer les joueurs :
+		// On crée les joueurs :
 		this.setJoueur();
 
-		// On créer le plateau :
+		// On crée le plateau :
 		this.plateau = new PlateauSaboteur(40);
 
-		// On créer (???)
+		// On crée les paquets des joueurs et la pioche
 		this.paquet = new ArrayList[participants.length+1];
-
 		for (int i = 0; i < paquet.length; i++){
 			paquet[i] = new ArrayList<>();
 		}
@@ -345,10 +344,10 @@ public class Saboteur extends Jeu {
 				}
 			}
 
-			if(paquet[j.getId()].get(rep) instanceof CarteAction){
+			if (paquet[j.getId()].get(rep) instanceof CarteAction){
 
 				String saboter = "";
-				if(((CarteAction) paquet[j.getId()].get(rep)).sabotage){
+				if (((CarteAction) paquet[j.getId()].get(rep)).sabotage){
 
 					System.out.println("Sur quel joueur voulez-vous que s'abatte votre couroux ?");
 					for(int i = 0;i<participants.length;i++){
@@ -402,8 +401,8 @@ public class Saboteur extends Jeu {
 		catch (java.util.InputMismatchException e){
         	sc.nextInt();
 		}
-		// Le joueur pioche
 
+		// Le joueur pioche
 		paquet[j.getId()].add(paquet[0].get(paquet[0].size()-1));
         paquet[0].remove(paquet[0].size()-1);
 

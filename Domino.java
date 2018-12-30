@@ -371,8 +371,8 @@ public class Domino extends Jeu {
 				if (rep.equals("y")){
 					b = false;
 					if (!placerDomino(i, j, d, paquet[joueur.getId() + 1].get(dom))){
-						System.err.println("Les coordonnées données ne sont pas valides");
-						this.poserDomino(joueur);
+						System.err.println("Veuillez rejouer : ");
+						this.joueUnTour(joueur);
 					}
 				} else if (rep.equals("n")){
 					b = false;

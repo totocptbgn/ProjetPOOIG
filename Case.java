@@ -1,5 +1,5 @@
 public abstract class Case {
-	private Piece piece;
+	protected Piece piece;
 
 	public Case(){
 		this.piece = null;
@@ -9,7 +9,7 @@ public abstract class Case {
 		return this.piece != null;
 	}
 
-	public void PoserPiece(Piece p){ // Setter de pièce.
+	public void poserPiece(Piece p){ // Setter de pièce.
 		this.piece = p;
 	}
 

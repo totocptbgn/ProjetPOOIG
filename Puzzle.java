@@ -14,10 +14,20 @@ public class Puzzle extends Jeu {
 		participants[0] = new Joueur("", 0); // Ici le joueur a peu d'importance.
 
 		// Création du plateau solution
+		this.solution = new PlateauPuzzle();
 
 		// Remplissage de solution
+		int n = 0;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				String image = "./img/Puzzle/PuzzleCut" + n + ".png";
+				PiecePuzzle pz = new PiecePuzzle(image, n);
+			}
+		}
+		// Ajoutez les pièces au plateau
 
 		// Création du plateau courant
+		this.courant = new PlateauPuzzle();
 
 		// Lancement de l'interface graphique
 		EventQueue.invokeLater(() -> this.vp = new VuePuzzle());
@@ -61,6 +71,7 @@ public class Puzzle extends Jeu {
 
 			puzzle.setLayout(new GridLayout(3, 3, 0, 0));
 
+			// Renommer les case en commencant par 1
 			JPanel case1 = new JPanel();
 			// case1.setBackground(Color.GRAY);
 			puzzle.add(case1);

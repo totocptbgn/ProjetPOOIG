@@ -45,49 +45,58 @@ public class Puzzle extends Jeu {
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             Container cont = getContentPane();
-            cont.setLayout(new BorderLayout());
+            cont.setLayout(new BorderLayout(0, 0));
 
             JPanel titre = new JPanel();
             JPanel puzzle = new JPanel();
             cont.add(titre, BorderLayout.NORTH);
             cont.add(puzzle, BorderLayout.SOUTH);
 
-            titre.setBackground(Color.BLACK);
-            puzzle.setBackground(Color.GRAY);
+            // titre.setBackground(Color.BLACK);
+            // puzzle.setBackground(Color.GRAY);
 
             titre.setPreferredSize(new Dimension(600, 150));
             displayImage(titre, "./img/Puzzle/PuzzleTitle.png");
             puzzle.setPreferredSize(new Dimension(600, 600));
 
-            puzzle.setLayout(new GridLayout(3, 3));
+            puzzle.setLayout(new GridLayout(3, 3, 0, 0));
 
             JPanel case1 = new JPanel();
-            case1.setBackground(Color.GRAY);
+            // case1.setBackground(Color.GRAY);
             puzzle.add(case1);
+            displayImage(case1, "./img/Puzzle/PuzzleCut0.png");
             JPanel case2 = new JPanel();
-            case2.setBackground(Color.WHITE);
+            // case2.setBackground(Color.WHITE);
             puzzle.add(case2);
+            displayImage(case2, "./img/Puzzle/PuzzleCut1.png");
             JPanel case3 = new JPanel();
-            case3.setBackground(Color.GRAY);
+            // case3.setBackground(Color.GRAY);
             puzzle.add(case3);
+            displayImage(case3, "./img/Puzzle/PuzzleCut2.png");
             JPanel case4 = new JPanel();
-            case4.setBackground(Color.WHITE);
+            // case4.setBackground(Color.WHITE);
             puzzle.add(case4);
+            displayImage(case4, "./img/Puzzle/PuzzleCut3.png");
             JPanel case5 = new JPanel();
-            case5.setBackground(Color.GRAY);
+            // case5.setBackground(Color.GRAY);
             puzzle.add(case5);
+            displayImage(case5, "./img/Puzzle/PuzzleCut4.png");
             JPanel case6 = new JPanel();
-            case6.setBackground(Color.WHITE);
+            // case6.setBackground(Color.WHITE);
             puzzle.add(case6);
+            displayImage(case6, "./img/Puzzle/PuzzleCut5.png");
             JPanel case7 = new JPanel();
-            case7.setBackground(Color.GRAY);
+            // case7.setBackground(Color.GRAY);
             puzzle.add(case7);
+            displayImage(case7, "./img/Puzzle/PuzzleCut6.png");
             JPanel case8 = new JPanel();
-            case8.setBackground(Color.WHITE);
+            // case8.setBackground(Color.WHITE);
             puzzle.add(case8);
+            displayImage(case8, "./img/Puzzle/PuzzleCut7.png");
             JPanel case9 = new JPanel();
-            case9.setBackground(Color.GRAY);
+            // case9.setBackground(Color.GRAY);
             puzzle.add(case9);
+            displayImage(case9, "./img/Puzzle/PuzzleCut8.png");
 
             pack();
             setResizable(false);

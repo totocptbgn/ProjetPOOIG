@@ -4,15 +4,14 @@ import java.awt.*;
 public class Puzzle extends Jeu {
     private Plateau courant;  // Plateau à remplir par le joueur
     private Plateau solution; // Plateau déjà rempli qui est solution
-    private Joueur joueur;
     private VuePuzzle vp;
 
     @Override
     public void lancerPartie() {
-        System.out.println("-- Partie de Puzzle --" + "\n");
 
         // Création du Joueur
-        this.setJoueur();
+        this.participants = new Joueur[1];
+        participants[0] = new Joueur("", 0); // Ici le joueur a peu d'importance.
 
         // Création du plateau solution
 
@@ -20,32 +19,28 @@ public class Puzzle extends Jeu {
 
         // Création du plateau courant
 
-
         // Lancement de l'interface graphique
-        EventQueue.invokeLater(() -> {
-            this.vp = new VuePuzzle();
-        });
+        EventQueue.invokeLater(() -> this.vp = new VuePuzzle());
     }
 
     @Override
     public void joueUnTour(Joueur j) {
-
+        // Cette fonction est inutile ici car le jeu est entièrement en interface graphique ...
     }
 
     @Override
     public void setJoueur() {
-        System.out.println("Quel est le nom du joueur ?");
-        this.joueur = new Joueur(0);
+        // Dans ce jeu le joueur est unique est n'as pas de réel utilité.
     }
 
     @Override
     public void afficheIntro() {
-
+        // Cette fonction est inutile ici car le jeu est entièrement en interface graphique ...
     }
 
     private class VuePuzzle extends JFrame {
         VuePuzzle(){
-            setPreferredSize(new Dimension(500, 600));
+            setPreferredSize(new Dimension(600, 750));
             setTitle("Puzzle");
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -60,8 +55,9 @@ public class Puzzle extends Jeu {
             titre.setBackground(Color.BLACK);
             puzzle.setBackground(Color.GRAY);
 
-            titre.setPreferredSize(new Dimension(500, 100));
-            puzzle.setPreferredSize(new Dimension(500, 500));
+            titre.setPreferredSize(new Dimension(600, 150));
+            displayImage(titre, "./img/Puzzle/PuzzleTitle.png");
+            puzzle.setPreferredSize(new Dimension(600, 600));
 
             puzzle.setLayout(new GridLayout(3, 3));
 
@@ -92,10 +88,24 @@ public class Puzzle extends Jeu {
             JPanel case9 = new JPanel();
             case9.setBackground(Color.GRAY);
             puzzle.add(case9);
-            
+
             pack();
             setResizable(false);
             setVisible(true);
         }
+
+        private void displayImage(JPanel jp, String path) {
+            JLabel jl = new JLabel();
+            jl.setIcon(new javax.swing.ImageIcon(getClass().getResource(path)));
+            jp.add(jl);
+        }
     }
+
+    /*
+    private class BoiteNom extends JFrame {
+        BoiteNom(){
+
+        }
+    }
+    */
 }

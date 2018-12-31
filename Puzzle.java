@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -84,6 +86,12 @@ public class Puzzle extends Jeu {
 				JPanel p = new JPanel();
 				panels.add(p);
 				puzzle.add(p);
+				p.addMouseListener(new MouseAdapter(){
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// Comportement à adopter lorsqu'on clique sur une case.
+					}
+				});
 			}
 
 			// On fini de metre en place et on affiche les images dans les cases du puzzle

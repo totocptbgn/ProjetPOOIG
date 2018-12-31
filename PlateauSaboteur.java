@@ -7,13 +7,17 @@ public class PlateauSaboteur extends Plateau {
 				this.setCase(i, j, new CaseSaboteur(null));
 			}
 		}
+		boolean[] d = {true,true,true,true};
+		//this.getCase(hauteur/2,hauteur/2).poserPiece(new CarteChemin(d));
+		this.plateau[hauteur/2][hauteur/2].piece = new CarteChemin(d);
 	}
 
 	@Override
 	public void afficher() {
-		// On veut seulement afficher seulement les cases découvertes et les cases d'arrivée et de départ.
+		// On veut seulement afficher les cases découvertes et les cases d'arrivée et de départ.
 
 		// Affichage de la grille
+
 		System.out.print("      ");
 		for (int j = 1; j < longueur + 1; j++) {
 			System.out.print("  ");
@@ -37,7 +41,7 @@ public class PlateauSaboteur extends Plateau {
 				System.out.print("  " + (i + 1) + "  ");
 			}
 			for (int j = 0; j < longueur; j++) {
-
+				//System.out.println("|  ");
 				if (getCase(i, j).estOccupee()) {
 					CarteChemin c = (CarteChemin) getCase(i, j).getPiece();
 					System.out.print(c.toString());
@@ -46,7 +50,7 @@ public class PlateauSaboteur extends Plateau {
 				}
 				System.out.print("  ");
 			}
-			System.out.println();
+			//System.out.println("|");
 		}
 		System.out.print("      ");
 		for (int j = 0; j < longueur; j++) {

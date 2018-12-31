@@ -114,17 +114,17 @@ public class Saboteur extends Jeu {
 		}
 
 		// Initialisation des cartes de départ et d'arrivées
-
-  			plateau.getCase(plateau.longueur/2,plateau.longueur/2).PoserPiece(new CarteChemin(carrefour));
+        
+  			//plateau.getCase(plateau.longueur/2,plateau.longueur/2).PoserPiece(new CarteChemin(carrefour));
 
   			arrivees = new CaseSaboteur[3];
   			arrivees[0] = new CaseSaboteur(new CarteChemin(carrefour));
   			arrivees[1] = new CaseSaboteur(new CarteChemin(viragedroite));
   			arrivees[2] = new CaseSaboteur(new CarteChemin(viragegauche));
 
-  			plateau.getCase(plateau.longueur-2,plateau.hauteur-6).PoserPiece(new CarteChemin(carrefour));
-  			plateau.getCase(7  ,plateau.longueur-3).PoserPiece(new CarteChemin(viragedroite));
-  			plateau.getCase(14,plateau.hauteur-5).PoserPiece(new CarteChemin(viragegauche));
+  			//plateau.getCase(plateau.longueur-2,plateau.hauteur-6).PoserPiece(new CarteChemin(carrefour));
+  			//plateau.getCase(7  ,plateau.longueur-3).PoserPiece(new CarteChemin(viragedroite));
+  			//plateau.getCase(14,plateau.hauteur-5).PoserPiece(new CarteChemin(viragegauche));
 		// Afficher le plateau
 			plateau.afficher();
 		// Afficher les cartes (?)
@@ -275,7 +275,7 @@ public class Saboteur extends Jeu {
 			System.out.println("Nous vous rappelons que vous êtes un Saboteur.");
 		}
 		if(j.getId() % 2 != 0){
-			System.out.println("Nous vous rappelons que vous êtes un Chercheur ! ");
+			System.out.println("Nous vous rappelons que vous êtes un Chercheur. ");
 		}
         System.out.println("Quelle carte voulez vous utiliser ? (ID)");
         for(int i = 0;i<paquet[j.getId()].size();i++){

@@ -1,5 +1,5 @@
 public abstract class Plateau {
-	private Case [][] plateau;
+	protected Case [][] plateau;
 	protected int hauteur; // Correspond à i.
 	protected int longueur; // Correspond à j.
 

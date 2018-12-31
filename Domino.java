@@ -201,8 +201,8 @@ public class Domino extends Jeu {
 
 		// Placement de la pièce
 		int id = p.getProprio().getId();
-		caseDomino0.PoserPiece(p, 0);
-		caseDomino1.PoserPiece(p, 1);
+		caseDomino0.poserPiece(p, 0);
+		caseDomino1.poserPiece(p, 1);
 		paquet[id + 1].remove(p);
 		premierTour = false;
 

@@ -19,10 +19,12 @@ public class CaseSaboteur extends Case {
 	}
 
 	public CarteChemin getPiece(){
+		// Attention, il y a déjà un getPiece() dans Case !!!
+		// (Faut éviter de faire des doublons et utiliser les classes abstraite un maximum...)
 		return carte;
 	}
 
-	public String tostring(){
+	public String toString(){
 		return carte.toString();
 	}
 }

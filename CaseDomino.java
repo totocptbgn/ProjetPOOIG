@@ -6,8 +6,8 @@ public class CaseDomino extends Case {
 		this.side = -1;
 	}
 
-	public void PoserPiece(PieceDomino p, int side){ // Setter de pièce et de side.
-		super.PoserPiece(p);
+	public void poserPiece(PieceDomino p, int side){ // Setter de pièce et de side.
+		super.poserPiece(p);
 		this.side = side;
 	}
 

@@ -84,14 +84,39 @@ public class Puzzle extends Jeu {
 			this.panels = new ArrayList<>();
 			for (int i = 0; i < 9; i++) {
 				JPanel p = new JPanel();
-				panels.add(p);
-				puzzle.add(p);
 				p.addMouseListener(new MouseAdapter(){
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						// Comportement à adopter lorsqu'on clique sur une case.
+						// Récupérer la case du plateau cliquée
+						int n = -1;
+						for (int j = 0; j < panels.size(); j++) {
+							JPanel jp =  panels.get(j);
+							if (jp == p){
+								n = j;
+							}
+						}
+						CasePuzzle cp = ((PlateauPuzzle) plateau).getAllCases().get(n);
+
+						// Récuperer la case qui contient la pièce vide
+						ArrayList<CasePuzzle> a = ((PlateauPuzzle) plateau).getAllCases();
+						CasePuzzle cv;
+						for (int j = 0; j < a.size(); j++) {
+							if (((PiecePuzzle) a.get(j).getPiece()).getImage().equals("./img/PuzzleCut8.png")){
+								cv = a.get(j);
+							}
+						}
+
+						// Vérifier qu'elle soit en contact avec la pièce vide
+
+						// Si c'est le cas échanger les pièces des cases
+
+
+						updateView();
+						verifCase();
 					}
 				});
+				panels.add(p);
+				puzzle.add(p);
 			}
 
 			// On fini de metre en place et on affiche les images dans les cases du puzzle

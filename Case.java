@@ -17,5 +17,9 @@ public abstract class Case {
 		return piece;
 	}
 
+	public void setPiece(Piece piece) {
+		this.piece = piece;
+	}
+
 	public abstract int getValeur(); // Renvoie la "valeur" de la pièce sur la case (dépends du jeu, et donc abstract).
 }

@@ -31,7 +31,7 @@ public class Puzzle extends Jeu {
 
 		// Remplissage du plateau
 		Random rand = new Random();
-		int n = 0;
+		int n;
 		for (int i = 0; i < plateau.hauteur; i++) {
 			for (int j = 0; j < plateau.longueur; j++) {
 				n = rand.nextInt(listePiece.size());
@@ -44,7 +44,7 @@ public class Puzzle extends Jeu {
 		EventQueue.invokeLater(() -> new VuePuzzle());
 	}
 
-	public boolean verifCase(){
+	private boolean verifCase(){
 		// Vérifie pour chaque case, que l'ID de la pièce correspond à celui de la case,
 		// si c'est le cas, la partie se fini, le joueur à gagner
 		for (int i = 0; i < plateau.hauteur; i++) {
@@ -75,9 +75,10 @@ public class Puzzle extends Jeu {
 			// On crée 2 JPanel pour le titre et le puzzle
 			JPanel titre = new JPanel();
 			titre.setPreferredSize(new Dimension(600, 180));
-			displayImage(titre, "./img/Puzzle/PuzzleTitle.png");
+			JLabel jl = new JLabel();
+			jl.setIcon(new javax.swing.ImageIcon(getClass().getResource("./img/Puzzle/PuzzleTitle.png")));
+			titre.add(jl);
 			cont.add(titre, BorderLayout.NORTH);
-
 
 			JPanel puzzle = new JPanel();
 			puzzle.setPreferredSize(new Dimension(600, 600));
@@ -92,14 +93,14 @@ public class Puzzle extends Jeu {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						// Récupérer la case du plateau cliquée
-						CasePuzzle cp = ((PlateauPuzzle) plateau).getAllCases().get(((JPanelCase) p).getId());
+						CasePuzzle cp = ((PlateauPuzzle) plateau).getAllCases().get(p.getId());
 
 						// Récuperer la case qui contient la pièce vide
 						ArrayList<CasePuzzle> a = ((PlateauPuzzle) plateau).getAllCases();
 						CasePuzzle cv = null;
-						for (int j = 0; j < a.size(); j++) {
-							if (((PiecePuzzle) a.get(j).getPiece()).getImage().equals("./img/Puzzle/PuzzleCut8.png")){
-								cv = a.get(j);
+						for (CasePuzzle casePuzzle : a) {
+							if (((PiecePuzzle) casePuzzle.getPiece()).getImage().equals("./img/Puzzle/PuzzleCut8.png")) {
+								cv = casePuzzle;
 							}
 						}
 
@@ -194,6 +195,7 @@ public class Puzzle extends Jeu {
 						}
 
 						updateView();
+
 						if (verifCase()){
 							// Afficher un panneau "gagné"
 							puzzle.removeAll();
@@ -227,15 +229,6 @@ public class Puzzle extends Jeu {
 				p.repaint();
 			}
 		}
-
-		private void displayImage(JPanel jp, String path) {
-			// Affiche dans jp l'image à l'adresse de path
-			// A ne pas utiliser sur les JPanelCase
-			jp.removeAll();
-			JLabel jl = new JLabel();
-			jl.setIcon(new javax.swing.ImageIcon(getClass().getResource(path)));
-			jp.add(jl);
-		}
 	}
 
 	private class JPanelCase extends JPanel {
@@ -243,12 +236,12 @@ public class Puzzle extends Jeu {
 
 		private int id; // ID qui correspond à l'ID de la case qu'elle correspond
 
-		public JPanelCase(int id) {
+		JPanelCase(int id) {
 			super();
 			this.id = id;
 		}
 
-		public int getId() {
+		int getId() {
 			return id;
 		}
 

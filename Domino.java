@@ -8,7 +8,6 @@ public class Domino extends Jeu {
 	private boolean premierTour; // True au début de partie tant qu'aucun domino n'est posé.
 	private boolean gagnant []; // Tableau de boolean correspondants au joueurs, si un joueur n'as gagné il est à false, sinon il est à true.
 	private static int place;
-	private ArrayList <PieceDomino> pieces; // Toutes les pièces qui existent.
 	private ArrayList <PieceDomino> paquet []; // Tableau comportant la pioche et les Dominos non-posés de chaque joueurs.
 	// Taille de paquet = Nombre de joueurs + 1, [0] correspond à la pioche.
 
@@ -25,10 +24,11 @@ public class Domino extends Jeu {
 		this.premierTour = true;
 
 		// Création des Dominos
-		this.pieces = new ArrayList<>();
+		// Toutes les pièces qui existent.
+		ArrayList<PieceDomino> pieces = new ArrayList<>();
 		for (int i = 0; i < 7 ; i++ ) {
 			for (int j = i; j < 7 ; j++ ) {
-				this.pieces.add(new PieceDomino(i, j));
+				pieces.add(new PieceDomino(i, j));
 			}
 		}
 
@@ -66,9 +66,9 @@ public class Domino extends Jeu {
 		}
 
 		while (true) {
-			for (int i = 0; i < participants.length; i++) {
-				if (!gagnant[participants[i].getId()]){
-					joueUnTour(participants[i]);
+			for (Joueur participant : participants) {
+				if (!gagnant[participant.getId()]) {
+					joueUnTour(participant);
 				}
 			}
 		}
@@ -109,9 +109,8 @@ public class Domino extends Jeu {
 
 		// Vérification des pièces adjacentes
 		boolean ok = false;
-		if (premierTour){ // Si c'est le premier tour, pas besoin de vérifier.
-			ok = true;
-		} else { // Sinon, on vérifie les cases adjacentes à caseDomino0 & caseDomino1.
+
+		if (!premierTour) { // Si ce n'est pas le premier tour, on vérifie les cases adjacentes à caseDomino0 & caseDomino1.
 			int val0 = p.getValeur(0);
 			int val1 = p.getValeur(1);
 
@@ -197,6 +196,7 @@ public class Domino extends Jeu {
 				System.out.println();
 				return false;
 			}
+		} else { // Si c'est le premier tour, pas besoin de vérifier.
 		}
 
 		// Placement de la pièce
@@ -209,7 +209,7 @@ public class Domino extends Jeu {
 		return true;
 	}
 
-	public boolean verifCase(int i, int j, int valeur){ // Vérifie si la case à la position i, j contient une pièce ayant la valeur 'valeur'
+	private boolean verifCase(int i, int j, int valeur){ // Vérifie si la case à la position i, j contient une pièce ayant la valeur 'valeur'
 		try {
 			if (((CaseDomino) this.plateau.getCase(i, j)).getValeur() == valeur) {
 				return true;
@@ -376,7 +376,7 @@ public class Domino extends Jeu {
 					}
 				} else if (rep.equals("n")){
 					b = false;
-					this.poserDomino(joueur);
+					this.joueUnTour(joueur);
 				} else {
 					System.err.println("y / n");
 				}
@@ -392,8 +392,8 @@ public class Domino extends Jeu {
 
 		// Si il n'y a plus qu'un joueur
 		int compt = 0;
-		for (int k = 0; k < gagnant.length; k++) {
-			if (gagnant[k] == false){
+		for (boolean b1 : gagnant) {
+			if (!b1) {
 				compt++;
 			}
 		}
@@ -405,7 +405,7 @@ public class Domino extends Jeu {
 
 	@Override
 	public void setJoueur() { // Met en place la création des joueurs.
-		this.place = 1;
+		place = 1;
 		boolean b = true;
 		while (b){
 			System.out.print("Combien de joueurs participent ? ");
@@ -432,10 +432,6 @@ public class Domino extends Jeu {
 			participants[i] = new Joueur(i);
 		}
 		System.out.println();
-	}
-
-	public void poserDomino(Joueur joueur){ // Demande au joueur la position pour poser le domino puis appel placerDomino().
-
 	}
 
 	public void afficheIntro(){

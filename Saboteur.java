@@ -117,10 +117,7 @@ public class Saboteur extends Jeu {
         
   			//plateau.getCase(plateau.longueur/2,plateau.longueur/2).PoserPiece(new CarteChemin(carrefour));
 
-  			arrivees = new CaseSaboteur[3];
-  			arrivees[0] = new CaseSaboteur(new CarteChemin(carrefour));
-  			arrivees[1] = new CaseSaboteur(new CarteChemin(viragedroite));
-  			arrivees[2] = new CaseSaboteur(new CarteChemin(viragegauche));
+
 
 
 		// Afficher le plateau
@@ -132,7 +129,25 @@ public class Saboteur extends Jeu {
 
 	}
 
-	public boolean poserCarte(int i, int j, CarteSaboteur c, int participant){
+	public void ouPoser(){
+		System.out.println("Les emplacements vous permettant de poser une carte sont : ");
+		boolean[] carrefour = {true,true,true,true};
+		CarteChemin c = new CarteChemin(carrefour);
+
+		for(int i = 0;i < plateau.longueur;i++){
+			for(int j = 0;j < plateau.longueur; j++){
+				boolean b = poserCarte(i,j,c);
+				if(b){
+					System.out.print( " ("+ i + "," + j + ")");
+					retirerCarte(i,j);
+				}
+			}
+		}
+
+
+	}
+
+	public boolean poserCarte(int i, int j, CarteSaboteur c){
 
 		/*
 		 * Conditions de sortie de plateau :
@@ -142,138 +157,469 @@ public class Saboteur extends Jeu {
 		 *  - si les outils sont en mauvais état le joueur ne peut pas poser de carte chemin.
 		 */
 
-		if (c instanceof CarteAction){
-			return false;
-		}
 
 		if (i > plateau.hauteur || j > plateau.longueur || i < 0 || j < 0){
 			System.err.println("Ces coordonnées sortent des limites du plateau");
 			return false;
 		}
 
-		if (plateau.getCase(i,j) != null){
+		if(plateau.getCase(i, j).estOccupee()){
+			System.err.println("Cette case est déja occupée !");
 			return false;
 		}
 
-		for (int x = 0; x < 3; x++){
-		    if(!peutJouer[participant-1][x]){
-		        return false;
-            }
-        }
+		//premier cas : si i et j ne se trouvent pas en bordure du plateau ( et que l'une des cartes adjacentes n'est pas une carte d'arrivée
 
-        // S'il n'y a aucune carte autour de la carte à poser, on ne peut pas la poser
-		if (plateau.getCase(i+1, j) == null && plateau.getCase(i-1,j) == null && plateau.getCase(i,j-1) == null && plateau.getCase(i,j+1) == null){
-			return false;
+		if (i > 0 && i < plateau.hauteur-1 && j > 0 && j < plateau.longueur - 1 && !(estArrivee(i+1,j) && estArrivee(i-1,j) && estArrivee(i,j+1) && estArrivee(i,j-1))) {
+				if (!(plateau.getCase(i + 1, j).estOccupee() || plateau.getCase(i - 1, j).estOccupee() || plateau.getCase(i, j + 1).estOccupee() || plateau.getCase(i, j - 1).estOccupee())) {
+					System.err.println("Il faut poser votre carte après une autre sur le plateau !");
+					return false;
+				}
+
+				if(plateau.plateau[i+1][j].estOccupee()){
+					boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
+					if(b[3]){
+						System.out.println("Carte posée avec succès !");
+						plateau.plateau[i][j].piece = c;
+						return true;
+					}
+				}
+
+				if(plateau.getCase(i-1,j).estOccupee()){
+					boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
+					if( b[1]){
+						System.out.println("Carte posée avec succès !");
+						plateau.plateau[i][j].piece = c;
+						return true;
+					}
+				}
+
+				if(plateau.getCase(i,j+1).estOccupee()){
+					boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
+					if( b[2]){
+						System.out.println("Carte posée avec succès !");
+						plateau.plateau[i][j].piece = c;
+						return true;
+					}
+				}
+
+				if(plateau.getCase(i,j-1).estOccupee()){
+					boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
+					if( b[0]){
+						System.out.println("Carte posée avec succès !");
+						plateau.plateau[i][j].piece = c;
+						return true;
+					}
+				}
+
 		}
 
-		// Si la carte en dessous ne peut pas acceder à la position de la carte à poser, on ne peut pas la poser
-		if (plateau.getCase(i-1, j) != null ){
-            boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
-		    if(!b[3]){
-		        return false;
-            }
+
+
+		//deuxième cas : si i est en bordure de plateau
+		if(i == 0 && j > 0 && j < plateau.longueur-1){
+			if(plateau.getCase(i+1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
+				if( b[3]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+
+			if(plateau.getCase(i,j+1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
+				if( b[2]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i,j-1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
+				if( b[0]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
 		}
 
-		if(plateau.getCase(i+1, j) != null){
-		    boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
-		    if(!b[1]){
-		        return false;
-            }
-        }
+		if(i == plateau.hauteur-1 && j < plateau.longueur-1 && j > 0){
 
-        if (plateau.getCase(i,j-1) != null){
-            boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
-            if(!b[0]){
-                return false;
-            }
-        }
 
-        if (plateau.getCase(i,j+1) != null){
-            boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
-            if(!b[2]){
-                return false;
-            }
-        }
-        // Ajouter des conditions s'il y a plusieurs cartes chemin autour
-		// On pose vraiment la carte quand on return true
-		System.out.println("Carte posée");
-        plateau.plateau[i][j].piece = c;
-		return true;
+			if(plateau.getCase(i-1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
+				if( b[1]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i,j+1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
+				if( b[2]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i,j-1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
+				if( b[0]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+		}
+
+		//troisième cas : si j est en bordure de plateau
+		if(j == 0 && i > 0 && i < plateau.longueur-1){
+
+			if(plateau.getCase(i+1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
+				if( b[3]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i-1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
+				if( b[1]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i,j+1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
+				if( b[2]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+
+		}
+
+		if(j == plateau.hauteur-1 && i < plateau.longueur-1 && i > 0){
+			if(plateau.getCase(i+1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
+				if( b[3]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i-1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
+				if( b[1]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+
+			if(plateau.getCase(i,j-1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
+				if( b[0]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+		}
+
+		//quatrième cas : si i et j sont en bordure du plateau
+		if(i == 0 && j == 0){
+			if(plateau.getCase(i+1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
+				if( b[3]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+
+			if(plateau.getCase(i,j+1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
+				if( b[2]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+		}
+
+		if(i == plateau.hauteur-1 && j == plateau.longueur-1){
+
+			if(plateau.getCase(i-1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
+				if( b[1]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+
+			if(plateau.getCase(i,j-1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
+				if( b[0]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+		}
+		if(estArrivee(i+1,j)){
+			if(plateau.getCase(i-1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
+				if( b[1]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i,j+1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
+				if( b[2]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i,j-1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
+				if( b[0]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+			else {
+				System.err.println("Vous ne pouvez pas placer une carte après une carte d'arrivée sans qu'il y ait déja une route les reliant !");
+				return false;
+			}
+		}
+
+		if (estArrivee(i - 1, j)) {
+			if(plateau.getCase(i+1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
+				if( b[3]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i,j+1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
+				if( b[2]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i,j-1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
+				if( b[0]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+			else {
+				System.err.println("Vous ne pouvez pas placer une carte après une carte d'arrivée sans qu'il y ait déja une route les reliant !");
+				return false;
+			}
+		}
+
+		if(estArrivee(i,j-1)){
+			if(plateau.getCase(i+1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
+				if( b[3]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i-1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
+				if( b[1]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i,j+1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
+				if( b[2]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			else {
+				System.err.println("Vous ne pouvez pas placer une carte après une carte d'arrivée sans qu'il y ait déja une route les reliant !");
+				return false;
+			}
+
+		}
+
+		if(estArrivee(i,j+1)){
+
+			if(plateau.getCase(i+1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
+				if( b[3]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			if(plateau.getCase(i-1,j).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
+				if( b[1]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+
+			if(plateau.getCase(i,j-1).estOccupee()){
+				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
+				if( b[0]){
+					System.out.println("Carte posée avec succès !");
+					plateau.plateau[i][j].piece = c;
+					return true;
+				}
+			}
+
+			else {
+				System.err.println("Vous ne pouvez pas placer une carte après une carte d'arrivée sans qu'il y ait déja une route les reliant !");
+				return false;
+			}
+		}
+		System.err.println("peut être une erreur..");
+		return false;
+	}
+
+	public void retirerCarte(int i,int j){
+		if(plateau.getCase(i,j).estOccupee()){
+			plateau.plateau[i][j] = null;
+		}
 	}
 
     public boolean action(int j,int j2, CarteAction c){
 
-        if(c.getType() == 'c' && c.getSabotage() && peutJouer[j2-1][1]){
-            peutJouer[j2-1][1] = false;
+        if(c.getType() == 'c' && c.getSabotage() && peutJouer[j2][1]){
+            peutJouer[j2][1] = false;
             System.out.println("Chariot saboté");
             return true;
         }
 
-        if(c.getType() == 'c' && !c.getSabotage() && !peutJouer[j2-1][1]){
-            peutJouer[j2-1][1] = true;
+        if(c.getType() == 'c' && !c.getSabotage() && !peutJouer[j2][1]){
+            peutJouer[j2][1] = true;
             System.out.println("Chariot réparé");
             return true;
         }
 
-        if(c.getType() == 'c' && c.getSabotage() && !peutJouer[j2-1][1]){
+        if(c.getType() == 'c' && c.getSabotage() && !peutJouer[j2][1]){
             System.err.println("Le chariot de ce joueur est déjà saboté");
             return false;
         }
 
-        if(c.getType() == 'c' && !c.getSabotage() && peutJouer[j2-1][1]){
+        if(c.getType() == 'c' && !c.getSabotage() && peutJouer[j2][1]){
             System.err.println("Le chariot de ce joueur est déja en bon état");
             return false;
         }
 
         // Sabotage outils
 
-        if(c.getType() == 'o' && c.getSabotage() && peutJouer[j2-1][2]){
-            peutJouer[j2-1][2] = false;
+        if(c.getType() == 'o' && c.getSabotage() && peutJouer[j2][2]){
+            peutJouer[j2][2] = false;
             System.out.println("Outils sabotés");
             return true;
         }
 
-        if(c.getType() == 'o' && !c.getSabotage() && !peutJouer[j2-1][2]){
-            peutJouer[j2-1][2] = true;
+        if(c.getType() == 'o' && !c.getSabotage() && !peutJouer[j2][2]){
+            peutJouer[j2][2] = true;
             System.out.println("Outils réparés");
             return true;
         }
 
-        if(c.getType() == 'o' && c.getSabotage() && !peutJouer[j2-1][2]){
+        if(c.getType() == 'o' && c.getSabotage() && !peutJouer[j2][2]){
             System.err.println("Les outils de ce joueur sont déjà sabotés");
             return false;
         }
 
-        if(c.getType() == 'o' && !c.getSabotage() && peutJouer[j2-1][2]){
+        if(c.getType() == 'o' && !c.getSabotage() && peutJouer[j2][2]){
             System.err.println("Les outils de ce joueur sont déja en bon état");
             return false;
         }
 
         // Sabotage lampe
 
-        if(c.getType() == 'l' && c.getSabotage() && peutJouer[j2-1][0]){
-            peutJouer[j2-1][0] = false;
+        if(c.getType() == 'l' && c.getSabotage() && peutJouer[j2][0]){
+            peutJouer[j2][0] = false;
             System.out.println("Lampe sabotée");
             return true;
         }
 
-        if(c.getType() == 'l' && !c.getSabotage() && !peutJouer[j2-1][0]){
-            peutJouer[j2-1][0] = true;
+        if(c.getType() == 'l' && !c.getSabotage() && !peutJouer[j2][0]){
+            peutJouer[j2][0] = true;
             System.out.println("Lampe réparée");
             return true;
         }
 
-        if(c.getType() == 'l' && c.getSabotage() && !peutJouer[j2-1][0]){
+        if(c.getType() == 'l' && c.getSabotage() && !peutJouer[j2][0]){
             System.err.println("La lampe de ce joueur est déjà sabotée");
             return false;
         }
 
-        if(c.getType() == 'l' && !c.getSabotage() && peutJouer[j2-1][0]){
+        if(c.getType() == 'l' && !c.getSabotage() && peutJouer[j2][0]){
             System.err.println("La lampe de ce joueur est déja en bon état");
             return false;
         }
         return false;
     }
+
+    //Montre si la case en paramètre est une case d'arrivée
+    public boolean estArrivee(int i,int j){
+		if(i == plateau.hauteur/2-plateau.hauteur/3 && j == plateau.hauteur/3){
+			return true;
+		}
+
+		if(i == plateau.hauteur-4 && j == 3){
+			return true;
+		}
+
+		if(i == plateau.hauteur-plateau.hauteur/2-1 && j == plateau.hauteur/4){
+			return true;
+		}
+
+		return false;
+	}
 
 	@Override
 	public void joueUnTour(Joueur j) {
@@ -319,15 +665,17 @@ public class Saboteur extends Jeu {
 					int y = 0;
         			String s = "oui";
 
-        			while (s.equals("oui") && !poserCarte(x,y,paquet[j.getId()].get(rep),j.getId())) {
 
+        			while (s.equals("oui") && !poserCarte(x,y,paquet[j.getId()].get(rep))) {
+						ouPoser();
 						System.out.println("Où voulez vous poser cette carte?");
 						System.out.print("Donnez la ligne : ");
 						 x = sc2.nextInt()-1;
 						sc2 = new Scanner(System.in);
 						System.out.print("Donnez la colonne : ");
 						 y = sc2.nextInt()-1;
-						if(poserCarte(x, y, paquet[j.getId()].get(rep), j.getId())){
+						if(poserCarte(x, y, paquet[j.getId()].get(rep))){
+
 							System.out.println("Carte posée avec succès !");
 						}
 						else{
@@ -389,7 +737,6 @@ public class Saboteur extends Jeu {
 								}
 								if (action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
 
-									action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep));
 									System.out.println("Sabotage réussi !");
 								}
 							}
@@ -421,7 +768,6 @@ public class Saboteur extends Jeu {
 							}
 							if (action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
 
-								action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep));
 								System.out.println("Réparation réussie !");
 							}
 						}
@@ -437,7 +783,7 @@ public class Saboteur extends Jeu {
 		// Le joueur pioche
 		paquet[j.getId()].add(paquet[0].get(paquet[0].size()-1));
         paquet[0].remove(paquet[0].size()-1);
-        System.out.println(j.getNom() + "a pioché une carte..");
+        System.out.println(j.getNom() + " a pioché une carte..");
 
 	}
 

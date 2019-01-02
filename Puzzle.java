@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+		// Nous avons choisi de faire la variante du Taquin,
+		// qui nous a paru plus interressante
+
 public class Puzzle extends Jeu {
 
 	@Override
@@ -63,21 +66,13 @@ public class Puzzle extends Jeu {
 
 		VuePuzzle(){
 			// On met en place la fenêtre
-			setPreferredSize(new Dimension(600, 750));
+			setPreferredSize(new Dimension(600, 600));
 			setTitle("Puzzle");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 			this.cont = getContentPane();
-			BorderLayout bl = new BorderLayout(0, 0);
-			cont.setLayout(bl);
 
-			// On crée 2 JPanel pour le titre et le puzzle
-			JPanel titre = new JPanel();
-			titre.setPreferredSize(new Dimension(600, 150));
-			displayImage(titre, "./img/Puzzle/PuzzleTitle.png");
-			cont.add(titre, BorderLayout.NORTH);
-
-
+			// On crée 1 JPanel
 			JPanel puzzle = new JPanel();
 			puzzle.setPreferredSize(new Dimension(600, 600));
 			puzzle.setLayout(new GridLayout(plateau.hauteur, plateau.longueur, 0, 0));
@@ -210,7 +205,10 @@ public class Puzzle extends Jeu {
 			}
 
 			updateView();
-			verifCase();
+			if (verifCase()){
+				// Afficher un panneau "gagné"
+				System.exit(0);
+			}
 		}
 
 		private void updateView(){

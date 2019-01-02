@@ -1,7 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -66,7 +69,6 @@ public class Puzzle extends Jeu {
 
 			this.cont = getContentPane();
 			BorderLayout bl = new BorderLayout(0, 0);
-
 			cont.setLayout(bl);
 
 			// On crée 2 JPanel pour le titre et le puzzle
@@ -74,6 +76,7 @@ public class Puzzle extends Jeu {
 			titre.setPreferredSize(new Dimension(600, 150));
 			displayImage(titre, "./img/Puzzle/PuzzleTitle.png");
 			cont.add(titre, BorderLayout.NORTH);
+
 
 			JPanel puzzle = new JPanel();
 			puzzle.setPreferredSize(new Dimension(600, 600));
@@ -83,36 +86,11 @@ public class Puzzle extends Jeu {
 			// On crée et ajoute des JPanels pour les cases du puzzle
 			this.panels = new ArrayList<>();
 			for (int i = 0; i < 9; i++) {
-				JPanel p = new JPanel();
+				JPanelCase p = new JPanelCase(i);
 				p.addMouseListener(new MouseAdapter(){
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						// Récupérer la case du plateau cliquée
-						int n = -1;
-						for (int j = 0; j < panels.size(); j++) {
-							JPanel jp =  panels.get(j);
-							if (jp == p){
-								n = j;
-							}
-						}
-						CasePuzzle cp = ((PlateauPuzzle) plateau).getAllCases().get(n);
-
-						// Récuperer la case qui contient la pièce vide
-						ArrayList<CasePuzzle> a = ((PlateauPuzzle) plateau).getAllCases();
-						CasePuzzle cv;
-						for (int j = 0; j < a.size(); j++) {
-							if (((PiecePuzzle) a.get(j).getPiece()).getImage().equals("./img/PuzzleCut8.png")){
-								cv = a.get(j);
-							}
-						}
-
-						// Vérifier qu'elle soit en contact avec la pièce vide
-
-						// Si c'est le cas échanger les pièces des cases
-
-
-						updateView();
-						verifCase();
+						onClick(p);
 					}
 				});
 				panels.add(p);
@@ -126,31 +104,181 @@ public class Puzzle extends Jeu {
 			updateView();
 		}
 
+		private void onClick(JPanel p){
+			// Récupérer la case du plateau cliquée
+			CasePuzzle cp = ((PlateauPuzzle) plateau).getAllCases().get(((JPanelCase) p).getId());
+
+
+
+			// Récuperer la case qui contient la pièce vide
+			ArrayList<CasePuzzle> a = ((PlateauPuzzle) plateau).getAllCases();
+			CasePuzzle cv = null;
+			for (int j = 0; j < a.size(); j++) {
+				if (((PiecePuzzle) a.get(j).getPiece()).getImage().equals("./img/Puzzle/PuzzleCut8.png")){
+					cv = a.get(j);
+				}
+			}
+
+			// Vérifier qu'elle soit en contact avec la pièce vide
+			int idClicked = cp.getValeur();
+			int idEmpty = cv.getValeur();
+
+			boolean areSided = false;
+
+			switch (idEmpty) {
+				case 0:
+					int [] isOk0 = {1, 3};
+					for (int i1 : isOk0) {
+						if (idClicked == i1) {
+							areSided = true;
+						}
+					}
+					break;
+				case 1:
+					int [] isOk1 = {0, 2, 4};
+					for (int i1 : isOk1) {
+						if (idClicked == i1) {
+							areSided = true;
+						}
+					}
+					break;
+				case 2:
+					int [] isOk2 = {1, 5};
+					for (int i1 : isOk2) {
+						if (idClicked == i1) {
+							areSided = true;
+						}
+					}
+					break;
+				case 3:
+					int [] isOk3 = {0, 4, 6};
+					for (int i1 : isOk3) {
+						if (idClicked == i1) {
+							areSided = true;
+						}
+					}
+					break;
+				case 4:
+					int [] isOk4 = {1, 3, 5, 7};
+					for (int i5 : isOk4) {
+						if (idClicked == i5) {
+							areSided = true;
+						}
+					}
+					break;
+				case 5:
+					int [] isOk5 = {2, 4, 8};
+					for (int i4 : isOk5) {
+						if (idClicked == i4) {
+							areSided = true;
+						}
+					}
+					break;
+				case 6:
+					int [] isOk6 = {3, 7};
+					for (int i3 : isOk6) {
+						if (idClicked == i3) {
+							areSided = true;
+						}
+					}
+					break;
+				case 7:
+					int [] isOk7 = {6, 4, 8};
+					for (int i2 : isOk7) {
+						if (idClicked == i2) {
+							areSided = true;
+						}
+					}
+					break;
+				case 8:
+					int [] isOk8 = {7, 5};
+					for (int i1 : isOk8) {
+						if (idClicked == i1) {
+							areSided = true;
+						}
+					}
+					break;
+			}
+
+			// Si c'est le cas échanger les pièces des cases
+			if (areSided){
+				PiecePuzzle pp = (PiecePuzzle) cp.getPiece();
+				PiecePuzzle pv = (PiecePuzzle) cv.getPiece();
+
+				cv.setPiece(pp);
+				cp.setPiece(pv);
+			}
+
+			updateView();
+			verifCase();
+		}
+
 		private void updateView(){
 			// Pour chaque case, afficher dans la JPanel correspondante l'image
 			// dont l'adresse est contenue dans la PiecePuzzle posée sur cette Case.
 			int n = 0;
 			for (int i = 0; i < plateau.hauteur; i++) {
 				for (int j = 0; j < plateau.longueur; j++) {
-					displayImage(panels.get(n), ((PiecePuzzle) plateau.getCase(i, j).getPiece()).getImage());
+					//displayImage(panels.get(n), ((PiecePuzzle) plateau.getCase(i, j).getPiece()).getImage());
+					//n++;
+					panels.get(n).repaint();
+					panels.get(n).updateUI();
+					panels.get(n).validate();
 					n++;
 				}
 			}
 		}
 
-		private void displayImage(JPanel jp, String path) { // Affiche dans jp l'image à l'adresse de path
+		private void displayImage(JPanel jp, String path) {
+			// Affiche dans jp l'image à l'adresse de path
+			// A ne pas utiliser sur les JPanelCase
+			jp.removeAll();
 			JLabel jl = new JLabel();
 			jl.setIcon(new javax.swing.ImageIcon(getClass().getResource(path)));
 			jp.add(jl);
 		}
 	}
 
-    /*
-   	private class BoiteNom extends JFrame {
-        BoiteNom(){
+	private class JPanelCase extends JPanel {
+		// JPanel modifiée pour être utilisé dans le puzzle en tant que CasePuzzle graphique
 
-        }
-    }*/
+		private int id; // ID qui correspond à l'ID de la case qu'elle correspond
+
+		public JPanelCase(int id) {
+			super();
+			this.id = id;
+		}
+
+		public int getId() {
+			return id;
+		}
+
+		@Override
+		public void paintComponent(Graphics g) {
+			// On redefinit paintComponent pour qu'elle affiche l'image de la pièce posée
+			// sur la Case correspondante
+
+			// On va chercher le chemin de l'image dans la pièce
+			String source = "";
+			for (CasePuzzle cp : ((PlateauPuzzle) plateau).getAllCases()){
+				if (this.id == cp.getValeur()){
+					source = ((PiecePuzzle) cp.getPiece()).getImage();
+				}
+			}
+
+			// On créer une image à partir de l'adresse
+			Image buffer = null;
+			try {
+				buffer = ImageIO.read(new File(source));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			// On la redessine
+			g.drawImage(buffer,0,0,null);
+		}
+
+	}
 
 	@Override
 	public void joueUnTour(Joueur j) {

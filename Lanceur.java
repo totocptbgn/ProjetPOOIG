@@ -12,12 +12,11 @@ public class Lanceur extends JFrame {
 	public Lanceur() {
 		this.setTitle("Projet POOIG");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(new Dimension(300, 150));
 
 		Container cont = this.getContentPane();
 		JPanel panel = new JPanel();
 		// panel.setLayout(new );
-		panel.add(new JLabel("Launcher"));
+		panel.add(new JLabel("Choisissez votre jeu :"));
 		cont.add(panel);
 
 		JButton domino = new JButton();
@@ -27,7 +26,7 @@ public class Lanceur extends JFrame {
 			this.setVisible(false);
 			Domino d = new Domino();
 			d.lancerPartie();
-			System.exit(0);
+			setVisible(false);
 		});
 
 		JButton saboteur = new JButton();
@@ -37,16 +36,27 @@ public class Lanceur extends JFrame {
 			this.setVisible(false);
 			Saboteur s = new Saboteur();
 			s.lancerPartie();
-			System.exit(0);
+			setVisible(false);
 		});
 
+		JButton puzzle = new JButton();
+		panel.add(puzzle);
+		puzzle.setText("Puzzle");
+		puzzle.addActionListener((e) -> {
+			this.setVisible(false);
+			Puzzle p = new Puzzle();
+			p.lancerPartie();
+			setVisible(false);
+		});
+
+		setLocationRelativeTo(null);
+		setVisible(true);
+		pack();
 	}
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(()->{
 			Lanceur l = new Lanceur();
-			// l.pack();
-			l.setVisible(true);
 		});
 
 	}

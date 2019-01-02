@@ -8,8 +8,12 @@ public class PlateauSaboteur extends Plateau {
 			}
 		}
 		boolean[] d = {true,true,true,true};
+		boolean[] virdroite = {false,false,true,true};
+		boolean[] virgauche = {true,false,false,true};
 		//this.getCase(hauteur/2,hauteur/2).poserPiece(new CarteChemin(d));
 		this.plateau[hauteur/2][hauteur/2].piece = new CarteChemin(d);
+		this.plateau[hauteur/2-hauteur/3][hauteur/3].piece = new CarteChemin(virdroite);
+		this.plateau[hauteur-4][3].piece = new CarteChemin(virgauche);
 	}
 
 	@Override
@@ -43,7 +47,7 @@ public class PlateauSaboteur extends Plateau {
 			for (int j = 0; j < longueur; j++) {
 				//System.out.println("|  ");
 				if (getCase(i, j).estOccupee()) {
-					CarteChemin c = (CarteChemin) getCase(i, j).getPiece();
+					CarteChemin c = (CarteChemin) this.plateau[i][j].piece;
 					System.out.print(c.toString());
 				} else {
 					System.out.print(" ");

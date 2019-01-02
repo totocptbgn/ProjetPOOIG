@@ -12,6 +12,7 @@ public class PlateauDomino extends Plateau {
 				this.setCase(i, j, new CaseDomino());
 			}
 		}
+
 	}
 
 	public PlateauDomino(int hauteur){

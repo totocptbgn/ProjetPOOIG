@@ -42,6 +42,9 @@ public class Puzzle extends Jeu {
 
 		// Lancement de l'interface graphique
 		EventQueue.invokeLater(() -> new VuePuzzle());
+
+		// On affiche le message
+		afficheIntro();
 	}
 
 	private boolean verifCase(){
@@ -218,6 +221,7 @@ public class Puzzle extends Jeu {
 			// On fini de metre en place et on affiche les images dans les cases du puzzle
 			pack();
 			setResizable(false);
+			setLocationRelativeTo(null);
 			setVisible(true);
 			updateView();
 		}
@@ -285,6 +289,32 @@ public class Puzzle extends Jeu {
 
 	@Override
 	public void afficheIntro() {
-		// Cette fonction est inutile ici car le jeu est entièrement en interface graphique ...
+		System.out.println("+---------------------------------------------------------------------------------------------------------------+");
+		System.out.println("|                                                                                                               |");
+		System.out.println("|                            ██████╗  ██╗   ██╗ ███████╗ ███████╗ ██╗      ███████╗                             |");
+		System.out.println("|                            ██╔══██╗ ██║   ██║ ╚══███╔╝ ╚══███╔╝ ██║      ██╔════╝                             |");
+		System.out.println("|                            ██████╔╝ ██║   ██║   ███╔╝    ███╔╝  ██║      █████╗                               |");
+		System.out.println("|                            ██╔═══╝  ██║   ██║  ███╔╝    ███╔╝   ██║      ██╔══╝                               |");
+		System.out.println("|                            ██║      ╚██████╔╝ ███████╗ ███████╗ ███████╗ ███████╗                             |");
+		System.out.println("|                            ╚═╝       ╚═════╝  ╚══════╝ ╚══════╝ ╚══════╝ ╚══════╝                             |");
+		System.out.println("|                                                                                                               |");
+		System.out.println("|              But du jeu :                                                                                     |");
+		System.out.println("|                                                                                                               |");
+		System.out.println("|                Cette variante du puzzle est appelée Taquin ou \"15-Puzzle\" de son nom                          |");
+		System.out.println("|                originel. Le but du jeu est bien évidemment de rassembler l'image découpée.                    |");
+		System.out.println("|                Pour cela il suffit de cliquer sur une case adjacente à la case vide. Pour                     |");
+		System.out.println("|                former l'image, la case vide doit être placée en bas à droite.                                 |");
+		System.out.println("|                Le jeu se passe seulement en interface graphique.                                              |");
+		System.out.println("|                                                                                                               |");
+		System.out.println("|              Conseils :                                                                                       |");
+		System.out.println("|                                                                                                               |");
+		System.out.println("|                Dans l'hypothèse où la case vide se trouve en bas à droite : remettre le jeu                   |");
+		System.out.println("|                dans l'ordre ligne par ligne en commençant par la ligne du haut puis quand il                  |");
+		System.out.println("|                ne reste plus que deux lignes mélangées, les réordonner colonne par colonne en                 |");
+		System.out.println("|                commençant par celle de gauche. Cette méthode ne garantit pas qu'un nombre                     |");
+		System.out.println("|                minimal de mouvements sera effectué, mais est simple à mémoriser et aboutit                    |");
+		System.out.println("|                dans tous les cas où une solution est possible.                                                |");
+		System.out.println("|                                                                                                               |");
+		System.out.println("+---------------------------------------------------------------------------------------------------------------+");
 	}
 }

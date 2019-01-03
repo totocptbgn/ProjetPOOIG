@@ -90,17 +90,14 @@ public class DominoGommette extends Domino {
 		}
 
 		@Override
-		public void paintComponent(Graphics g) {
+		public void paintComponent(Graphics g) { // A REFAIRE !
 			// On redefinit paintComponent pour qu'elle affiche l'image du domino pos sur la Case correspondante
 			super.paintComponent(g);
 
 			// On va chercher le chemin de l'image dans la pièce
 			String source = "";
-			for (CasePuzzle cp : ((PlateauPuzzle) plateau).getAllCases()){
-				if (this.id == cp.getValeur()){
-					source = ((PiecePuzzle) cp.getPiece()).getImage();
-				}
-			}
+
+			// Ici on va juste redeffinir la couleur du background...
 
 			// On créer une image à partir de l'adresse
 			Image buffer = null;

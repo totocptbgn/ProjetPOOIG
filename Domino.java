@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 public class Domino extends Jeu {
 
-	private boolean premierTour; // True au début de partie tant qu'aucun domino n'est posé.
-	private boolean gagnant []; // Tableau de boolean correspondants au joueurs, si un joueur n'as gagné il est à false, sinon il est à true.
-	private static int place;
-	private ArrayList <PieceDomino> paquet []; // Tableau comportant la pioche et les Dominos non-posés de chaque joueurs.
+	protected boolean premierTour; // True au début de partie tant qu'aucun domino n'est posé.
+	protected boolean gagnant []; // Tableau de boolean correspondants au joueurs, si un joueur n'as gagné il est à false, sinon il est à true.
+	protected static int place;
+	protected ArrayList <PieceDomino> paquet []; // Tableau comportant la pioche et les Dominos non-posés de chaque joueurs.
 	// Taille de paquet = Nombre de joueurs + 1, [0] correspond à la pioche.
 
 

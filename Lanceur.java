@@ -48,6 +48,17 @@ public class Lanceur extends JFrame {
 			setVisible(false);
 		});
 
+		JButton dominoGommette = new JButton();
+		panel.add(dominoGommette);
+		dominoGommette.setText("Domino-Gommette");
+		dominoGommette.addActionListener((e) -> {
+			this.setVisible(false);
+			DominoGommette d = new DominoGommette();
+			d.lancerPartie();
+			setVisible(false);
+		});
+
+
 		setLocationRelativeTo(null);
 		setVisible(true);
 		pack();

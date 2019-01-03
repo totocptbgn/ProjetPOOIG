@@ -9,6 +9,15 @@ public class Saboteur extends Jeu {
     CaseSaboteur[] arrivees; // Un tableau contenant les coordonnées des cases d'arrivée
 	CaseSaboteur depart;
 
+	int manche;
+	boolean[] mancheSaboteur; //nombre de manches gagnées par le groupe des saboteurs
+	boolean[] mancheChercheur; //nombre de manches gagnéespar le grouoe des chercheurs
+	boolean estGagnant;  //dit si le joueur est gagnant
+
+	int xArrivee; //coordonnée de ligne de la case d'arrivée contenant le trésor
+	int yArrivee; //coordonnée de colonne de la case d'arrivée
+
+
 	public void setJoueur() { // Met en place la création des joueurs.
 		boolean b = true;
 		while (b){
@@ -43,7 +52,25 @@ public class Saboteur extends Jeu {
 		// On crée les joueurs :
 		this.setJoueur();
 
-		// On crée le plateau :
+
+
+		mancheChercheur = new boolean[3];
+  		mancheSaboteur = new boolean[3];
+
+  		manche = 0;
+		// Afficher le plateau
+
+		// Afficher les cartes (?)
+		while (manche < 3) {
+			lancerManche();
+		}
+
+
+	}
+
+	public void lancerManche(){ //on réinitialise la pioche , le plateau et les paquets des joueurs lors de la nouvelle manche
+		System.out.println("           MANCHE N°" + (manche+1));
+
 		this.plateau = new PlateauSaboteur(18);
 
 		// On crée les paquets des joueurs et la pioche
@@ -107,27 +134,49 @@ public class Saboteur extends Jeu {
 
 		// On initialise à true peutJouer
 		peutJouer = new boolean[participants.length][3];
-  		for (int i = 0; i < peutJouer.length; i++){
-		    for (int j = 0; j < peutJouer[i].length; j++){
-		        peutJouer[i][j] = true;
-            }
+		for (int i = 0; i < peutJouer.length; i++){
+			for (int j = 0; j < peutJouer[i].length; j++){
+				peutJouer[i][j] = true;
+			}
 		}
 
+
 		// Initialisation des cartes de départ et d'arrivées
-        
-  			//plateau.getCase(plateau.longueur/2,plateau.longueur/2).PoserPiece(new CarteChemin(carrefour));
+		if(manche == 0){
+			xArrivee = plateau.hauteur-4;
+			yArrivee = 3;
+		}
 
+		if(manche == 1){
+			xArrivee = plateau.hauteur/2-plateau.hauteur/3;
+			yArrivee = plateau.hauteur/3;
+		}
 
+		if(manche == 2){
+			xArrivee = plateau.hauteur-4;
+			yArrivee = 3;
+		}
+		//plateau.getCase(plateau.longueur/2,plateau.longueur/2).PoserPiece(new CarteChemin(carrefour));
 
 
 		// Afficher le plateau
-			plateau.afficher();
+		plateau.afficher();
 		// Afficher les cartes (?)
-		for(int i = 0;i<participants.length;i++){
-			joueUnTour(participants[i]);
-		}
+
+			for (int i = 0; i < participants.length; i++) {
+				joueUnTour(participants[i]);
+
+				for(int j = 1;j < paquet.length;j++){
+					if(paquet[0].isEmpty() && paquet[j].isEmpty()){
+						manche++;
+						System.out.println("Il n'y a plus de cartes dans la pioche, cette manche est perdue par les deux équipes");
+						System.exit(0);
+					}
+				}
+			}
 
 	}
+
 
 	public void ouPoser(){
 		System.out.println("Les emplacements vous permettant de poser une carte sont : ");
@@ -177,7 +226,7 @@ public class Saboteur extends Jeu {
 				}
 
 				if(plateau.plateau[i+1][j].estOccupee()){
-					boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
+					boolean[] b = ((CaseSaboteur) plateau.plateau[i+1][j]).getDirection();
 					if(b[3]){
 						System.out.println("Carte posée avec succès !");
 						plateau.plateau[i][j].piece = c;
@@ -185,8 +234,8 @@ public class Saboteur extends Jeu {
 					}
 				}
 
-				if(plateau.getCase(i-1,j).estOccupee()){
-					boolean[] b = ((CaseSaboteur) plateau.getCase(i-1,j)).getDirection();
+				if(plateau.plateau[i-1][j].estOccupee()){
+					boolean[] b = ((CaseSaboteur) plateau.plateau[i-1][j]).getDirection();
 					if( b[1]){
 						System.out.println("Carte posée avec succès !");
 						plateau.plateau[i][j].piece = c;
@@ -194,22 +243,22 @@ public class Saboteur extends Jeu {
 					}
 				}
 
-				if(plateau.getCase(i,j+1).estOccupee()){
-					boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
-					if( b[2]){
+				if(plateau.plateau[i][j+1].estOccupee()){
+					boolean[] b = ((CaseSaboteur) plateau.plateau[i][j+1]).getDirection();
+					if( b[0]){
 						System.out.println("Carte posée avec succès !");
 						plateau.plateau[i][j].piece = c;
 						return true;
 					}
 				}
 
-				if(plateau.getCase(i,j-1).estOccupee()){
-					boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
-					if( b[0]){
+				if(plateau.plateau[i][j-1] != null){
+					boolean[] b = ((CaseSaboteur) plateau.plateau[i][j-1]).getDirection();
+					//if(b[2]){
 						System.out.println("Carte posée avec succès !");
 						plateau.plateau[i][j].piece = c;
 						return true;
-					}
+					//}
 				}
 
 		}
@@ -230,7 +279,7 @@ public class Saboteur extends Jeu {
 
 			if(plateau.getCase(i,j+1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
-				if( b[2]){
+				if( b[0]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -239,7 +288,7 @@ public class Saboteur extends Jeu {
 
 			if(plateau.getCase(i,j-1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
-				if( b[0]){
+				if( b[2]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -261,7 +310,7 @@ public class Saboteur extends Jeu {
 
 			if(plateau.getCase(i,j+1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
-				if( b[2]){
+				if( b[0]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -270,7 +319,7 @@ public class Saboteur extends Jeu {
 
 			if(plateau.getCase(i,j-1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
-				if( b[0]){
+				if( b[2]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -301,7 +350,7 @@ public class Saboteur extends Jeu {
 
 			if(plateau.getCase(i,j+1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
-				if( b[2]){
+				if( b[0]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -314,7 +363,7 @@ public class Saboteur extends Jeu {
 		if(j == plateau.hauteur-1 && i < plateau.longueur-1 && i > 0){
 			if(plateau.getCase(i+1,j).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
-				if( b[3]){
+				if(b[3]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -333,7 +382,7 @@ public class Saboteur extends Jeu {
 
 			if(plateau.getCase(i,j-1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
-				if( b[0]){
+				if( b[2]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -355,7 +404,7 @@ public class Saboteur extends Jeu {
 
 			if(plateau.getCase(i,j+1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
-				if( b[2]){
+				if( b[0]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -377,7 +426,7 @@ public class Saboteur extends Jeu {
 
 			if(plateau.getCase(i,j-1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
-				if( b[0]){
+				if( b[2]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -390,13 +439,16 @@ public class Saboteur extends Jeu {
 				if( b[1]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					if(i-1 == xArrivee && j == yArrivee){
+						estGagnant = true;
+					}
 					return true;
 				}
 			}
 
 			if(plateau.getCase(i,j+1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
-				if( b[2]){
+				if( b[0]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -405,7 +457,7 @@ public class Saboteur extends Jeu {
 
 			if(plateau.getCase(i,j-1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
-				if( b[0]){
+				if( b[2]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -423,24 +475,27 @@ public class Saboteur extends Jeu {
 				if( b[3]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
 
 			if(plateau.getCase(i,j+1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
-				if( b[2]){
+				if( b[0]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
 
 			if(plateau.getCase(i,j-1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
-				if( b[0]){
+				if( b[2]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
@@ -448,6 +503,7 @@ public class Saboteur extends Jeu {
 				System.err.println("Vous ne pouvez pas placer une carte après une carte d'arrivée sans qu'il y ait déja une route les reliant !");
 				return false;
 			}
+
 		}
 
 		if(estArrivee(i,j-1)){
@@ -456,6 +512,7 @@ public class Saboteur extends Jeu {
 				if( b[3]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
@@ -465,15 +522,17 @@ public class Saboteur extends Jeu {
 				if( b[1]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
 
 			if(plateau.getCase(i,j+1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
-				if( b[2]){
+				if( b[0]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
@@ -508,7 +567,7 @@ public class Saboteur extends Jeu {
 
 			if(plateau.getCase(i,j-1).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
-				if( b[0]){
+				if( b[2]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -666,8 +725,8 @@ public class Saboteur extends Jeu {
         			String s = "oui";
 
 
-        			while (s.equals("oui") && !poserCarte(x,y,paquet[j.getId()].get(rep))) {
-						ouPoser();
+        			while (s.equals("oui") ) {
+						//ouPoser();
 						System.out.println("Où voulez vous poser cette carte?");
 						System.out.print("Donnez la ligne : ");
 						 x = sc2.nextInt()-1;
@@ -675,8 +734,27 @@ public class Saboteur extends Jeu {
 						System.out.print("Donnez la colonne : ");
 						 y = sc2.nextInt()-1;
 						if(poserCarte(x, y, paquet[j.getId()].get(rep))){
+							paquet[j.getId()].remove(rep);
+							if(estGagnant){
+								estGagnant = false;
+								System.out.println(j.getNom() + " a remporté le trésor ! ");
+								if(j.getId() % 2 == 0){
 
-							System.out.println("Carte posée avec succès !");
+									mancheSaboteur[manche] = true;
+								}
+								if(j.getId() % 2 != 0){
+									mancheChercheur[manche] = true;
+								}
+								System.out.println("La nouvelle manche débute ! \n Distribution des cartes..");
+								manche++;
+								break;
+							}
+							//le joueur pioche et finis sa manche s'il gagne
+
+							/*paquet[j.getId()].add(paquet[0].get(paquet[0].size()-1));
+							paquet[0].remove(paquet[0].size()-1);
+							System.out.println(j.getNom() + " a pioché une carte..");*/
+							break;
 						}
 						else{
 							System.out.println("La carte n'a pas pu être posée, voulez vous réessayer ? [oui/non]");
@@ -705,70 +783,79 @@ public class Saboteur extends Jeu {
 				}
 			}
 
-			if (paquet[j.getId()].get(rep) instanceof CarteAction){
+			if (paquet[j.getId()].get(rep) instanceof CarteAction) {
 
-				String saboter = "";
+				System.out.println("Voulez-vous utiliser cette carte ou la jeter définitivement ? [jeter/garder]");
+				Scanner sc3 = new Scanner(System.in);
 
-				if (((CarteAction) paquet[j.getId()].get(rep)).sabotage){
+				if (sc3.nextLine().equals("jeter")) {
+					paquet[j.getId()].remove(rep);
+				}
 
-					System.out.println("Sur quel joueur voulez-vous que s'abatte votre couroux ?");
-					for(int i = 0;i<participants.length;i++){
+				if (sc3.nextLine().equals("garder")) {
+					String saboter = "";
 
-						System.out.print(" "+participants[i].getNom()+" ");
+					if (((CarteAction) paquet[j.getId()].get(rep)).sabotage) {
 
-					}
-					saboter = sc2.nextLine();
+						System.out.println("Sur quel joueur voulez-vous que s'abatte votre couroux ?");
+						for (int i = 0; i < participants.length; i++) {
 
-						for(int i = 1;i<participants.length;i++){
+							System.out.print(" " + participants[i].getNom() + " ");
 
-							if (participants[i].getNom().equals(saboter)){
+						}
+						saboter = sc2.nextLine();
 
-								if (!action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
+						for (int i = 1; i < participants.length; i++) {
+
+							if (participants[i].getNom().equals(saboter)) {
+
+								if (!action(j.getId(), i, (CarteAction) paquet[j.getId()].get(rep))) {
 
 									System.out.println("Le sabotage n'a pas fonctionné, voulez vous réessayer ? [oui/non]");
 
 									saboter = sc2.nextLine();
 
-									if (saboter.equals("oui")){
+									if (saboter.equals("oui")) {
 
 										joueUnTour(j);
 
 									}
 								}
-								if (action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
-
+								if (action(j.getId(), i, (CarteAction) paquet[j.getId()].get(rep))) {
+									paquet[j.getId()].remove(rep);
 									System.out.println("Sabotage réussi !");
 								}
 							}
 						}
-				}
-				if (!((CarteAction) paquet[j.getId()].get(rep)).sabotage){
-
-					System.out.println("Quel joueur voulez-vous aider ?");
-
-					for (int i = 0;i<participants.length;i++){
-
-						System.out.print(" "+participants[i].getNom()+" ");
-
 					}
+					if (!((CarteAction) paquet[j.getId()].get(rep)).sabotage) {
 
-					saboter = sc2.nextLine();
+						System.out.println("Quel joueur voulez-vous aider ?");
 
-					for (int i = 0;i<participants.length;i++){
+						for (int i = 0; i < participants.length; i++) {
 
-						if (participants[i].getNom().equals(saboter)){
+							System.out.print(" " + participants[i].getNom() + " ");
 
-							if (!action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
+						}
 
-								System.out.println("Ça n'a pas fonctionné, voulez vous réessayer ? [oui/non]");
-								saboter = sc2.nextLine();
-								if (saboter.equals("oui")){
-									joueUnTour(j);
+						saboter = sc2.nextLine();
+
+						for (int i = 0; i < participants.length; i++) {
+
+							if (participants[i].getNom().equals(saboter)) {
+
+								if (!action(j.getId(), i, (CarteAction) paquet[j.getId()].get(rep))) {
+
+									System.out.println("Ça n'a pas fonctionné, voulez vous réessayer ? [oui/non]");
+									saboter = sc2.nextLine();
+									if (saboter.equals("oui")) {
+										joueUnTour(j);
+									}
 								}
-							}
-							if (action(j.getId(),i,(CarteAction) paquet[j.getId()].get(rep))){
+								if (action(j.getId(), i, (CarteAction) paquet[j.getId()].get(rep))) {
 
-								System.out.println("Réparation réussie !");
+									System.out.println("Réparation réussie !");
+								}
 							}
 						}
 					}

@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
@@ -198,10 +199,12 @@ public class Puzzle extends Jeu {
 						}
 
 						updateView();
-
+						// Si le joueur résout le puzzle
 						if (verifCase()){
-							// Afficher un panneau "gagné"
+							// On retire les cases
 							puzzle.removeAll();
+
+							// On affiche l'image finale en entière
 							Image buffer = null;
 							try {
 								buffer = ImageIO.read(new File("./img/Puzzle/PuzzleFull1.jpg"));
@@ -210,7 +213,25 @@ public class Puzzle extends Jeu {
 							}
 							Graphics g = puzzle.getGraphics();
 							g.drawImage(buffer, 0, 0, null);
-							setTitle("Félicitations ! Vous avez complétez le puzzle !");
+
+							// On affiche une fenêtre pour indiqué au joueur qu'il a gagné
+							JFrame bravo = new JFrame();
+							bravo.setLayout(new FlowLayout());
+							bravo.setTitle("Bravo !");
+							bravo.setPreferredSize(new Dimension(300, 65));
+
+							JLabel text = new JLabel("Vous avez complétez le puzzle !");
+							bravo.add(text);
+
+							JButton ok = new JButton("Ok");
+							bravo.add(ok);
+							ok.addActionListener((ActionEvent el) -> System.exit(0));
+
+							bravo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+							bravo.pack();
+							bravo.setResizable(false);
+							bravo.setLocationRelativeTo(null);
+							bravo.setVisible(true);
 						}
 					}
 				});

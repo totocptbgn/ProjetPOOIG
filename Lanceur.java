@@ -15,7 +15,6 @@ public class Lanceur extends JFrame {
 
 		Container cont = this.getContentPane();
 		JPanel panel = new JPanel();
-		// panel.setLayout(new );
 		panel.add(new JLabel("Choisissez votre jeu :"));
 		cont.add(panel);
 

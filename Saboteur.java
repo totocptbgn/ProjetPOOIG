@@ -9,6 +9,15 @@ public class Saboteur extends Jeu {
     CaseSaboteur[] arrivees; // Un tableau contenant les coordonnées des cases d'arrivée
 	CaseSaboteur depart;
 
+	int manche;
+	boolean[] mancheSaboteur; //nombre de manches gagnées par le groupe des saboteurs
+	boolean[] mancheChercheur; //nombre de manches gagnéespar le grouoe des chercheurs
+	boolean estGagnant;  //dit si le joueur est gagnant
+
+	int xArrivee; //coordonnée de ligne de la case d'arrivée contenant le trésor
+	int yArrivee; //coordonnée de colonne de la case d'arrivée
+
+
 	public void setJoueur() { // Met en place la création des joueurs.
 		boolean b = true;
 		while (b){
@@ -117,17 +126,114 @@ public class Saboteur extends Jeu {
         
   			//plateau.getCase(plateau.longueur/2,plateau.longueur/2).PoserPiece(new CarteChemin(carrefour));
 
+		mancheChercheur = new boolean[3];
+  		mancheSaboteur = new boolean[3];
 
-
-
+  		manche = 0;
 		// Afficher le plateau
 			plateau.afficher();
 		// Afficher les cartes (?)
-		for(int i = 0;i<participants.length;i++){
-			joueUnTour(participants[i]);
+		while (manche < 3) {
+			lancerManche();
 		}
 
+
 	}
+
+	public void lancerManche(){ //on réinitialise la pioche , le plateau et les paquets des joueurs lors de la nouvelle manche
+
+		this.plateau = new PlateauSaboteur(18);
+
+		// On crée les paquets des joueurs et la pioche
+		this.paquet = new ArrayList[participants.length+1];
+		for (int i = 0; i < paquet.length; i++){
+			paquet[i] = new ArrayList<>();
+		}
+
+		// On crée des tableaux de direction
+		boolean[] carrefour = {true, true, true, true};
+		boolean[] tridirectiongauche = {true, true, false, true};
+		boolean[] tridirectiondroite = {false, true, true, true};
+		boolean[] horizontal = {true, false, true, false};
+		boolean[] vertical = {false, true, false, true};
+		boolean[] tridirectionhaut = {true, true, true, false};
+		boolean[] tridirectionbas = {true, false, true, true};
+		boolean[] viragedroite = {false,false,true,true};
+		boolean[] viragegauche = {true,false,false,true};
+		boolean[] sansissuegauche = {true,false,false,false};
+		boolean[] sansissuedroite = {false,false,true,false};
+		boolean[] sansissuehaut = {false,true,false,false};
+		boolean[] sansissuebas = {false,false,false,true};
+
+
+		// On insère les cartes chemin dans la pioche
+		for(int i = 0; i < 4; i++){
+			paquet[0].add(new CarteChemin(tridirectionbas));
+			paquet[0].add(new CarteChemin(tridirectiondroite));
+			paquet[0].add(new CarteChemin(horizontal));
+			paquet[0].add(new CarteChemin(tridirectiongauche));
+			paquet[0].add(new CarteChemin(tridirectionhaut));
+			paquet[0].add(new CarteChemin(vertical));
+			paquet[0].add(new CarteChemin(sansissuegauche));
+			paquet[0].add(new CarteChemin(sansissuedroite));
+			paquet[0].add(new CarteChemin(sansissuehaut));
+			paquet[0].add(new CarteChemin(sansissuebas));
+			paquet[0].add(new CarteChemin(viragedroite));
+			paquet[0].add(new CarteChemin(viragegauche));
+			// Mélanger les cartes de la pioche
+		}
+
+		// On insère les cartes action dans la pioche :
+		for (int i = 0; i < 4; i++){
+			paquet[0].add(new CarteAction(true,'o'));
+			paquet[0].add(new CarteAction(false,'o'));
+			paquet[0].add(new CarteAction(true,'l'));
+			paquet[0].add(new CarteAction(false,'l'));
+			paquet[0].add(new CarteAction(true,'c'));
+			paquet[0].add(new CarteAction(false,'c'));
+		}
+
+		// Distribution des cartes :
+		for (int i = 1; i<paquet.length; i++){
+			for (int j = 0; j < 5; j++){
+				int rand = (int) (Math.random()*paquet[0].size()-1);
+				paquet[i].add(paquet[0].get(rand));
+				// On supprime la carte distribuée de la pioche
+				paquet[0].remove(rand);
+			}
+		}
+
+		// On initialise à true peutJouer
+		peutJouer = new boolean[participants.length][3];
+		for (int i = 0; i < peutJouer.length; i++){
+			for (int j = 0; j < peutJouer[i].length; j++){
+				peutJouer[i][j] = true;
+			}
+		}
+
+		// Initialisation des cartes de départ et d'arrivées
+
+		//plateau.getCase(plateau.longueur/2,plateau.longueur/2).PoserPiece(new CarteChemin(carrefour));
+
+
+		// Afficher le plateau
+		plateau.afficher();
+		// Afficher les cartes (?)
+
+			for (int i = 0; i < participants.length; i++) {
+				joueUnTour(participants[i]);
+
+				for(int j = 1;j < paquet.length;j++){
+					if(paquet[0].isEmpty() && paquet[j].isEmpty()){
+						manche++;
+						System.out.println("Il n'y a plus de cartes dans la pioche, cette manche est perdue par les deux équipes");
+						System.exit(0);
+					}
+				}
+			}
+
+	}
+
 
 	public void ouPoser(){
 		System.out.println("Les emplacements vous permettant de poser une carte sont : ");
@@ -194,7 +300,7 @@ public class Saboteur extends Jeu {
 					}
 				}
 
-				if(plateau.getCase(i,j+1).estOccupee()){
+				if(plateau.plateau[i][j+1].estOccupee()){
 					boolean[] b = ((CaseSaboteur) plateau.getCase(i,j+1)).getDirection();
 					if( b[2]){
 						System.out.println("Carte posée avec succès !");
@@ -203,9 +309,9 @@ public class Saboteur extends Jeu {
 					}
 				}
 
-				if(plateau.getCase(i,j-1).estOccupee()){
-					boolean[] b = ((CaseSaboteur) plateau.getCase(i,j-1)).getDirection();
-					if( b[0]){
+				if(plateau.plateau[i][j-1].estOccupee()){
+					boolean[] b = ((CaseSaboteur) plateau.plateau[i][j-1]).getDirection();
+					if(b[0]){
 						System.out.println("Carte posée avec succès !");
 						plateau.plateau[i][j].piece = c;
 						return true;
@@ -314,7 +420,7 @@ public class Saboteur extends Jeu {
 		if(j == plateau.hauteur-1 && i < plateau.longueur-1 && i > 0){
 			if(plateau.getCase(i+1,j).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
-				if( b[3]){
+				if(b[3]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
 					return true;
@@ -390,6 +496,9 @@ public class Saboteur extends Jeu {
 				if( b[1]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					if(i-1 == xArrivee && j == yArrivee){
+						estGagnant = true;
+					}
 					return true;
 				}
 			}
@@ -423,6 +532,7 @@ public class Saboteur extends Jeu {
 				if( b[3]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
@@ -432,6 +542,7 @@ public class Saboteur extends Jeu {
 				if( b[2]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
@@ -441,6 +552,7 @@ public class Saboteur extends Jeu {
 				if( b[0]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
@@ -448,6 +560,7 @@ public class Saboteur extends Jeu {
 				System.err.println("Vous ne pouvez pas placer une carte après une carte d'arrivée sans qu'il y ait déja une route les reliant !");
 				return false;
 			}
+
 		}
 
 		if(estArrivee(i,j-1)){
@@ -456,6 +569,7 @@ public class Saboteur extends Jeu {
 				if( b[3]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
@@ -465,6 +579,7 @@ public class Saboteur extends Jeu {
 				if( b[1]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
@@ -474,6 +589,7 @@ public class Saboteur extends Jeu {
 				if( b[2]){
 					System.out.println("Carte posée avec succès !");
 					plateau.plateau[i][j].piece = c;
+					estGagnant = true;
 					return true;
 				}
 			}
@@ -666,8 +782,8 @@ public class Saboteur extends Jeu {
         			String s = "oui";
 
 
-        			while (s.equals("oui") && !poserCarte(x,y,paquet[j.getId()].get(rep))) {
-						ouPoser();
+        			while (s.equals("oui") || !poserCarte(x,y,paquet[j.getId()].get(rep))) {
+						//ouPoser();
 						System.out.println("Où voulez vous poser cette carte?");
 						System.out.print("Donnez la ligne : ");
 						 x = sc2.nextInt()-1;
@@ -675,8 +791,21 @@ public class Saboteur extends Jeu {
 						System.out.print("Donnez la colonne : ");
 						 y = sc2.nextInt()-1;
 						if(poserCarte(x, y, paquet[j.getId()].get(rep))){
+							if(estGagnant){
+								estGagnant = false;
+								System.out.println(j.getNom() + " a remporté le trésor ! ");
+								if(j.getId() % 2 == 0){
 
-							System.out.println("Carte posée avec succès !");
+									mancheSaboteur[manche] = true;
+								}
+								if(j.getId() % 2 != 0){
+									mancheChercheur[manche] = true;
+								}
+								System.out.println("La nouvelle manche débute ! \n Distribution des cartes..");
+								manche++;
+								System.exit(0);
+							}
+
 						}
 						else{
 							System.out.println("La carte n'a pas pu être posée, voulez vous réessayer ? [oui/non]");

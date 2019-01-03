@@ -17,8 +17,7 @@ public class Puzzle extends Jeu {
 	public void lancerPartie() {
 
 		// Création du Joueur
-		this.participants = new Joueur[1];
-		participants[0] = new Joueur("", 0); // Ici le joueur a peu d'importance.
+		setJoueur();
 
 		// Création du plateau
 		this.plateau = new PlateauPuzzle();
@@ -300,12 +299,14 @@ public class Puzzle extends Jeu {
 
 	@Override
 	public void joueUnTour(Joueur j) {
-		// Cette fonction est inutile ici car le jeu est entièrement en interface graphique ...
+		// Cette fonction est inutile ici car le jeu est joué par un seul joueur...
 	}
 
 	@Override
 	public void setJoueur() {
 		// Dans ce jeu le joueur est unique est n'as pas de réel utilité.
+		this.participants = new Joueur[1];
+		participants[0] = new Joueur("J1", 0);
 	}
 
 	@Override
@@ -322,7 +323,7 @@ public class Puzzle extends Jeu {
 		System.out.println("|              But du jeu :                                                                                     |");
 		System.out.println("|                                                                                                               |");
 		System.out.println("|                Cette variante du puzzle est appelée Taquin ou \"15-Puzzle\" de son nom                          |");
-		System.out.println("|                originel. Le but du jeu est bien évidemment de rassembler l'image découpée.                    |");
+		System.out.println("|                original. Le but du jeu est bien évidemment de rassembler l'image découpée.                    |");
 		System.out.println("|                Pour cela il suffit de cliquer sur une case adjacente à la case vide. Pour                     |");
 		System.out.println("|                former l'image, la case vide doit être placée en bas à droite.                                 |");
 		System.out.println("|                Le jeu se passe seulement en interface graphique.                                              |");

@@ -12,6 +12,10 @@ public class CarteChemin extends CarteSaboteur {
 		return direction;
 	}
 
+	public boolean getDirection(int n){
+		return direction[n];
+	}
+
 	public String toString(){
 		String s = "";
 		boolean[] carrefour = {true, true, true, true};

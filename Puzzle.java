@@ -8,8 +8,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-		// Nous avons choisi de faire la variante du Taquin,
-		// qui nous a paru plus interressante
+		/*
+		 *                         @author Thomas (Idée de Hind)
+		 * 				 Nous avons choisi de faire la variante du Taquin,
+		 * 						qui nous a paru plus interressante,
+		 * 					voir le README pour le fonctionnement du jeu.
+		 */
 
 public class Puzzle extends Jeu {
 

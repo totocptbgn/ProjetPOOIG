@@ -2,6 +2,12 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+			/*
+			 * 									@author Hind
+			 * 				Jeu du saboteur, entièrment textuel, sur le terminal.
+			 * 				 Pour voir le fonctionnement du jeu, lire le README.
+			 */
+
 public class Saboteur extends Jeu {
 	ArrayList<CarteSaboteur> paquet []; // Même fonctionnement que Domino.paquet, la pioche est à l'index 0 du paquet, ensuite ce sont les paquets des joueurs.
 	boolean[][] peutJouer; // Sert à détérminer si les outils, lampe et chariot sont en bon état, si ce n'est pas le cas le joueur ne peut pas poser de carte chemin
@@ -10,12 +16,12 @@ public class Saboteur extends Jeu {
 	CaseSaboteur depart;
 
 	int manche;
-	boolean[] mancheSaboteur; //nombre de manches gagnées par le groupe des saboteurs
-	boolean[] mancheChercheur; //nombre de manches gagnéespar le grouoe des chercheurs
-	boolean estGagnant;  //dit si le joueur est gagnant
+	boolean[] mancheSaboteur; // Nombre de manches gagnées par le groupe des saboteurs
+	boolean[] mancheChercheur; // Nombre de manches gagnéespar le grouoe des chercheurs
+	boolean estGagnant;  // Dit si le joueur est gagnant
 
-	int xArrivee; //coordonnée de ligne de la case d'arrivée contenant le trésor
-	int yArrivee; //coordonnée de colonne de la case d'arrivée
+	int xArrivee; // Coordonnée de ligne de la case d'arrivée contenant le trésor
+	int yArrivee; // Coordonnée de colonne de la case d'arrivée
 
 
 	public void setJoueur() { // Met en place la création des joueurs.
@@ -53,14 +59,11 @@ public class Saboteur extends Jeu {
 		this.setJoueur();
 
 
-
 		mancheChercheur = new boolean[3];
   		mancheSaboteur = new boolean[3];
-
   		manche = 0;
-		// Afficher le plateau
 
-		// Afficher les cartes (?)
+		// Afficher les cartes
 		while (manche < 3) {
 			lancerManche();
 		}
@@ -283,7 +286,7 @@ public class Saboteur extends Jeu {
 
 
 
-		//deuxième cas : si i est en bordure de plateau
+		// Deuxième cas : si i est en bordure de plateau
 		if(i == 0 && j > 0 && j < plateau.longueur-1){
 			if(plateau.getCase(i+1,j).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
@@ -345,7 +348,7 @@ public class Saboteur extends Jeu {
 			}
 		}
 
-		//troisième cas : si j est en bordure de plateau
+		// Troisième cas : si j est en bordure de plateau
 		if(j == 0 && i > 0 && i < plateau.longueur-1){
 
 			if(plateau.getCase(i+1,j).estOccupee()){
@@ -408,7 +411,7 @@ public class Saboteur extends Jeu {
 			}
 		}
 
-		//quatrième cas : si i et j sont en bordure du plateau
+		// Quatrième cas : si i et j sont en bordure du plateau
 		if(i == 0 && j == 0){
 			if(plateau.getCase(i+1,j).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();

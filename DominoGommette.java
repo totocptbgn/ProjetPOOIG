@@ -15,16 +15,18 @@ import java.util.Scanner;
 public class DominoGommette extends Domino {
 
 	/*
-	 * Cette version du domino est la même que celle de Domino.java mais
-	 * les chiffres sont remplacés par des couleurs.
+	 *  Cette version du domino est la même que celle de Domino.java mais
+	 *  les chiffres sont remplacés par des couleurs.
 	 *
-	 * NE FONCTIONNE PAS CAR NON FINI
+	 *                                     NE FONCTIONNE PAS CAR NON FINI !
 	 *
-	 * Fonctionnnement normal :
+	 *  Fonctionnnement normal :
+	 *
 	 * 		Jeu de domino du même fonctionnement que Domino mais avec interface graphique.
 	 * 		On aurait au début afficher plusieurs fenêtres pour demander le nombre de joueurs et leurs nom.
 	 * 		Puis à chaque tour on affiche dans des fênetres différentes (ou pas ?) le plateau avec les dominos,
-	 * 		et on demande à chaque fois les mêmes question que dans joueUnTour(j)
+	 * 		et on demande à chaque fois les mêmes questions que dans joueUnTour(j) en ouvrant des fenêtres comme
+	 * 		dans setJoueur().
 	 *
 	 */
 

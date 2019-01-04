@@ -4,10 +4,10 @@
 
 Les jeux :
 
- - Domino  - `Interface textuelle sur terminal.`
- - Domino-Gommette (variante du Domino avec des symboles)
- - Puzzle - `Interface textuelle et Graphique`
- - Saboteur - `Interface textuelle sur terminal.`
+ - **Domino**  - `Interface textuelle sur terminal.`
+ - **Domino-Gommette** (variante du Domino avec des symboles)
+ - **Puzzle** - `Interface textuelle et Graphique.`
+ - **Saboteur** - `Interface textuelle sur terminal.`
 
 ## Sujet et Rendu
 

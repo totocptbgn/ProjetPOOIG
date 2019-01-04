@@ -890,10 +890,15 @@ public class Saboteur extends Jeu {
 		}
 
 		// Le joueur pioche
-		paquet[j.getId()].add(paquet[0].get(paquet[0].size()-1));
-        paquet[0].remove(paquet[0].size()-1);
-        System.out.println(j.getNom() + " a pioché une carte..");
+		if(!paquet[0].isEmpty()) {
+			paquet[j.getId()].add(paquet[0].get(paquet[0].size() - 1));
+			paquet[0].remove(paquet[0].size() - 1);
+			System.out.println(j.getNom() + " a pioché une carte..");
+		}
 
+		if(paquet[0].isEmpty()){
+			System.err.println("Vous ne pouvez plus piocher !");
+		}
 	}
 
 	public void afficheIntro(){

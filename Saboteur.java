@@ -699,7 +699,155 @@ public class Saboteur extends Jeu {
 	}
 
 	@Override
-	public void joueUnTour(Joueur j) {
+	public void joueUnTour(Joueur j){
+		System.out.println("C'est à vous de jouer, "+j.getNom()+" !");
+		if(j.getId() % 2 == 0){
+			System.out.println("Nous vous rappelons que vous êtes un Saboteur.");
+		}
+		if(j.getId() % 2 != 0){
+			System.out.println("Nous vous rappelons que vous êtes un Chercheur. ");
+		}
+		System.out.println("Quelle carte voulez vous utiliser ? (ID)");
+		for(int i = 0;i<paquet[j.getId()].size();i++){
+			if(paquet[j.getId()].get(i) instanceof CarteAction){
+				CarteAction c = (CarteAction)paquet[j.getId()].get(i);
+				System.out.println("   "+ i +"\n "+ c.toString());
+			}
+			else {
+				CarteChemin cc = (CarteChemin)paquet[j.getId()].get(i);
+				System.out.println("   " + i + " \n" + cc.toString());
+			}
+		}
+
+		Scanner sc = new Scanner(System.in);
+		int rep = sc.nextInt();
+
+		try {
+			Scanner sc2 = new Scanner(System.in);
+
+			if (paquet[j.getId()].get(rep) instanceof CarteChemin) {
+
+				System.out.println("Voulez vous garder ou jeter définitivement cette carte ? [garder/jeter]");
+
+				if (sc2.nextLine().equals("jeter")) {
+					paquet[j.getId()].remove(rep);
+				} else if (sc2.nextLine().equals("garder")) {
+					System.out.println("Voulez-vous inverser le sens de la carte ? [y/n]");
+
+					sc2 = new Scanner(System.in);
+
+					if (sc2.nextLine().equals("y")) {
+						((CarteChemin) paquet[j.getId()].get(rep)).setInverser(true);
+						((CarteChemin) paquet[j.getId()].get(rep)).inversement();
+					}
+
+					int x = 0;
+					int y = 0;
+					String s = "oui";
+					Scanner ouinon = new Scanner(System.in);
+					while (s.equals("oui")) {
+						System.out.println("Où voulez-vous poser cette carte ?");
+						System.out.println("Choisissez la ligne : ");
+						Scanner coorX = new Scanner(System.in);
+						Scanner coorY = new Scanner(System.in);
+						x = coorX.nextInt();
+						y = coorY.nextInt();
+						if (poserCarte(x, y, paquet[j.getId()].get(rep))) {
+							paquet[j.getId()].remove(rep);
+							System.out.println("Carte posée avec succès !!");
+							break;
+						} else {
+							System.out.println("La carte n'a pas pu être posée, voulez-vous réessayer ? [oui/non]");
+							s = ouinon.nextLine();
+						}
+					}
+
+				} else {
+					System.err.println("Vous devez choisir entre garder et jeter");
+					joueUnTour(j);
+				}
+
+			} else {
+
+				System.out.println("Voulez-vous garder ou jeter cette carte définitivement ? [garder/jeter");
+				Scanner garder = new Scanner(System.in);
+				if (garder.nextLine().equals("jeter")) {
+					paquet[j.getId()].remove(rep);
+				} else if (garder.nextLine().equals("garder")) {
+					if (((CarteAction) paquet[j.getId()].get(rep)).sabotage) {
+						System.out.println("Sur quel joueur voulez vous que s'abatte votre couroux ? [nomJoueur]");
+						Scanner saboter = new Scanner(System.in);
+
+						for (int i = 0; i < participants.length; i++) {
+
+							System.out.print(" " + participants[i].getNom() + " ");
+
+						}
+						String joueur = saboter.nextLine();
+
+						for (int i = 0; i < participants.length; i++) {
+
+							if (participants[i].getNom().equals(joueur)) {
+								if (action(j.getId(), i, (CarteAction) paquet[j.getId()].get(rep))) {
+									System.out.println("Sabotage réussi !!");
+									break;
+								} else {
+									System.out.println("Le sabotage n'a pas fonctionné,voulez-vous réessayer ? [o/n]");
+									Scanner ouinon = new Scanner(System.in);
+									if (ouinon.nextLine().equals("o")) {
+										joueUnTour(j);
+									}
+								}
+							}
+						}
+					} else {
+						System.out.println("Quel joueur voulez-vous aider ? [nomJoueur]");
+						Scanner saboter = new Scanner(System.in);
+
+						for (int i = 0; i < participants.length; i++) {
+
+							System.out.print(" " + participants[i].getNom() + " ");
+
+						}
+						String joueur = saboter.nextLine();
+
+						for (int i = 0; i < participants.length; i++) {
+
+							if (participants[i].getNom().equals(joueur)) {
+								if (action(j.getId(), i, (CarteAction) paquet[j.getId()].get(rep))) {
+									System.out.println("Réparation réussie !!");
+									break;
+								} else {
+									System.out.println("La réparation n'a pas fonctionné,voulez-vous réessayer ? [o/n]");
+									Scanner ouinon = new Scanner(System.in);
+									if (ouinon.nextLine().equals("o")) {
+										joueUnTour(j);
+									}
+								}
+							}
+						}
+
+					}
+				}
+			}
+		}
+		catch (java.util.InputMismatchException e){
+				sc.nextInt();
+			}
+
+			// Le joueur pioche
+			if(!paquet[0].isEmpty()) {
+				paquet[j.getId()].add(paquet[0].get(paquet[0].size() - 1));
+				paquet[0].remove(paquet[0].size() - 1);
+				System.out.println(j.getNom() + " a pioché une carte..");
+			}
+
+			if(paquet[0].isEmpty()){
+				System.err.println("Vous ne pouvez plus piocher !");
+			}
+
+	}
+	/*public void joueUnTour(Joueur j) {
 
 		System.out.println("C'est à vous de jouer, "+j.getNom()+" !");
 		if(j.getId() % 2 == 0){
@@ -772,7 +920,7 @@ public class Saboteur extends Jeu {
 							/*paquet[j.getId()].add(paquet[0].get(paquet[0].size()-1));
 							paquet[0].remove(paquet[0].size()-1);
 							System.out.println(j.getNom() + " a pioché une carte..");*/
-							break;
+						/*	break;
 						}
 						else{
 							System.out.println("La carte n'a pas pu être posée, voulez vous réessayer ? [oui/non]");
@@ -899,7 +1047,7 @@ public class Saboteur extends Jeu {
 		if(paquet[0].isEmpty()){
 			System.err.println("Vous ne pouvez plus piocher !");
 		}
-	}
+	}*/
 
 	public void afficheIntro(){
 		System.out.println("+---------------------------------------------------------------------------------------------------------------+");

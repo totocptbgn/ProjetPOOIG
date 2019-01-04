@@ -17,12 +17,12 @@ public class Saboteur extends Jeu {
 	CaseSaboteur depart;
 
 	int manche;
-	boolean[] mancheSaboteur; //nombre de manches gagnées par le groupe des saboteurs
-	boolean[] mancheChercheur; //nombre de manches gagnéespar le grouoe des chercheurs
-	boolean estGagnant;  //dit si le joueur est gagnant
+	boolean[] mancheSaboteur; // Nombre de manches gagnées par le groupe des saboteurs
+	boolean[] mancheChercheur; // Nombre de manches gagnéespar le grouoe des chercheurs
+	boolean estGagnant;  // Dit si le joueur est gagnant
 
-	int xArrivee; //coordonnée de ligne de la case d'arrivée contenant le trésor
-	int yArrivee; //coordonnée de colonne de la case d'arrivée
+	int xArrivee; // Coordonnée de ligne de la case d'arrivée contenant le trésor
+	int yArrivee; // Coordonnée de colonne de la case d'arrivée
 
 
 	public void setJoueur() { // Met en place la création des joueurs.
@@ -59,42 +59,38 @@ public class Saboteur extends Jeu {
 		// On crée les joueurs :
 		this.setJoueur();
 
-
-
 		mancheChercheur = new boolean[3];
   		mancheSaboteur = new boolean[3];
 
   		manche = 0;
-		// Afficher le plateau
-
-		// Afficher les cartes (?)
-		while (manche < 3) {
+  		while (manche < 3) {
 			lancerManche();
 		}
+
 		int gagneS = 0;
 		int gagneC = 0;
-		for(int i = 0;i<3;i++){
-			if(mancheChercheur[i]){
+		for (int i = 0; i < 3; i++){
+			if (mancheChercheur[i]){
 				gagneC++;
 			}
-			if(mancheSaboteur[i]){
+			if (mancheSaboteur[i]){
 				gagneS++;
 			}
 		}
-		if(gagneC>gagneS){
+		if (gagneC > gagneS){
 			System.out.println("  Les Chercheurs ont gagné la partie !!");
 		}
-		if(gagneS>gagneC){
+		if (gagneS > gagneC){
 			System.out.println("      Les Saboteurs ont remporté la victoire !!");
 		}
-		if(gagneC == gagneS){
+		if (gagneC == gagneS){
 			System.out.println("   Les deux équipes sont ex-aequo");
 		}
 
 
 	}
 
-	public void lancerManche(){ //on réinitialise la pioche , le plateau et les paquets des joueurs lors de la nouvelle manche
+	public void lancerManche(){ // On réinitialise la pioche , le plateau et les paquets des joueurs lors de la nouvelle manche
 
 		this.plateau = new PlateauSaboteur(18);
 
@@ -242,7 +238,7 @@ public class Saboteur extends Jeu {
 			return false;
 		}
 
-		//premier cas : si i et j ne se trouvent pas en bordure du plateau ( et que l'une des cartes adjacentes n'est pas une carte d'arrivée
+		// Premier cas : si i et j ne se trouvent pas en bordure du plateau ( et que l'une des cartes adjacentes n'est pas une carte d'arrivée
 
 		if (i > 0 && i < plateau.hauteur-1 && j > 0 && j < plateau.longueur - 1 && !(estArrivee(i+1,j) && estArrivee(i-1,j) && estArrivee(i,j+1) && estArrivee(i,j-1))) {
 				if (!(plateau.getCase(i + 1, j).estOccupee() || plateau.getCase(i - 1, j).estOccupee() || plateau.getCase(i, j + 1).estOccupee() || plateau.getCase(i, j - 1).estOccupee())) {
@@ -290,7 +286,7 @@ public class Saboteur extends Jeu {
 
 
 
-		//deuxième cas : si i est en bordure de plateau
+		// Deuxième cas : si i est en bordure de plateau
 		if(i == 0 && j > 0 && j < plateau.longueur-1){
 			if(plateau.getCase(i+1,j).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();
@@ -352,7 +348,7 @@ public class Saboteur extends Jeu {
 			}
 		}
 
-		//troisième cas : si j est en bordure de plateau
+		// Troisième cas : si j est en bordure de plateau
 		if(j == 0 && i > 0 && i < plateau.longueur-1){
 
 			if(plateau.getCase(i+1,j).estOccupee()){
@@ -415,7 +411,7 @@ public class Saboteur extends Jeu {
 			}
 		}
 
-		//quatrième cas : si i et j sont en bordure du plateau
+		// Quatrième cas : si i et j sont en bordure du plateau
 		if(i == 0 && j == 0){
 			if(plateau.getCase(i+1,j).estOccupee()){
 				boolean[] b = ((CaseSaboteur) plateau.getCase(i+1,j)).getDirection();

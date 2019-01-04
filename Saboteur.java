@@ -2,6 +2,13 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
+	/*
+	 * 								@author Hind
+	 * 				Jeu du saboteur, entièrment textuel, sur le terminal.
+	 * 				 Pour voir le fonctionnement du jeu, lire le README.
+	 */
+
 public class Saboteur extends Jeu {
 	ArrayList<CarteSaboteur> paquet []; // Même fonctionnement que Domino.paquet, la pioche est à l'index 0 du paquet, ensuite ce sont les paquets des joueurs.
 	boolean[][] peutJouer; // Sert à détérminer si les outils, lampe et chariot sont en bon état, si ce n'est pas le cas le joueur ne peut pas poser de carte chemin

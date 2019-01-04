@@ -294,6 +294,7 @@ public class Domino extends Jeu {
 				}
 			}
 
+			// On demande la ligne
 			b = true;
 			while (b) {
 				System.out.print(" Donnez la ligne : ");
@@ -313,6 +314,7 @@ public class Domino extends Jeu {
 				}
 			}
 
+			// On demande la colonne
 			b = true;
 			while (b) {
 				System.out.print(" Donnez la colonne : ");
@@ -332,6 +334,7 @@ public class Domino extends Jeu {
 				}
 			}
 
+			// On demande la direction
 			b = true;
 			while (b) {
 				System.out.print(" Donnez la direction (Droite, Bas, Gauche ou Haut) : ");
@@ -362,6 +365,7 @@ public class Domino extends Jeu {
 				}
 			}
 
+			// On récapitule les infos, et on demande la validation
 			System.out.println("\n Recap : ");
 			System.out.println("	Domino : " + paquet[joueur.getId() + 1].get(dom));
 			System.out.println("	Position : en " + (i+1) + ", " + (j+1) + ".");
@@ -393,7 +397,7 @@ public class Domino extends Jeu {
 			gagnant[joueur.getId()] = true;
 		}
 
-		// Si il n'y a plus qu'un joueur
+		// On vérifie si on doit continuer la partie
 		int compt = 0;
 		for (boolean b1 : gagnant) {
 			if (!b1) {

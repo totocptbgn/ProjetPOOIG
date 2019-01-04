@@ -89,7 +89,7 @@ public class Puzzle extends Jeu {
 		System.out.println();
 
 		// Demander au joueur quelle pièce il veut coulisser
-		System.out.println("Quelle pièce voullez-vous coullissez ?");
+		System.out.println("Quelle pièce voulez-vous coullisser ?");
 		int ligne = 0;
 		int colonne = 0;
 		int input;
@@ -165,12 +165,15 @@ public class Puzzle extends Jeu {
 				}
 			}
 
+			// On échange la case
 			if (!echangeCase(cp, cv)){
 				System.err.println("La cace indiquée n'est pas adjacente à la case vide !");
 			} else {
 				c = false;
 			}
 			System.out.println();
+
+			// Si le jouer résout le puzzle, on finit le jeu
 			if (verifCase()){
 				System.out.println(" Bravo ! Vous avez résolu le puzzle !");
 				System.exit(0);

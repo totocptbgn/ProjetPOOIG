@@ -24,7 +24,6 @@ public class Main extends JFrame {
 		domino.setText("Domino");
 		domino.addActionListener((e) -> {
 			setVisible(false);
-			JOptionPane.showMessageDialog(null, "Le jeu se passe sur le Terminal !");
 			Domino d = new Domino();
 			d.lancerPartie();
 		});
@@ -34,7 +33,6 @@ public class Main extends JFrame {
 		saboteur.setText("Saboteur");
 		saboteur.addActionListener((e) -> {
 			setVisible(false);
-			JOptionPane.showMessageDialog(null, "Le jeu se passe sur le Terminal !");
 			Saboteur s = new Saboteur();
 			s.lancerPartie();
 		});
@@ -43,9 +41,9 @@ public class Main extends JFrame {
 		panel.add(puzzle);
 		puzzle.setText("Puzzle");
 		puzzle.addActionListener((e) -> {
+			setVisible(false);
 			Puzzle p = new Puzzle();
 			p.lancerPartie();
-			setVisible(false);
 		});
 
 		JButton dominoGommette = new JButton();
@@ -53,7 +51,6 @@ public class Main extends JFrame {
 		dominoGommette.setText("Domino-Gommette");
 		dominoGommette.addActionListener((e) -> {
 			setVisible(false);
-			JOptionPane.showMessageDialog(null, "Le jeu fonctionne pas en interface graphique... Mais est disponible en sur le terminal !");
 			DominoGommette d = new DominoGommette();
 			d.lancerPartie();
 		});

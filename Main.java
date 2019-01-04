@@ -53,7 +53,7 @@ public class Main extends JFrame {
 		dominoGommette.setText("Domino-Gommette");
 		dominoGommette.addActionListener((e) -> {
 			setVisible(false);
-			JOptionPane.showMessageDialog(null, "Le jeu fonctionne pas...");
+			JOptionPane.showMessageDialog(null, "Le jeu fonctionne pas en interface graphique... Mais est disponible en sur le terminal !");
 			DominoGommette d = new DominoGommette();
 			d.lancerPartie();
 		});

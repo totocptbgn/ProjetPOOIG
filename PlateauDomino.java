@@ -62,4 +62,47 @@ public class PlateauDomino extends Plateau {
 		}
 		System.out.println("+");
 	}
+
+	public void afficherGommette(){ // Affiche le plateau pour la version Domino-Gommette
+
+		// Affichage de la grille
+		System.out.print("      ");
+		for (int j = 1; j < longueur + 1; j++) {
+			System.out.print("  ");
+			if (j < 10){
+				System.out.print(" " + j + " ");
+			} else {
+				System.out.print(" " + j);
+			}
+			System.out.print(" ");
+		}
+		System.out.println();
+		for (int i = 0; i < hauteur; i++) {
+			System.out.print("      ");
+			for (int j = 0; j < longueur; j++) {
+				System.out.print("+-----");
+			}
+			System.out.println("+");
+			if ((i + 1) < 10){
+				System.out.print("   " + (i + 1) + "  ");
+			} else {
+				System.out.print("  " + (i + 1) + "  ");
+			}
+			for (int j = 0; j < longueur; j++) {
+				System.out.print("|  ");
+				if (getCase(i, j).estOccupee()){
+					System.out.print(DominoGommette.toSymbol(getCase(i, j).getValeur()));
+				} else {
+					System.out.print(" ");
+				}
+				System.out.print("  ");
+			}
+			System.out.println("|");
+		}
+		System.out.print("      ");
+		for (int j = 0; j < longueur; j++) {
+			System.out.print("+-----");
+		}
+		System.out.println("+");
+	}
 }

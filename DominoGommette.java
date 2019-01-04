@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class DominoGommette extends Domino {
 
 	/* Tableau des couleurs, chaque couleurs fait références au chiffre à son index
 	 * dans le tableau :
+	 *
 	 * 0 = Violet,
 	 * 1 = Bleu Clair,
 	 * 2 = Rouge,
@@ -28,11 +31,11 @@ public class DominoGommette extends Domino {
 	 * 4 = Jaune,
 	 * 5 = Vert,
 	 * 6 = Bleu Foncé.
+	 *
 	 */
 
 	@Override
 	public void lancerPartie() {
-		afficheIntro();
 
 		// Création des Joueurs
 		setJoueur();
@@ -42,7 +45,6 @@ public class DominoGommette extends Domino {
 		this.premierTour = true;
 
 		// Création des Dominos
-		// Toutes les pièces qui existent.
 		ArrayList<PieceDomino> pieces = new ArrayList<>();
 		for (int i = 0; i < 7 ; i++ ) {
 			for (int j = i; j < 7 ; j++ ) {
@@ -171,22 +173,24 @@ public class DominoGommette extends Domino {
 
 		VueDominoGommette(){
 			// On met en place la fenêtre
-			setPreferredSize(new Dimension(600, 780));
-			setTitle("Domino Gommette");
+			setPreferredSize(new Dimension(1000, 700));
+			setTitle("Domino-Gommette - NON FINI, NE FONCTIONNE PAS");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 			this.cont = getContentPane();
 			BorderLayout bl = new BorderLayout(0, 0);
 			cont.setLayout(bl);
 
-			// On crée 2
-			JPanel puzzle = new JPanel();
-			puzzle.setPreferredSize(new Dimension(600, 600));
-			puzzle.setLayout(new GridLayout(plateau.hauteur, plateau.longueur, 0, 0));
-			cont.add(puzzle, BorderLayout.SOUTH);
-
-			// On crée et ajoute des JPanels pour les cases du puzzle
-
+			// On crée et ajoute des JPanels pour les cases du plateau de domino (PAS FINI)
+			/*
+			this.panels = new ArrayList<>();
+			for (int i = 0; i < 9; i++) {
+				DominoGommette.JPanelCase p = new DominoGommette.JPanelCase(i, j);
+				p.addMouseListener(new MouseAdapter(){});
+				panels.add(p);
+				cont.add(p);
+			}
+			*/
 
 			pack();
 			setResizable(false);
@@ -200,6 +204,7 @@ public class DominoGommette extends Domino {
 			// dont l'adresse est contenue dans la PiecePuzzle posée sur cette Case.
 			for (JPanel p : panels){
 				p.repaint();
+				((JPanelCase) p).majColor();
 			}
 		}
 	}
@@ -216,26 +221,8 @@ public class DominoGommette extends Domino {
 			this.j = j;
 		}
 
-		@Override
-		public void paintComponent(Graphics g) { // A REFAIRE !
-			// On redefinit paintComponent pour qu'elle affiche l'image du domino pos sur la Case correspondante
-			super.paintComponent(g);
-
-			// On va chercher le chemin de l'image dans la pièce
-			String source = "";
-
-			// Ici on va juste redeffinir la couleur du background...
-
-			// On créer une image à partir de l'adresse
-			Image buffer = null;
-			try {
-				buffer = ImageIO.read(new File(source));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			// On la redessine
-			g.drawImage(buffer,0,0,null);
+		public void majColor(){
+			// Si
 		}
 	}
 }

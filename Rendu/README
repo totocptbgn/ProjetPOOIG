@@ -19,3 +19,7 @@ Domino :
 - Un joueur gagne quand il n'as plus de domino.
 - On demande d'abord au joueur si il veut piocher ou poser un domino.
 - Pour poser, il doit donner le numéro du domino, puis sa position, (ligne et colonne), et enfin validez.
+
+Domino-Gommette :
+- Aurait du fonctionner avec interface graphique.
+- Même fonctionnement que Domino...

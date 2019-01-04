@@ -22,18 +22,20 @@ public class Main extends JFrame {
 		panel.add(domino);
 		domino.setText("Domino");
 		domino.addActionListener((e) -> {
+			setVisible(false);
+			JOptionPane.showMessageDialog(null, "Le jeu se passe sur le Terminal !");
 			Domino d = new Domino();
 			d.lancerPartie();
-			setVisible(false);
 		});
 
 		JButton saboteur = new JButton();
 		panel.add(saboteur);
 		saboteur.setText("Saboteur");
 		saboteur.addActionListener((e) -> {
+			setVisible(false);
+			JOptionPane.showMessageDialog(null, "Le jeu se passe sur le Terminal !");
 			Saboteur s = new Saboteur();
 			s.lancerPartie();
-			setVisible(false);
 		});
 
 		JButton puzzle = new JButton();
@@ -49,9 +51,10 @@ public class Main extends JFrame {
 		panel.add(dominoGommette);
 		dominoGommette.setText("Domino-Gommette");
 		dominoGommette.addActionListener((e) -> {
+			setVisible(false);
+			JOptionPane.showMessageDialog(null, "Le jeu fonctionne pas...");
 			DominoGommette d = new DominoGommette();
 			d.lancerPartie();
-			setVisible(false);
 		});
 
 		setLocationRelativeTo(null);

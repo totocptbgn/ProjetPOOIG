@@ -192,7 +192,7 @@ public class DominoGommette extends Domino {
 			cont.setLayout(bl);
 
 			// On crée et ajoute des JPanels pour les cases du plateau de domino (PAS FINI)
-			
+
 			/*
 			this.panels = new ArrayList<>();
 			for (int i = 0; i < 9; i++) {

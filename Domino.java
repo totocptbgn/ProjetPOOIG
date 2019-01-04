@@ -3,6 +3,12 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
+	/*
+	 * 								@author Thomas
+	 * 				Jeu du domino, entièrment textuel, sur le terminal.
+	 * 				 Pour voir le fonctionnement du jeu, lire le README.
+	 */
+	
 public class Domino extends Jeu {
 
 	protected boolean premierTour; // True au début de partie tant qu'aucun domino n'est posé.

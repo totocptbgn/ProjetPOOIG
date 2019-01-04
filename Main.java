@@ -7,9 +7,9 @@ import java.awt.*;
  * @author Hind Hamila
  */
 
-public class Lanceur extends JFrame {
+public class Main extends JFrame {
 
-	public Lanceur() {
+	public Main() {
 		this.setTitle("Projet POOIG");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -66,8 +66,7 @@ public class Lanceur extends JFrame {
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(()->{
-			Lanceur l = new Lanceur();
+			Main m = new Main();
 		});
-
 	}
 }

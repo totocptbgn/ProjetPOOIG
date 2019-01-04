@@ -24,7 +24,6 @@ public class Domino extends Jeu {
 		this.premierTour = true;
 
 		// Création des Dominos
-		// Toutes les pièces qui existent.
 		ArrayList<PieceDomino> pieces = new ArrayList<>();
 		for (int i = 0; i < 7 ; i++ ) {
 			for (int j = i; j < 7 ; j++ ) {
@@ -221,7 +220,6 @@ public class Domino extends Jeu {
 	@Override
 	public void joueUnTour(Joueur joueur) {
 
-		// Variables
 		int dom = -1;
 		int i = -1;
 		int j = -1;
@@ -385,8 +383,7 @@ public class Domino extends Jeu {
 
 		// On test si le joueur à gagné
 		if (paquet[joueur.getId() + 1].size() == 0){
-			// Faire une fonction FRAME()
-			System.out.println("Félicitation, " + joueur.getNom() + " a gagné, il est à la place : " + this.place + " !");
+			System.out.println("Félicitation, " + joueur.getNom() + " a gagné, il est à la place : " + place + " !");
 			gagnant[joueur.getId()] = true;
 		}
 

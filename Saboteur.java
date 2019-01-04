@@ -64,12 +64,30 @@ public class Saboteur extends Jeu {
 		while (manche < 3) {
 			lancerManche();
 		}
+		int gagneS = 0;
+		int gagneC = 0;
+		for(int i = 0;i<3;i++){
+			if(mancheChercheur[i]){
+				gagneC++;
+			}
+			if(mancheSaboteur[i]){
+				gagneS++;
+			}
+		}
+		if(gagneC>gagneS){
+			System.out.println("  Les Chercheurs ont gagné la partie !!");
+		}
+		if(gagneS>gagneC){
+			System.out.println("      Les Saboteurs ont remporté la victoire !!");
+		}
+		if(gagneC == gagneS){
+			System.out.println("   Les deux équipes sont ex-aequo");
+		}
 
 
 	}
 
 	public void lancerManche(){ //on réinitialise la pioche , le plateau et les paquets des joueurs lors de la nouvelle manche
-		System.out.println("           MANCHE N°" + (manche+1));
 
 		this.plateau = new PlateauSaboteur(18);
 
@@ -162,7 +180,7 @@ public class Saboteur extends Jeu {
 		// Afficher le plateau
 		plateau.afficher();
 		// Afficher les cartes (?)
-
+		System.out.println("                         MANCHE N°" + (manche+1));
 			for (int i = 0; i < participants.length; i++) {
 				joueUnTour(participants[i]);
 
@@ -780,6 +798,10 @@ public class Saboteur extends Jeu {
 				}
 				else{
 					System.err.println("Commande introuvable.. essayez plutôt avec les deux options possibles [jeter/garder]");
+				}
+				if(!garder.equals("jeter") && !garder.equals("garder")){
+					System.err.println("Vous devez choisir entre jeter et garder");
+					joueUnTour(j);
 				}
 			}
 

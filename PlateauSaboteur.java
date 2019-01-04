@@ -21,45 +21,39 @@ public class PlateauSaboteur extends Plateau {
 		// On veut seulement afficher les cases découvertes et les cases d'arrivée et de départ.
 
 		// Affichage de la grille
+		String espaces = "";
 
-		System.out.print("      ");
-		for (int j = 1; j < longueur + 1; j++) {
-			System.out.print("  ");
-			if (j < 10) {
-				System.out.print(" " + j + " ");
-			} else {
-				System.out.print(" " + j);
+			espaces = "         ";
+			System.out.print("          ");
+			for(int i = 0;i < plateau.length;i++){
+				System.out.print("   " +(i+1) + "     ");
 			}
-			System.out.print(" ");
+			System.out.println();
+		System.out.print("        ");
+		for(int i = 0;i < plateau.length-1;i++){
+			System.out.print("+---------");
 		}
-		System.out.println();
-		for (int i = 0; i < hauteur; i++) {
-			System.out.print("      ");
-			for (int j = 0; j < longueur; j++) {
-				System.out.print("+-----");
-			}
-			System.out.println("+");
-			if ((i + 1) < 10) {
-				System.out.print("   " + (i + 1) + "  ");
-			} else {
-				System.out.print("  " + (i + 1) + "  ");
-			}
-			for (int j = 0; j < longueur; j++) {
-				//System.out.println("|  ");
-				if (getCase(i, j).estOccupee()) {
-					CarteChemin c = (CarteChemin) this.plateau[i][j].piece;
-					System.out.print(c.toString());
-				} else {
-					System.out.print(" ");
+		System.out.println('+');
+		for(int i = 0;i<plateau.length-1;i++){
+			System.out.print("        ");
+			for(int j = 0;j<plateau.length-1;j++) {
+				if(!plateau[i][j].estOccupee()) {
+					System.out.print("|" + espaces );
 				}
-				System.out.print("  ");
+				else{
+					System.out.print('|');
+					CarteChemin c = (CarteChemin)plateau[i][j].piece;
+					System.out.print(c.toString());
+				}
+
 			}
-			//System.out.println("|");
+			System.out.println('|');
+
 		}
-		System.out.print("      ");
-		for (int j = 0; j < longueur; j++) {
-			System.out.print("+-----");
+		System.out.print("        ");
+		for(int i = 0;i < plateau.length-1;i++){
+			System.out.print("+---------");
 		}
-		System.out.println("+");
+		System.out.println('+');
 	}
 }

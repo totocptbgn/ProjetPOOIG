@@ -33,113 +33,113 @@ public class CarteChemin extends CarteSaboteur {
 		boolean[] sansissuebas = {false,false,false,true};
 		if(!inverser) {
 			if (Arrays.equals(direction,carrefour)) {
-				s = "  | | \n__   __ \n__   __ \n  | |";
+				s = "  | |  \n__   __\n__   __\n  | |  ";
 			}
 
 
 
 			if (Arrays.equals(direction,horizontal)) {
-				s = "\n____\n____";
+				s = "\n_______\n_______\n       \n       ";
 			}
 
 			if (Arrays.equals(direction,vertical)) {
-				s = "  | |\n  | |";
+				s = "  | |  \n  | |  \n  | |  \n  | |  \n  | |  ";
 			}
 
 			if (Arrays.equals(direction,tridirectionbas)) {
-				s = "_______\n__   __\n  | |";
+				s = "_______\n__   __\n  | |  \n       \n       ";
 			}
 
 			if (Arrays.equals(direction,tridirectiondroite)) {
-				s = "  | |\n     __\n  |  __\n  | |";
+				s = "  | |  \n     __\n  |  __\n  | |  \n       ";
 			}
 
 			if (Arrays.equals(direction,tridirectiongauche)) {
-				s = "  | |\n__\n__  |\n  | |";
+				s = "  | |  \n__     \n__  |  \n  | |  \n       ";
 			}
 
 			if (Arrays.equals(direction,tridirectionhaut)) {
-				s = "  | |\n__   __\n_______";
+				s = "  | |  \n__   __\n_______\n       \n       ";
 			}
 
 			if(Arrays.equals(direction,viragedroite)){
-				s = "  _____\n  |  __\n  | |";
+				s = "  _____\n  |  __\n  | |  \n       \n       ";
 			}
 
 			if(Arrays.equals(direction,viragegauche)){
-				s = "_____\n__  |\n  | |";
+				s = "_____\n__  | \n  | |  \n       \n       ";
 			}
 
 			if(Arrays.equals(direction,sansissuebas)){
-				s = "\n  ___\n  | |\n  | |";
+				s = "\n  ___  \n  | |  \n  | |  \n       ";
 			}
 
 			if(Arrays.equals(direction,sansissuedroite)){
-				s = "\n   ____\n  |____";
+				s = "\n   ____\n  |____\n       \n       ";
 			}
 
 			if(Arrays.equals(direction,sansissuegauche)){
-				s = "\n_____\n_____|";
+				s = "\n_____  \n_____| \n       \n       ";
 			}
 
 			if(Arrays.equals(direction,sansissuehaut)){
-				s = "  | |\n  |_|";
+				s = "  | |  \n  |_|  \n       \n       \n       ";
 			}
 		}
 		else{
 			if (Arrays.equals(direction,carrefour)) {
-				s = "  | | \n__   __ \n__   __ \n  | |";
+				s = "  | |  \n__   __\n__   __\n  | |  \n       ";
 			}
 
 
 			if (Arrays.equals(direction,horizontal)) {
-				s = "\n____\n____";
+				s = "\n_______\n_______\n       \n       ";
 			}
 
 			if (Arrays.equals(direction,vertical)) {
-				s = "  | |\n  | |";
+				s = "  | |  \n  | |  \n  | |  \n  | |  \n  | |  ";
 			}
 
 			if (Arrays.equals(direction,tridirectionbas)) {
-				s = "  | |\n__   __\n_______";
+				s = "  | |  \n__   __\n_______\n       \n       ";
 			}
 
 			if (Arrays.equals(direction,tridirectiondroite)) {
-				s = "  | |\n__\n__  |\n  | |";
+				s = "  | |  \n__     \n__  |  \n  | |  \n       ";
 			}
 
 			if (Arrays.equals(direction,tridirectiongauche)) {
 
-				s = "  | |\n     __\n  |  __\n  | |";
+				s = "  | |  \n     __\n  |  __\n  | |  \n       ";
 			}
 
 			if (Arrays.equals(direction,tridirectionhaut)) {
-				s = "_______\n__   __\n  | |";
+				s = "_______\n__   __\n  | |  \n       \n       ";
 
 			}
 
 			if(Arrays.equals(direction,viragegauche)){
-				s = "  _____\n  |  __\n  | |";
+				s = "  _____\n  |  __\n  | |  \n       \n       ";
 			}
 
 			if(Arrays.equals(direction,viragedroite)){
-				s = "_____\n__  |\n  | |";
+				s = "_____\n__  | \n  | |  \n       \n       ";
 			}
 
 			if(Arrays.equals(direction,sansissuehaut)){
-				s = "\n  ___\n  | |\n  | |";
+				s = "\n  ___  \n  | |  \n  | |  \n       ";
 			}
 
 			if(Arrays.equals(direction,sansissuegauche)){
-                s = "\n   ____\n  |____";
+				s = "\n   ____\n  |____\n       \n       ";
 			}
 
 			if(Arrays.equals(direction,sansissuedroite)){
-				s = "\n_____\n_____|";
+				s = "\n_____  \n_____| \n       \n       ";
 			}
 
 			if(Arrays.equals(direction,sansissuebas)){
-				s = "  | |\n  |_|";
+				s = "  | |  \n  |_|  \n       \n       \n       ";
 			}
 		}
 

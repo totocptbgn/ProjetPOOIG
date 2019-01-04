@@ -2,27 +2,26 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
-	/*
-	 * 								@author Hind
-	 * 				Jeu du saboteur, entièrment textuel, sur le terminal.
-	 * 				 Pour voir le fonctionnement du jeu, lire le README.
-	 */
+/*
+ * 				@author Hind
+ * 				Jeu du saboteur, entièrment textuel, sur le terminal.
+ * 				Pour voir le fonctionnement du jeu, lire le README.
+ */
 
 public class Saboteur extends Jeu {
-	ArrayList<CarteSaboteur> paquet []; // Même fonctionnement que Domino.paquet, la pioche est à l'index 0 du paquet, ensuite ce sont les paquets des joueurs.
-	boolean[][] peutJouer; // Sert à détérminer si les outils, lampe et chariot sont en bon état, si ce n'est pas le cas le joueur ne peut pas poser de carte chemin
+	private ArrayList<CarteSaboteur> paquet []; // Même fonctionnement que Domino.paquet, la pioche est à l'index 0 du paquet, ensuite ce sont les paquets des joueurs.
+	private boolean[][] peutJouer; // Sert à détérminer si les outils, lampe et chariot sont en bon état, si ce n'est pas le cas le joueur ne peut pas poser de carte chemin
                            // peutJouer[p][0] correspond à la lampe, [p][1] correspond au chariot et [p][2] correspond aux outils
-    CaseSaboteur[] arrivees; // Un tableau contenant les coordonnées des cases d'arrivée
-	CaseSaboteur depart;
+    private CaseSaboteur[] arrivees; // Un tableau contenant les coordonnées des cases d'arrivée
+	private CaseSaboteur depart;
 
-	int manche;
-	boolean[] mancheSaboteur; // Nombre de manches gagnées par le groupe des saboteurs
-	boolean[] mancheChercheur; // Nombre de manches gagnéespar le grouoe des chercheurs
-	boolean estGagnant;  // Dit si le joueur est gagnant
+	private int manche;
+	private boolean[] mancheSaboteur; // Nombre de manches gagnées par le groupe des saboteurs
+	private boolean[] mancheChercheur; // Nombre de manches gagnéespar le grouoe des chercheurs
+	private boolean estGagnant;  // Dit si le joueur est gagnant
 
-	int xArrivee; // Coordonnée de ligne de la case d'arrivée contenant le trésor
-	int yArrivee; // Coordonnée de colonne de la case d'arrivée
+	private int xArrivee; // Coordonnée de ligne de la case d'arrivée contenant le trésor
+	private int yArrivee; // Coordonnée de colonne de la case d'arrivée
 
 
 	public void setJoueur() { // Met en place la création des joueurs.
@@ -850,207 +849,6 @@ public class Saboteur extends Jeu {
 			}
 
 	}
-	/*public void joueUnTour(Joueur j) {
-
-		System.out.println("C'est à vous de jouer, "+j.getNom()+" !");
-		if(j.getId() % 2 == 0){
-			System.out.println("Nous vous rappelons que vous êtes un Saboteur.");
-		}
-		if(j.getId() % 2 != 0){
-			System.out.println("Nous vous rappelons que vous êtes un Chercheur. ");
-		}
-        System.out.println("Quelle carte voulez vous utiliser ? (ID)");
-        for(int i = 0;i<paquet[j.getId()].size();i++){
-        	if(paquet[j.getId()].get(i) instanceof CarteAction){
-        		CarteAction c = (CarteAction)paquet[j.getId()].get(i);
-				System.out.println("   "+ i +"\n "+ c.toString());
-			}
-			else {
-				CarteChemin cc = (CarteChemin)paquet[j.getId()].get(i);
-				System.out.println("   " + i + " \n" + cc.toString());
-			}
-        }
-
-        Scanner sc = new Scanner(System.in);
-        int rep = sc.nextInt();
-
-        try {
-        	Scanner sc2 = new Scanner(System.in);
-        	if(paquet[j.getId()].get(rep) instanceof CarteChemin){
-
-        		System.out.println("Voulez-vous utiliser cette carte ou la jeter définitivement ? [jeter/garder]");
-
-        		String garder = sc2.nextLine();
-
-        		if(garder.equals("garder")){
-        			System.out.println("Voulez-vous inverser la direction de cette carte ? [oui/non]");
-        			String inv = sc2.nextLine();
-        			if(inv.equals("oui")){
-						((CarteChemin) paquet[j.getId()].get(rep)).setInverser(true);
-						((CarteChemin) paquet[j.getId()].get(rep)).inversement();
-					}
-					int x = 0;
-					int y = 0;
-        			String s = "oui";
-
-
-        			while (s.equals("oui") ) {
-						//ouPoser();
-						System.out.println("Où voulez vous poser cette carte?");
-						System.out.print("Donnez la ligne : ");
-						 x = sc2.nextInt()-1;
-						sc2 = new Scanner(System.in);
-						System.out.print("Donnez la colonne : ");
-						 y = sc2.nextInt()-1;
-						if(poserCarte(x, y, paquet[j.getId()].get(rep))){
-							paquet[j.getId()].remove(rep);
-							if(estGagnant){
-								estGagnant = false;
-								System.out.println(j.getNom() + " a remporté le trésor ! ");
-								if(j.getId() % 2 == 0){
-
-									mancheSaboteur[manche] = true;
-								}
-								if(j.getId() % 2 != 0){
-									mancheChercheur[manche] = true;
-								}
-								System.out.println("La nouvelle manche débute ! \n Distribution des cartes..");
-								manche++;
-								break;
-							}
-							//le joueur pioche et finis sa manche s'il gagne
-
-							/*paquet[j.getId()].add(paquet[0].get(paquet[0].size()-1));
-							paquet[0].remove(paquet[0].size()-1);
-							System.out.println(j.getNom() + " a pioché une carte..");*/
-						/*	break;
-						}
-						else{
-							System.out.println("La carte n'a pas pu être posée, voulez vous réessayer ? [oui/non]");
-							sc2 = new Scanner(System.in);
-							s = sc2.nextLine();
-						}
-					}
-
-					if(!s.equals("oui")){
-						System.out.println("Utiliser une autre carte de votre deck ? [oui/non]");
-						sc2 = new Scanner(System.in);
-						s = sc2.nextLine();
-						if(s.equals("oui")){
-							joueUnTour(j);
-						}
-					}
-					sc2 = new Scanner(System.in);
-				}
-
-				if(garder.equals("jeter")){
-					System.out.println("Cette carte a été jetée définitivement !");
-					paquet[j.getId()].remove(rep);
-				}
-				else{
-					System.err.println("Commande introuvable.. essayez plutôt avec les deux options possibles [jeter/garder]");
-				}
-				if(!garder.equals("jeter") && !garder.equals("garder")){
-					System.err.println("Vous devez choisir entre jeter et garder");
-					joueUnTour(j);
-				}
-			}
-
-			if (paquet[j.getId()].get(rep) instanceof CarteAction) {
-
-				System.out.println("Voulez-vous utiliser cette carte ou la jeter définitivement ? [jeter/garder]");
-				Scanner sc3 = new Scanner(System.in);
-
-				if (sc3.nextLine().equals("jeter")) {
-					paquet[j.getId()].remove(rep);
-				}
-
-				if (sc3.nextLine().equals("garder")) {
-					String saboter = "";
-
-					if (((CarteAction) paquet[j.getId()].get(rep)).sabotage) {
-
-						System.out.println("Sur quel joueur voulez-vous que s'abatte votre couroux ?");
-						for (int i = 0; i < participants.length; i++) {
-
-							System.out.print(" " + participants[i].getNom() + " ");
-
-						}
-						saboter = sc2.nextLine();
-
-						for (int i = 1; i < participants.length; i++) {
-
-							if (participants[i].getNom().equals(saboter)) {
-
-								if (!action(j.getId(), i, (CarteAction) paquet[j.getId()].get(rep))) {
-
-									System.out.println("Le sabotage n'a pas fonctionné, voulez vous réessayer ? [oui/non]");
-
-									saboter = sc2.nextLine();
-
-									if (saboter.equals("oui")) {
-
-										joueUnTour(j);
-
-									}
-								}
-								if (action(j.getId(), i, (CarteAction) paquet[j.getId()].get(rep))) {
-									paquet[j.getId()].remove(rep);
-									System.out.println("Sabotage réussi !");
-								}
-							}
-						}
-					}
-					if (!((CarteAction) paquet[j.getId()].get(rep)).sabotage) {
-
-						System.out.println("Quel joueur voulez-vous aider ?");
-
-						for (int i = 0; i < participants.length; i++) {
-
-							System.out.print(" " + participants[i].getNom() + " ");
-
-						}
-
-						saboter = sc2.nextLine();
-
-						for (int i = 0; i < participants.length; i++) {
-
-							if (participants[i].getNom().equals(saboter)) {
-
-								if (!action(j.getId(), i, (CarteAction) paquet[j.getId()].get(rep))) {
-
-									System.out.println("Ça n'a pas fonctionné, voulez vous réessayer ? [oui/non]");
-									saboter = sc2.nextLine();
-									if (saboter.equals("oui")) {
-										joueUnTour(j);
-									}
-								}
-								if (action(j.getId(), i, (CarteAction) paquet[j.getId()].get(rep))) {
-
-									System.out.println("Réparation réussie !");
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		catch (java.util.InputMismatchException e){
-        	sc.nextInt();
-		}
-
-		// Le joueur pioche
-		if(!paquet[0].isEmpty()) {
-			paquet[j.getId()].add(paquet[0].get(paquet[0].size() - 1));
-			paquet[0].remove(paquet[0].size() - 1);
-			System.out.println(j.getNom() + " a pioché une carte..");
-		}
-
-		if(paquet[0].isEmpty()){
-			System.err.println("Vous ne pouvez plus piocher !");
-		}
-	}*/
 
 	public void afficheIntro(){
 		System.out.println("+---------------------------------------------------------------------------------------------------------------+");

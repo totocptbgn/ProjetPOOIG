@@ -3,11 +3,11 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
-	/*
-	 * 								@author Thomas
-	 * 				Jeu du domino, entièrment textuel, sur le terminal.
-	 * 				 Pour voir le fonctionnement du jeu, lire le README.
-	 */
+/*
+ * 				@author Thomas
+ * 				Jeu du domino, entièrment textuel, sur le terminal.
+ * 				Pour voir le fonctionnement du jeu, lire le README.
+ */
 	
 public class Domino extends Jeu {
 
@@ -61,7 +61,7 @@ public class Domino extends Jeu {
 		}
 
 		// Affichage des dominos
-		System.out.println("Voici les dominos de chaque joueur :");
+		System.out.println(" Voici les dominos de chaque joueur :");
 		for (int i = 1; i < paquet.length; i++) {
 			System.out.print( participants[i-1].getNom() + " : ");
 			for (int j = 0; j < paquet[i].size(); j++) {
@@ -108,7 +108,7 @@ public class Domino extends Jeu {
 
 		// Vérification des pièces cibles
 		if (caseDomino0.estOccupee() || caseDomino1.estOccupee()){
-			System.err.println("La case est déjà occupée.");
+			System.err.println(" La case est déjà occupée.");
 			return false;
 		}
 
@@ -240,7 +240,7 @@ public class Domino extends Jeu {
 		plateau.afficher();
 
 		// On affiche ses dominos
-		System.out.println("\nAu tour de " + joueur.getNom() + " de poser un Domino :\n");
+		System.out.println("\n Au tour de " + joueur.getNom() + " de poser un Domino :\n");
 		int id = joueur.getId() + 1;
 		System.out.print( participants[id-1].getNom() + " : ");
 		for (int k = 0; k < paquet[id].size(); k++) {
@@ -254,7 +254,7 @@ public class Domino extends Jeu {
 		} else {
 			b = true;
 			while (b) {
-				System.out.print("Voulez vous poser un domino ? (Sinon piocher en un) ? [y/n] ");
+				System.out.print(" Voulez vous poser un domino ? (Sinon piocher en un) ? [y/n] ");
 				Scanner sc = new Scanner(System.in);
 				String answer = sc.next();
 				if (answer.equals("y") || answer.equals("Y")){
@@ -277,7 +277,7 @@ public class Domino extends Jeu {
 		if (pose) {
 			b = true;
 			while (b) {
-				System.out.print("Donnez le domino à poser : ");
+				System.out.print(" Donnez le domino à poser : ");
 				Scanner sc = new Scanner(System.in);
 				try {
 					input = sc.nextInt();
@@ -286,17 +286,17 @@ public class Domino extends Jeu {
 						dom = input;
 						b = false;
 					} else {
-						System.err.println("Rentrez un nombre correspondant à un domino.\n");
+						System.err.println(" Rentrez un nombre correspondant à un domino.\n");
 					}
 				} catch (InputMismatchException e){
-					System.err.println("Rentrez un nombre valide.\n");
+					System.err.println(" Rentrez un nombre valide.\n");
 					input = -1;
 				}
 			}
 
 			b = true;
 			while (b) {
-				System.out.print("Donnez la ligne : ");
+				System.out.print(" Donnez la ligne : ");
 				Scanner sc = new Scanner(System.in);
 				try {
 					input = sc.nextInt();
@@ -305,17 +305,17 @@ public class Domino extends Jeu {
 						i = input;
 						b = false;
 					} else {
-						System.err.println("Rentrez un nombre correspondant à une ligne.");
+						System.err.println(" Rentrez un nombre correspondant à une ligne.");
 					}
 				} catch (InputMismatchException e){
-					System.err.println("Rentrez un nombre valide.");
+					System.err.println(" Rentrez un nombre valide.");
 					input = -1;
 				}
 			}
 
 			b = true;
 			while (b) {
-				System.out.print("Donnez la colonne : ");
+				System.out.print(" Donnez la colonne : ");
 				Scanner sc = new Scanner(System.in);
 				try {
 					input = sc.nextInt();
@@ -324,17 +324,17 @@ public class Domino extends Jeu {
 						j = input;
 						b = false;
 					} else {
-						System.err.println("Rentrez un nombre correspondant à une colonne.");
+						System.err.println(" Rentrez un nombre correspondant à une colonne.");
 					}
 				} catch (InputMismatchException e){
-					System.err.println("Rentrez un nombre valide.");
+					System.err.println(" Rentrez un nombre valide.");
 					input = -1;
 				}
 			}
 
 			b = true;
 			while (b) {
-				System.out.print("Donnez la direction (Droite, Bas, Gauche ou Haut) : ");
+				System.out.print(" Donnez la direction (Droite, Bas, Gauche ou Haut) : ");
 				Scanner sc = new Scanner(System.in);
 				dir = sc.nextLine();
 				b = false;
@@ -364,7 +364,7 @@ public class Domino extends Jeu {
 
 			System.out.println("\n Recap : ");
 			System.out.println("	Domino : " + paquet[joueur.getId() + 1].get(dom));
-			System.out.println("	Position : en " + i + ", " + j + ".");
+			System.out.println("	Position : en " + (i+1) + ", " + (j+1) + ".");
 			System.out.println("	Direction : " + dir  + ".");
 
 			b = true;

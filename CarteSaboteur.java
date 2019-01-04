@@ -5,14 +5,13 @@ public class CarteSaboteur extends Piece {
 	public CarteSaboteur(){
 		super();
 		ID = increment();
-		// Mettre l'id en autoincrement?
 	}
 
 	public int getID() {
 		return ID;
 	}
 
-	 static int increment(){
+	 private static int increment(){
 		compt++;
 		return compt;
 	}

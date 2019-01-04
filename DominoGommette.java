@@ -14,10 +14,19 @@ import java.util.Scanner;
 
 public class DominoGommette extends Domino {
 
-	// Cette version du domino est la même que celle de Domino.java mais
-	// les chiffres sont remplacés par des couleurs
-
-	// NE FONCTIONNE PAS /!\
+	/*
+	 * Cette version du domino est la même que celle de Domino.java mais
+	 * les chiffres sont remplacés par des couleurs.
+	 *
+	 * NE FONCTIONNE PAS CAR NON FINI
+	 *
+	 * Fonctionnnement normal :
+	 * 		Jeu de domino du même fonctionnement que Domino mais avec interface graphique.
+	 * 		On aurait au début afficher plusieurs fenêtres pour demander le nombre de joueurs et leurs nom.
+	 * 		Puis à chaque tour on affiche dans des fênetres différentes (ou pas ?) le plateau avec les dominos,
+	 * 		et on demande à chaque fois les mêmes question que dans joueUnTour(j)
+	 *
+	 */
 
 	private Color [] colors;
 
@@ -111,6 +120,7 @@ public class DominoGommette extends Domino {
 		JFrame frame = new JFrame();
 		frame.setLayout(new FlowLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Domino-Gommette - NON FINI, NE FONCTIONNE PAS");
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 
@@ -182,6 +192,7 @@ public class DominoGommette extends Domino {
 			cont.setLayout(bl);
 
 			// On crée et ajoute des JPanels pour les cases du plateau de domino (PAS FINI)
+			
 			/*
 			this.panels = new ArrayList<>();
 			for (int i = 0; i < 9; i++) {
@@ -200,8 +211,9 @@ public class DominoGommette extends Domino {
 		}
 
 		private void updateView(){
-			// Pour chaque case, afficher dans la JPanel correspondante l'image
-			// dont l'adresse est contenue dans la PiecePuzzle posée sur cette Case.
+			// Pour chaque case, afficher dans la JPanel correspondante la couleur qui correspond
+			// au chiffre dans la pièce posée sur la case
+
 			for (JPanel p : panels){
 				p.repaint();
 				((JPanelCase) p).majColor();
@@ -210,7 +222,7 @@ public class DominoGommette extends Domino {
 	}
 
 	private class JPanelCase extends JPanel {
-		// JPanel modifiée pour être utilisé dans le puzzle en tant que CasePuzzle graphique
+		// JPanel modifiée pour être utilisé dans le DominoGommette en tant que CaseDomino graphique
 
 		private int i;
 		private int j;

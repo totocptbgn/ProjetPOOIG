@@ -22,7 +22,6 @@ public class Main extends JFrame {
 		panel.add(domino);
 		domino.setText("Domino");
 		domino.addActionListener((e) -> {
-			this.setVisible(false);
 			Domino d = new Domino();
 			d.lancerPartie();
 			setVisible(false);
@@ -32,7 +31,6 @@ public class Main extends JFrame {
 		panel.add(saboteur);
 		saboteur.setText("Saboteur");
 		saboteur.addActionListener((e) -> {
-			this.setVisible(false);
 			Saboteur s = new Saboteur();
 			s.lancerPartie();
 			setVisible(false);
@@ -42,7 +40,6 @@ public class Main extends JFrame {
 		panel.add(puzzle);
 		puzzle.setText("Puzzle");
 		puzzle.addActionListener((e) -> {
-			this.setVisible(false);
 			Puzzle p = new Puzzle();
 			p.lancerPartie();
 			setVisible(false);
@@ -52,12 +49,10 @@ public class Main extends JFrame {
 		panel.add(dominoGommette);
 		dominoGommette.setText("Domino-Gommette");
 		dominoGommette.addActionListener((e) -> {
-			this.setVisible(false);
 			DominoGommette d = new DominoGommette();
 			d.lancerPartie();
 			setVisible(false);
 		});
-
 
 		setLocationRelativeTo(null);
 		setVisible(true);

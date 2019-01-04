@@ -151,9 +151,6 @@ public class CarteChemin extends CarteSaboteur {
 		inverser = i;
 	}
 
-	public boolean isInverser() {
-		return inverser;
-	}
 
 	public void inversement(){ //sert à inverser les directions d'une carte
 		boolean[] carrefour = {true, true, true, true};

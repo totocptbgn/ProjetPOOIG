@@ -15,10 +15,6 @@ public class CarteAction extends CarteSaboteur {
 	    return type;
     }
 
-    public void setSabotage(boolean b){
-	    sabotage = b;
-    }
-
     @Override
     public String toString() {
         String s = "";

@@ -1,0 +1,21 @@
+Saboteur :
+- À l’exécution du jeu le plateau s’affiche et les joueurs jouent à tour de rôle.
+- On rappelle à chaque début de tour au joueur s’il est un Saboteur ou un Chercheur.
+- Le joueur choisit une des 5 cartes dans sa main (soit une carte chemin soit une carte action) et décide s’il veut la jeter ou la garder et inverser sa direction (si c’est une carte chemin).
+- Si c’est une carte chemin, le joueur choisit les coordonnées pour la poser.
+- Si c’est une carte Action, le joueur peut choisir de l’utiliser pour aider (si c’est une carte de réparation) un joueur ou saboter son matériel (si c’est une carte de sabotage).
+- À la fin de son tour, quelle que soit son action, le joueur doit piocher une carte ( si la pioche n’est pas vide.
+- S’il arrive à relier un chemin depuis la case de départ à une case d’arrivée contenant un trésor, celui ci fait gagner une manche à son groupe.
+- S’il n’y a plus de cartes dans la pioche et dans la main de tous les joueurs, la manche se termine sans point pour les deux équipes.
+
+Puzzle :
+- Le but est de remettre l'image en utilisant la case vide.
+- Pour déplacer une pièce, cliquez sur un case adjacente à la case vide.
+- À la fin, la case vide doit se trouver en bas à droite.
+
+Domino :
+- Au début, on donne le nombre de joueurs, et le nom de chaque joueurs.
+- Les joueurs jouent un par un jusqu'à qu'il ne restent plus que un joueurs.
+- Un joueur gagne quand il n'as plus de domino.
+- On demande d'abord au joueur si il veut piocher ou poser un domino.
+- Pour poser, il doit donner le numéro du domino, puis sa position, (ligne et colonne), et enfin validez.
